@@ -6,9 +6,8 @@
     <title>ארכיון מבזקס המלא | איתיאל דדון</title>
     
     <meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
-    <meta property="og:description" content="ארכיון שיעורי מבזקס המבוססים על תורת הרב יונתן זקס זצ״ל. מוזמנים לצפות ולשתף.">
+    <meta property="og:description" content="ארכיון שיעורי מבזקס המבוססים על תורת הרב יונתן זקס זצ״ל.">
     <meta property="og:image" content="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa">
-    <meta property="og:type" content="website">
 
     <style>
         :root {
@@ -28,49 +27,44 @@
         
         .header-controls { max-width: 500px; margin: 10px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
         #searchInput { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; }
-        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; transition: 0.3s; }
-        #themeBtn:hover { border-color: var(--gold); color: var(--gold); }
+        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; }
         
         .container { width: 98%; margin: 0 auto; padding: 10px; }
         .top-section { display: flex; flex-direction: row-reverse; gap: 15px; margin-bottom: 20px; min-height: 400px; }
         #mainPlayerSection { flex: 1.5; background: var(--card-bg); padding: 15px; border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); text-align: center; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        #mainTitle { font-size: 18px; margin-top: 15px; color: var(--gold); font-weight: bold; margin-bottom: 5px; }
+        #mainTitle { font-size: 18px; margin-top: 15px; color: var(--gold); font-weight: bold; }
         
         .profile-section { flex: 1; background: var(--card-bg); border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); padding: 25px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; max-height: 550px; }
-        .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; margin-bottom: 15px; }
+        .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; margin-bottom: 15px; cursor: pointer; }
         .profile-text { text-align: right; font-size: 13.5px; line-height: 1.6; width: 100%; }
         
         .contact-buttons { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
-        .contact-btn { flex: 1; padding: 10px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; box-sizing: border-box; }
+        .contact-btn { flex: 1; padding: 10px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; }
         .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
         .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 20px; }
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 12px; height: 650px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
         .humash-title { text-align: center; padding: 10px 5px; font-weight: bold; color: white; border-radius: 12px 12px 0 0; font-size: 15px; }
         .list { flex: 1; overflow-y: auto; padding: 8px; }
-        .v-card { background: var(--card-bg); border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; }
-        .v-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+        .v-card { background: var(--card-bg); border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; }
         .v-card img { width: 100%; border-radius: 8px 8px 0 0; }
         .v-label { padding: 8px; display: block; font-size: 12px; text-align: center; font-weight: bold; }
-        footer { background: var(--header-bg); padding: 20px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 20px; font-weight: bold; letter-spacing: 0.5px; }
         
-        @media (max-width: 768px) { 
-            .top-section { flex-direction: column; } 
-            .columns-wrapper { flex-direction: column; gap: 15px; } 
-            .humash-col { height: auto; max-height: 400px; } 
-        }
+        footer { background: var(--header-bg); padding: 20px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 20px; font-weight: bold; }
+        
+        @media (max-width: 768px) { .top-section { flex-direction: column; } .columns-wrapper { flex-direction: column; } .humash-col { height: auto; } }
     </style>
 </head>
 <body id="mainBody">
 
 <header>
     <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa" class="corner-img">
-    <h1 style="font-size: 24px; margin: 10px 0;">ארכיון מבזקס המלא | The Full MivSacks Archive</h1>
+    <h1>ארכיון מבזקס המלא | The Full MivSacks Archive</h1>
     <div class="header-controls">
         <input type="text" id="searchInput" placeholder="לחיפוש פרשה או מבזקס..." oninput="filterVideos()">
-        <button id="themeBtn" onclick="toggleTheme()" title="החלף מצב יום/לילה">☀️ מצב יום</button>
+        <button id="themeBtn" onclick="toggleTheme()">☀️ מצב יום</button>
     </div>
 </header>
 
@@ -81,7 +75,7 @@
             <h2 id="mainTitle">טוען מבזק...</h2>
         </div>
         <div class="profile-section">
-            <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1rRhADtUxG81fZTDTS6RvGAhwQmY8FqKT" class="profile-img">
+            <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1rRhADtUxG81fZTDTS6RvGAhwQmY8FqKT" class="profile-img" onclick="secretCounter()">
             <div class="profile-text">
                 <h3 style="color:var(--accent); text-align:center;">הרב אמיר דדון<br><span style="font-size: 16px; color: var(--text-muted);">Rabbi Amir Dadon</span></h3>
                 
@@ -166,12 +160,34 @@
 
     let currentVideoId = null;
     let defaultVideo = null; 
+    let visitorCount = 0;
 
     function play(id, title) {
         if (currentVideoId === id) return;
         currentVideoId = id;
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
         document.getElementById('mainTitle').innerText = title;
+    }
+
+    // מנגנון ספירת כניסות חכם
+    async function initCounter() {
+        try {
+            const res = await fetch('https://api.countapi.xyz/hit/mivsacks_archive/visits');
+            const data = await res.json();
+            visitorCount = data.value;
+        } catch (e) { console.log('Counter error'); }
+    }
+
+    // הטריגר הסודי - 5 קליקים על התמונה
+    let clickTimer = 0;
+    let clicks = 0;
+    function secretCounter() {
+        clicks++;
+        if (clicks === 1) setTimeout(() => clicks = 0, 3000); // מאפס אם לא לחצת מהר
+        if (clicks === 5) {
+            alert(`שלום הרב אמיר!\nעד כה נרשמו ${visitorCount} כניסות לארכיון המבזקס.`);
+            clicks = 0;
+        }
     }
 
     async function setDynamicFeaturedVideo() {
@@ -181,7 +197,6 @@
             const today = new Date(); today.setHours(0,0,0,0);
             const futureEvents = data.items.filter(i => new Date(i.date) >= today);
             let video = null;
-
             for (const item of futureEvents) {
                 if (item.category === 'holiday' && holidayMap[item.title]) {
                     video = videoData.find(v => v.t.includes(holidayMap[item.title]));
@@ -201,7 +216,6 @@
         Object.keys(colNames).forEach(id => {
             container.innerHTML += `<div class="humash-col" id="col-${id}"><div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${colNames[id]}</div><div class="list" id="list-${id}"></div></div>`;
         });
-        
         videoData.forEach(v => {
             const list = document.getElementById('list-' + v.cat);
             const card = document.createElement('div');
@@ -212,46 +226,30 @@
             card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${v.t}</span>`;
             list.appendChild(card);
         });
-        
-        if(localStorage.getItem('theme') === 'light') {
-            document.getElementById('mainBody').classList.add('light-mode');
-            document.getElementById('themeBtn').innerText = '🌙 מצב לילה';
-        }
+        if(localStorage.getItem('theme') === 'light') { document.getElementById('mainBody').classList.add('light-mode'); document.getElementById('themeBtn').innerText = '🌙 מצב לילה'; }
         setDynamicFeaturedVideo();
+        initCounter();
     }
 
     function filterVideos() {
         const q = document.getElementById('searchInput').value.toLowerCase().trim();
         const bottomArea = document.getElementById('bottomArea');
-        
         if (q === '') {
-            // אם החיפוש ריק - מראים הכל ומחזירים לסרטון ברירת המחדל
             bottomArea.style.display = 'block';
-            document.querySelectorAll('.v-card').forEach(c => c.style.display = 'block');
-            Object.keys(colNames).forEach(id => document.getElementById('col-' + id).style.display = 'flex');
             if (defaultVideo) play(defaultVideo.id, defaultVideo.t);
             return;
         }
-
-        // אם יש חיפוש - מסתירים את כל החלק התחתון
         bottomArea.style.display = 'none';
-
-        let exactMatch = null;
-        let firstMatch = null;
-
+        let exactMatch = null; let firstMatch = null;
         videoData.forEach(v => {
             const title = v.t.toLowerCase();
             if (title.includes(q)) {
                 if (!firstMatch) firstMatch = v;
-                const words = title.split(/[\s,/#]+/);
-                if (words.some(w => w === q)) exactMatch = v;
+                if (title.split(/[\s,/#]+/).some(w => w === q)) exactMatch = v;
             }
         });
-
         const videoToPlay = exactMatch || firstMatch;
-        if (videoToPlay) {
-            play(videoToPlay.id, videoToPlay.t);
-        }
+        if (videoToPlay) play(videoToPlay.id, videoToPlay.t);
     }
 
     renderUI();
