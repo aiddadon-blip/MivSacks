@@ -26,7 +26,6 @@
         header { padding: 15px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
         .corner-img { position: absolute; bottom: 10px; right: 20px; width: 70px; height: 70px; border: 2px solid var(--gold); border-radius: 10px; object-fit: contain; }
         
-        /* אזור החיפוש וכפתור יום/לילה */
         .header-controls { max-width: 500px; margin: 10px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
         #searchInput { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; }
         #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; transition: 0.3s; }
@@ -43,8 +42,11 @@
         
         .profile-section { flex: 1; background: var(--card-bg); border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); padding: 25px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; max-height: 550px; }
         .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; margin-bottom: 15px; }
-        .profile-text { text-align: right; font-size: 13.5px; line-height: 1.6; }
-        .contact-btn { display: block; width: 100%; margin: 15px 0; padding: 12px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .profile-text { text-align: right; font-size: 13.5px; line-height: 1.6; width: 100%; }
+        
+        .contact-buttons { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
+        .contact-btn { flex: 1; padding: 10px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; box-sizing: border-box; }
+        .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
         .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 20px; }
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 12px; height: 650px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
@@ -85,17 +87,26 @@
             <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1rRhADtUxG81fZTDTS6RvGAhwQmY8FqKT" class="profile-img">
             <div class="profile-text">
                 <h3 style="color:var(--accent); text-align:center;">הרב אמיר דדון<br><span style="font-size: 16px; color: var(--text-muted);">Rabbi Amir Dadon</span></h3>
-                <a href="mailto:amirddon@gmail.com" target="_blank" class="contact-btn">ליצירת קשר והזמנת שיחה</a>
+                
+                <div class="contact-buttons">
+                    <a href="mailto:amirddon@gmail.com" target="_blank" class="contact-btn">✉️ מייל</a>
+                    <a href="tel:+972544350895" target="_blank" class="contact-btn">📞 טלפון</a>
+                </div>
+
                 <p><strong>רב קהילת 'שמואל הצעיר' בירושלים.</strong></p>
                 <p>ארכיון שיעורי "מבזקס" המבוססים על תורת הרב יונתן זקס זצ"ל.</p>
                 <p>תושב שכונת חומת שמואל. לשעבר ראש ישיבת נועם ירושלים.</p>
                 <p>מנהל תוכנית ConnectEd בשיתוף UnitEd ו-SAR.</p>
                 <p>חבר צוות 'תורת חיים' ומנהל קהילת תושב"ע באמית.</p>
                 <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 15px 0;">
+                
                 <p style="text-align: left; direction: ltr; font-size: 12.5px; color: var(--text-muted);">
+                    <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
                     MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
-                    Director of the ConnectEd program in partnership with UnitEd and SAR.
+                    Resident of Homat Shmuel. Formerly Principal of Noam Jerusalem High School.<br>
+                    Director of the ConnectEd program in partnership with UnitEd and SAR.<br>
+                    Member of 'Torat Chaim' and Manager of the Oral Torah community at AMIT.
                 </p>
             </div>
         </div>
@@ -155,9 +166,10 @@
     }
 
     let currentVideoId = null;
+    let defaultVideo = null; 
 
     function play(id, title) {
-        if (currentVideoId === id) return; // מונע הבהוב וטעינה כפולה של אותו סרטון
+        if (currentVideoId === id) return;
         currentVideoId = id;
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
         document.getElementById('mainTitle').innerText = title;
@@ -168,17 +180,28 @@
             const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on');
             const data = await res.json();
             const today = new Date(); today.setHours(0,0,0,0);
-            const holiday = data.items.find(i => new Date(i.date) >= today && i.category === 'holiday' && holidayMap[i.title]);
-            const parasha = data.items.find(i => new Date(i.date) >= today && i.category === 'parashat');
+            const futureEvents = data.items.filter(i => new Date(i.date) >= today);
             let video = null;
-            if (holiday && parasha) {
-                if (new Date(holiday.date) <= new Date(parasha.date)) video = videoData.find(v => v.t.includes(holidayMap[holiday.title]));
-                else video = videoData.find(v => v.t.includes(parasha.hebrew.replace('פרשת ', '')));
-            } else if (holiday) video = videoData.find(v => v.t.includes(holidayMap[holiday.title]));
-            else if (parasha) video = videoData.find(v => v.t.includes(parasha.hebrew.replace('פרשת ', '')));
-            if (video) play(video.id, video.t);
+
+            for (const item of futureEvents) {
+                if (item.category === 'holiday' && holidayMap[item.title]) {
+                    video = videoData.find(v => v.t.includes(holidayMap[item.title]));
+                } else if (item.category === 'parashat') {
+                    video = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
+                }
+                if (video) break;
+            }
+            
+            if (video) {
+                defaultVideo = video; 
+                play(video.id, video.t);
+            }
         } catch (e) { console.log(e); }
-        if (!document.querySelector('iframe')) play(videoData[0].id, videoData[0].t);
+        
+        if (!document.querySelector('iframe')) {
+            defaultVideo = videoData[0]; 
+            play(videoData[0].id, videoData[0].t);
+        }
     }
 
     function renderUI() {
@@ -203,7 +226,6 @@
             document.getElementById('mainBody').classList.add('light-mode');
             document.getElementById('themeBtn').innerText = '🌙 מצב לילה';
         }
-        
         setDynamicFeaturedVideo();
     }
 
@@ -216,13 +238,11 @@
         document.querySelectorAll('.v-card').forEach(c => {
             const cardText = c.dataset.vtitle.toLowerCase();
             const isPartialMatch = cardText.includes(q);
-            
             c.style.display = isPartialMatch ? 'block' : 'none';
             
             if (isPartialMatch && q !== '') {
                 matchCount++;
                 if (!firstPartialMatchCard) firstPartialMatchCard = c;
-                
                 const paddedText = ' ' + cardText + ' ';
                 const paddedQ = ' ' + q + ' ';
                 if (paddedText.includes(paddedQ) && !exactMatchCard) {
@@ -239,11 +259,11 @@
         });
 
         const cardToPlay = exactMatchCard || firstPartialMatchCard;
-        
         if (q !== '' && cardToPlay) {
             play(cardToPlay.dataset.vid, cardToPlay.dataset.vtitle);
+        } else if (q === '' && defaultVideo) {
+            play(defaultVideo.id, defaultVideo.t);
         }
-
         document.getElementById('scrollHint').style.display = (q !== '' && matchCount > 1) ? 'block' : 'none';
     }
 
