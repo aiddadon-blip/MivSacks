@@ -22,11 +22,16 @@
             --text-main: #1e293b; --text-muted: #64748b;
         }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); direction: rtl; margin: 0; transition: 0.3s; overflow-x: hidden; }
-        .theme-toggle { position: fixed; top: 15px; left: 15px; z-index: 1100; background: var(--card-bg); border: 2px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
         header { padding: 15px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
         .corner-img { position: absolute; bottom: 10px; right: 20px; width: 70px; height: 70px; border: 2px solid var(--gold); border-radius: 10px; object-fit: contain; }
-        .header-controls { max-width: 400px; margin: 10px auto; width: 100%; }
-        #searchInput { width: 100%; padding: 10px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; }
+        
+        /* אזור החיפוש וכפתור יום/לילה */
+        .header-controls { max-width: 500px; margin: 10px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
+        #searchInput { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; }
+        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; transition: 0.3s; }
+        #themeBtn:hover { border-color: var(--gold); color: var(--gold); }
+        
         .container { width: 98%; margin: 0 auto; padding: 10px; }
         .top-section { display: flex; flex-direction: row-reverse; gap: 15px; margin-bottom: 20px; min-height: 400px; }
         #mainPlayerSection { flex: 1.5; background: var(--card-bg); padding: 15px; border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); text-align: center; }
@@ -35,10 +40,12 @@
         #mainTitle { font-size: 18px; margin-top: 15px; color: var(--gold); font-weight: bold; margin-bottom: 5px; }
         @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
         .scroll-hint { display: none; color: var(--text-muted); font-size: 14px; animation: pulse 2s infinite; margin-top: 0; }
+        
         .profile-section { flex: 1; background: var(--card-bg); border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); padding: 25px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; max-height: 550px; }
         .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; margin-bottom: 15px; }
-        .profile-text { text-align: right; font-size: 13.5px; line-height: 1.6; width: 100%; }
+        .profile-text { text-align: right; font-size: 13.5px; line-height: 1.6; }
         .contact-btn { display: block; width: 100%; margin: 15px 0; padding: 12px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; }
+        
         .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 20px; }
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 12px; height: 650px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
         .humash-title { text-align: center; padding: 10px 5px; font-weight: bold; color: white; border-radius: 12px 12px 0 0; font-size: 15px; }
@@ -48,18 +55,22 @@
         .v-card img { width: 100%; border-radius: 8px 8px 0 0; }
         .v-label { padding: 8px; display: block; font-size: 12px; text-align: center; font-weight: bold; }
         footer { background: var(--header-bg); padding: 20px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 20px; font-weight: bold; letter-spacing: 0.5px; }
-        @media (max-width: 768px) { .top-section { flex-direction: column; } .columns-wrapper { flex-direction: column; gap: 15px; } .humash-col { height: auto; max-height: 400px; } }
+        
+        @media (max-width: 768px) { 
+            .top-section { flex-direction: column; } 
+            .columns-wrapper { flex-direction: column; gap: 15px; } 
+            .humash-col { height: auto; max-height: 400px; } 
+        }
     </style>
 </head>
 <body id="mainBody">
-
-<button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="החלף מצב יום/לילה">🌙</button>
 
 <header>
     <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa" class="corner-img">
     <h1 style="font-size: 24px; margin: 10px 0;">ארכיון מבזקס המלא | The Full MivSacks Archive</h1>
     <div class="header-controls">
         <input type="text" id="searchInput" placeholder="לחיפוש פרשה או מבזקס..." oninput="filterVideos()">
+        <button id="themeBtn" onclick="toggleTheme()" title="החלף מצב יום/לילה">☀️ מצב יום</button>
     </div>
 </header>
 
@@ -138,8 +149,18 @@
     function toggleTheme() {
         const body = document.getElementById('mainBody');
         body.classList.toggle('light-mode');
-        document.getElementById('themeBtn').innerText = body.classList.contains('light-mode') ? '☀️' : '🌙';
-        localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+        const isLight = body.classList.contains('light-mode');
+        document.getElementById('themeBtn').innerText = isLight ? '🌙 מצב לילה' : '☀️ מצב יום';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
+
+    let currentVideoId = null;
+
+    function play(id, title) {
+        if (currentVideoId === id) return; // מונע הבהוב וטעינה כפולה של אותו סרטון
+        currentVideoId = id;
+        document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
+        document.getElementById('mainTitle').innerText = title;
     }
 
     async function setDynamicFeaturedVideo() {
@@ -166,21 +187,24 @@
         Object.keys(colNames).forEach(id => {
             container.innerHTML += `<div class="humash-col" id="col-${id}"><div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${colNames[id]}</div><div class="list" id="list-${id}"></div></div>`;
         });
+        
         videoData.forEach(v => {
             const list = document.getElementById('list-' + v.cat);
             const card = document.createElement('div');
             card.className = 'v-card';
+            card.dataset.vid = v.id;
+            card.dataset.vtitle = v.t;
             card.onclick = () => play(v.id, v.t);
             card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${v.t}</span>`;
             list.appendChild(card);
         });
-        if(localStorage.getItem('theme') === 'light') toggleTheme();
+        
+        if(localStorage.getItem('theme') === 'light') {
+            document.getElementById('mainBody').classList.add('light-mode');
+            document.getElementById('themeBtn').innerText = '🌙 מצב לילה';
+        }
+        
         setDynamicFeaturedVideo();
-    }
-
-    function play(id, title) {
-        document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
-        document.getElementById('mainTitle').innerText = title;
     }
 
     function filterVideos() {
@@ -190,7 +214,7 @@
         let firstPartialMatchCard = null;
 
         document.querySelectorAll('.v-card').forEach(c => {
-            const cardText = c.innerText.toLowerCase();
+            const cardText = c.dataset.vtitle.toLowerCase();
             const isPartialMatch = cardText.includes(q);
             
             c.style.display = isPartialMatch ? 'block' : 'none';
@@ -217,9 +241,7 @@
         const cardToPlay = exactMatchCard || firstPartialMatchCard;
         
         if (q !== '' && cardToPlay) {
-            const vId = cardToPlay.querySelector('img').src.split('/')[4];
-            const vTitle = cardToPlay.querySelector('.v-label').innerText;
-            play(vId, vTitle);
+            play(cardToPlay.dataset.vid, cardToPlay.dataset.vtitle);
         }
 
         document.getElementById('scrollHint').style.display = (q !== '' && matchCount > 1) ? 'block' : 'none';
