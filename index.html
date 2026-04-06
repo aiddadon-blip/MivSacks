@@ -17,6 +17,12 @@
 <meta name="twitter:title" content="ארכיון מבזקס המלא">
 <meta name="twitter:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
 
+
+    
+    <meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
+    <meta property="og:description" content="ארכיון שיעורי מבזקס המבוססים על תורת הרב יונתן זקס זצ״ל.">
+    <meta property="og:image" content="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa">
+
     <style>
         :root {
             --bg-dark: #0b0f1a; --card-bg: #161e2d; --header-bg: #020617;
@@ -35,34 +41,35 @@
         
         .header-controls { max-width: 500px; margin: 10px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
         #searchInput { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; }
-        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; }
+        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; transition: 0.3s; }
         
         .container { width: 98%; margin: 0 auto; padding: 10px; }
         .top-section { display: flex; flex-direction: row-reverse; gap: 15px; margin-bottom: 20px; min-height: 400px; }
         #mainPlayerSection { flex: 1.5; background: var(--card-bg); padding: 15px; border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); text-align: center; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        #mainTitle { font-size: 18px; margin-top: 15px; color: var(--gold); font-weight: bold; }
+        #mainTitle { font-size: 18px; margin-top: 15px; color: var(--gold); font-weight: bold; margin-bottom: 5px; }
         
         .profile-section { flex: 1; background: var(--card-bg); border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); padding: 25px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; max-height: 550px; }
         .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; margin-bottom: 15px; cursor: pointer; }
         .profile-text { text-align: right; font-size: 13.5px; line-height: 1.6; width: 100%; }
         
         .contact-buttons { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
-        .contact-btn { flex: 1; padding: 10px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .contact-btn { flex: 1; padding: 10px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; box-sizing: border-box; }
         .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
         .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 20px; }
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 12px; height: 650px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
         .humash-title { text-align: center; padding: 10px 5px; font-weight: bold; color: white; border-radius: 12px 12px 0 0; font-size: 15px; }
         .list { flex: 1; overflow-y: auto; padding: 8px; }
-        .v-card { background: var(--card-bg); border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; }
+        .v-card { background: var(--card-bg); border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; }
+        .v-card:hover { border-color: var(--gold); transform: translateY(-3px); }
         .v-card img { width: 100%; border-radius: 8px 8px 0 0; }
         .v-label { padding: 8px; display: block; font-size: 12px; text-align: center; font-weight: bold; }
         
         footer { background: var(--header-bg); padding: 20px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 20px; font-weight: bold; }
         
-        @media (max-width: 768px) { .top-section { flex-direction: column; } .columns-wrapper { flex-direction: column; } .humash-col { height: auto; } }
+        @media (max-width: 768px) { .top-section { flex-direction: column; } .columns-wrapper { flex-direction: column; gap: 15px; } .humash-col { height: auto; } }
     </style>
 </head>
 <body id="mainBody">
@@ -103,7 +110,6 @@
                     <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
                     MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
-                    Resident of Homat Shmuel. Formerly Principal of Noam Jerusalem High School.<br>
                     Director of the ConnectEd program in partnership with UnitEd and SAR.<br>
                     Member of 'Torat Chaim' and Manager of the Oral Torah community at AMIT.
                 </p>
@@ -171,13 +177,16 @@
     let visitorCount = 0;
 
     function play(id, title) {
-        if (currentVideoId === id) return;
+        if (currentVideoId === id) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
         currentVideoId = id;
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
         document.getElementById('mainTitle').innerText = title;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // מנגנון ספירת כניסות חכם
     async function initCounter() {
         try {
             const res = await fetch('https://api.countapi.xyz/hit/mivsacks_archive/visits');
@@ -186,12 +195,10 @@
         } catch (e) { console.log('Counter error'); }
     }
 
-    // הטריגר הסודי - 5 קליקים על התמונה
-    let clickTimer = 0;
     let clicks = 0;
     function secretCounter() {
         clicks++;
-        if (clicks === 1) setTimeout(() => clicks = 0, 3000); // מאפס אם לא לחצת מהר
+        if (clicks === 1) setTimeout(() => clicks = 0, 3000);
         if (clicks === 5) {
             alert(`שלום הרב אמיר!\nעד כה נרשמו ${visitorCount} כניסות לארכיון המבזקס.`);
             clicks = 0;
@@ -224,6 +231,7 @@
         Object.keys(colNames).forEach(id => {
             container.innerHTML += `<div class="humash-col" id="col-${id}"><div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${colNames[id]}</div><div class="list" id="list-${id}"></div></div>`;
         });
+        
         videoData.forEach(v => {
             const list = document.getElementById('list-' + v.cat);
             const card = document.createElement('div');
@@ -234,7 +242,12 @@
             card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${v.t}</span>`;
             list.appendChild(card);
         });
-        if(localStorage.getItem('theme') === 'light') { document.getElementById('mainBody').classList.add('light-mode'); document.getElementById('themeBtn').innerText = '🌙 מצב לילה'; }
+        
+        if(localStorage.getItem('theme') === 'light') {
+            document.getElementById('mainBody').classList.add('light-mode');
+            document.getElementById('themeBtn').innerText = '🌙 מצב לילה';
+        }
+        
         setDynamicFeaturedVideo();
         initCounter();
     }
