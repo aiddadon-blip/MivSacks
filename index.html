@@ -6,7 +6,6 @@
     <title>ארכיון מבזקס המלא | איתיאל דדון</title>
 
 
-
 <meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
 <meta property="og:description" content="מאגר שיעורי וידאו קצרים על פרשת השבוע, חגים ומועדים מאת הרב אמיר דדון.">
 <meta property="og:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
@@ -18,7 +17,7 @@
 <meta name="twitter:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
 
 
-    
+ 
     <meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
     <meta property="og:description" content="ארכיון שיעורי מבזקס המבוססים על תורת הרב יונתן זקס זצ״ל.">
     <meta property="og:image" content="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa">
@@ -255,22 +254,33 @@
     function filterVideos() {
         const q = document.getElementById('searchInput').value.toLowerCase().trim();
         const bottomArea = document.getElementById('bottomArea');
+        
+        // החלק התחתון נשאר תמיד גלוי לפי בקשתך
+        bottomArea.style.display = 'block';
+
         if (q === '') {
-            bottomArea.style.display = 'block';
+            // כשמוחקים את החיפוש - מחזירים לסרטון ברירת המחדל למעלה
             if (defaultVideo) play(defaultVideo.id, defaultVideo.t);
             return;
         }
-        bottomArea.style.display = 'none';
-        let exactMatch = null; let firstMatch = null;
+
+        let exactMatch = null;
+        let firstMatch = null;
+
         videoData.forEach(v => {
             const title = v.t.toLowerCase();
             if (title.includes(q)) {
                 if (!firstMatch) firstMatch = v;
-                if (title.split(/[\s,/#]+/).some(w => w === q)) exactMatch = v;
+                const words = title.split(/[\s,/#]+/);
+                if (words.some(w => w === q)) exactMatch = v;
             }
         });
+
         const videoToPlay = exactMatch || firstMatch;
-        if (videoToPlay) play(videoToPlay.id, videoToPlay.t);
+        if (videoToPlay) {
+            // מעדכן רק את הנגן למעלה, מבלי להסתיר כלום למטה
+            play(videoToPlay.id, videoToPlay.t);
+        }
     }
 
     renderUI();
