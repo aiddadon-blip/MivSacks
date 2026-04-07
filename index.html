@@ -38,33 +38,35 @@
         
         .container { width: 98%; margin: 0 auto; padding: 10px 5px; }
         
-        /* הפתרון: הגבלת רוחב האזור העליון ומירכוז שלו, מה שמקטין גם את הגבולות וגם את הוידאו יחד */
+        /* סידור 3 עמודות: פרופיל מימין, וידאו באמצע, תיאור משמאל */
         .top-section { 
             display: flex; 
-            flex-direction: row-reverse; 
+            flex-direction: row; 
             justify-content: center; 
-            align-items: flex-start; /* מונע מהקופסאות להימתח כלפי מטה */
+            align-items: stretch; /* שומר על גובה מקביל */
             gap: 15px; 
             margin: 0 auto 15px auto; 
-            max-width: 1050px; /* זה מה שמקטין הכל ב-35% בערך */
+            max-width: 1350px; /* הורחב כדי להכיל בנוחות 3 עמודות */
         }
         
-        /* קופסת הנגן מתאימה את עצמה במדויק */
         #mainPlayerSection { 
-            flex: 1.6; 
+            flex: 2.2; /* נותן לוידאו יותר מקום מהצדדים */
             background: var(--card-bg); 
             padding: 10px; 
             border-radius: 12px; 
             border: 1px solid rgba(148, 163, 184, 0.2); 
             text-align: center; 
             width: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        #mainTitle { font-size: 16px; margin-top: 10px; color: var(--gold); font-weight: bold; margin-bottom: 2px; }
+        #mainTitle { font-size: 18px; margin-top: auto; padding-top: 10px; color: var(--gold); font-weight: bold; margin-bottom: 5px; }
         
-        .profile-section { 
+        /* עיצוב משותף לפאנלים בצדדים (פרופיל ותיאור) */
+        .side-panel {
             flex: 1; 
             background: var(--card-bg); 
             border-radius: 12px; 
@@ -72,11 +74,13 @@
             padding: 15px; 
             display: flex; 
             flex-direction: column; 
-            align-items: center; 
             overflow-y: auto; 
-            max-height: 330px; 
+            max-height: 450px; 
             width: 100%;
+            box-sizing: border-box;
         }
+
+        .profile-section { align-items: center; }
         .profile-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 8px; cursor: pointer; }
         .profile-text { text-align: right; font-size: 12px; line-height: 1.4; width: 100%; }
         .profile-text h3 { margin: 5px 0; font-size: 16px; }
@@ -85,6 +89,21 @@
         .contact-btn { flex: 1; padding: 6px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px; transition: 0.3s; box-sizing: border-box; }
         .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
+        /* עיצוב התיאור השמאלי */
+        .description-section { text-align: right; align-items: flex-start; }
+        .description-section h4 { margin: 0 0 10px 0; color: var(--accent); font-size: 15px;}
+        .description-section p { margin: 5px 0; font-size: 13px; line-height: 1.5; }
+        
+        .en-desc {
+            direction: ltr;
+            text-align: left;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            color: var(--text-muted);
+            width: 100%;
+        }
+
         .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 5px; }
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 10px; height: 480px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
         .humash-title { text-align: center; padding: 8px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 14px; }
@@ -96,11 +115,17 @@
         
         footer { background: var(--header-bg); padding: 12px; text-align: center; font-size: 13px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; }
         
+        /* התאמה למסכים בינוניים וקטנים */
+        @media (max-width: 1024px) {
+            .top-section { flex-wrap: wrap; }
+            #mainPlayerSection { flex: 1 1 100%; order: -1; } /* מקפיץ את הוידאו למעלה במסכים צרים */
+            .side-panel { flex: 1 1 45%; max-height: 350px; }
+        }
         @media (max-width: 768px) { 
-            .top-section { flex-direction: column; max-width: 100%; } 
+            .top-section { flex-direction: column; flex-wrap: nowrap; max-width: 100%; } 
             .columns-wrapper { flex-direction: column; gap: 15px; } 
             .humash-col { height: auto; } 
-            .profile-section { max-height: none; }
+            .side-panel { max-height: none; flex: 1 1 100%; }
         }
     </style>
 </head>
@@ -117,11 +142,8 @@
 
 <div class="container">
     <div class="top-section">
-        <div id="mainPlayerSection">
-            <div id="player" class="video-wrapper"></div>
-            <h2 id="mainTitle">טוען מבזק...</h2>
-        </div>
-        <div class="profile-section">
+        
+        <div class="profile-section side-panel">
             <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1rRhADtUxG81fZTDTS6RvGAhwQmY8FqKT" class="profile-img" onclick="secretCounter()">
             <div class="profile-text">
                 <h3 style="color:var(--accent); text-align:center;">הרב אמיר דדון<br><span style="font-size: 14px; color: var(--text-muted);">Rabbi Amir Dadon</span></h3>
@@ -150,7 +172,26 @@
                 </p>
             </div>
         </div>
+
+        <div id="mainPlayerSection">
+            <div id="player" class="video-wrapper"></div>
+            <h2 id="mainTitle">טוען מבזק...</h2>
+        </div>
+
+        <div class="description-section side-panel">
+            <h4>הארה שבועית והצעה לשיח משפחתי לשלחן השבת!</h4>
+            <p>הצטרפו למפגש שבועי עם הרב זקס ותורתו המאירה. בואו לצפות ברב זקס מאיר כל פרשה וכל חג, לאורך כל 68 פרקי הסדרה – מוגשים כולם בליווי כתוביות.</p>
+            <p>לקראת שבת או חג, אתם מוזמנים לרגעים של התבוננות עמוקה ומעוררת מחשבה, שבסופם תמצאו הצעה והזמנה לשיח משפחתי מעמיק סביב שולחן השבת שלכם – בעקבות דבריו המאירים.<br><strong style="color:var(--gold);">צפייה מהנה!</strong></p>
+            
+            <div class="en-desc">
+                <h4 style="color: var(--accent); margin-bottom: 8px;">Weekly Inspiration and a Family Conversation Starter!</h4>
+                <p>Join a weekly encounter with Rabbi Sacks and his illuminating teachings. Watch Rabbi Sacks inspire every Parasha and festival, across all 68 episodes of the series – all fully subtitled.</p>
+                <p>As Shabbat or the holiday approaches, you are invited to moments of deep and thought-provoking reflection, culminating in a suggestion for a meaningful family discussion around your Shabbat table – inspired by his guiding words.<br><strong style="color:var(--gold);">Enjoy the viewing!</strong></p>
+            </div>
+        </div>
+
     </div>
+    
     <div id="bottomArea">
         <div class="columns-wrapper" id="colsContainer"></div>
     </div>
@@ -181,7 +222,7 @@
         {id: 'oAGHtDNOHUw', t: 'פרשת נשא', cat: '3'}, {id: 'sulW5QfZ_t8', t: 'פרשת בהעלותך', cat: '3'},
         {id: 'PQESAVoUJBw', t: 'פרשת שלח', cat: '3'}, {id: 'q1H9tlDOdBw', t: 'פרשת קרח', cat: '3'},
         {id: 'AaM9BQxzqb4', t: 'פרשת חוקת', cat: '3'}, {id: 'hlrp1U0xxF4', t: 'פרשת פנחס', cat: '3'},
-        {id: 'zNcYN0d_hXw', t: 'פרשת מטות', cat: '3'}, {id: 'fkSwayflNvo', t: 'פרשת מסעי', cat: '3'},
+        {id: 'zNcYN0d_hXw', t: 'פרשת מטות', cat: '3'}, {id: 'fkSwayflNvo', t: 'פרשת מסעי', 'cat': '3'},
         {id: 'TtGTPEWVA3M', t: 'פרשת דברים', cat: '4'}, {id: 'qvdT6Ryocts', t: 'פרשת ואתחנן', cat: '4'},
         {id: 'koA0mjQV048', t: 'פרשת עקב', cat: '4'}, {id: 'Oirv-282zA4', t: 'פרשת ראה', cat: '4'},
         {id: 'kb33F5edS8Q', t: 'פרשת שופטים', cat: '4'}, {id: 'MLy9HpwOHtI', t: 'פרשת כי תצא', cat: '4'},
