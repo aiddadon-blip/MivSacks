@@ -38,7 +38,6 @@
         
         .container { width: 98%; margin: 0 auto; padding: 10px 5px; }
         
-        /* סידור 3 עמודות: פרופיל מימין, וידאו באמצע, תיאור משמאל */
         .top-section { 
             display: flex; 
             flex-direction: row; 
@@ -63,9 +62,22 @@
         
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        #mainTitle { font-size: 18px; margin-top: auto; padding-top: 10px; color: var(--gold); font-weight: bold; margin-bottom: 5px; }
         
-        /* עיצוב משותף לפאנלים בצדדים */
+        /* כותרת והודעת "מהעבר" */
+        .title-area { margin-top: auto; padding-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        #mainTitle { font-size: 18px; color: var(--gold); font-weight: bold; margin: 0; }
+        #pastNotice { 
+            display: none; 
+            background: var(--accent); 
+            color: white; 
+            font-size: 11px; 
+            padding: 2px 10px; 
+            border-radius: 12px; 
+            font-weight: bold;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         .side-panel {
             flex: 1; 
             background: var(--card-bg); 
@@ -173,7 +185,10 @@
 
         <div id="mainPlayerSection">
             <div id="player" class="video-wrapper"></div>
-            <h2 id="mainTitle">טוען מבזק...</h2>
+            <div class="title-area">
+                <h2 id="mainTitle">טוען מבזק...</h2>
+                <span id="pastNotice">שחזור מהארכיון: לא נמצא סרטון לשבוע זה</span>
+            </div>
         </div>
 
         <div class="description-section side-panel">
@@ -220,7 +235,7 @@
         {id: 'oAGHtDNOHUw', t: 'פרשת נשא', cat: '3'}, {id: 'sulW5QfZ_t8', t: 'פרשת בהעלותך', cat: '3'},
         {id: 'PQESAVoUJBw', t: 'פרשת שלח', cat: '3'}, {id: 'q1H9tlDOdBw', t: 'פרשת קרח', cat: '3'},
         {id: 'AaM9BQxzqb4', t: 'פרשת חוקת', cat: '3'}, {id: 'hlrp1U0xxF4', t: 'פרשת פנחס', cat: '3'},
-        {id: 'zNcYN0d_hXw', t: 'פרשת מטות', cat: '3'}, {id: 'fkSwayflNvo', t: 'פרשת מסעי', 'cat': '3'},
+        {id: 'zNcYN0d_hXw', t: 'פרשת מטות', cat: '3'}, {id: 'fkSwayflNvo', t: 'פרשת מסעי', cat: '3'},
         {id: 'TtGTPEWVA3M', t: 'פרשת דברים', cat: '4'}, {id: 'qvdT6Ryocts', t: 'פרשת ואתחנן', cat: '4'},
         {id: 'koA0mjQV048', t: 'פרשת עקב', cat: '4'}, {id: 'Oirv-282zA4', t: 'פרשת ראה', cat: '4'},
         {id: 'kb33F5edS8Q', t: 'פרשת שופטים', cat: '4'}, {id: 'MLy9HpwOHtI', t: 'פרשת כי תצא', cat: '4'},
@@ -250,7 +265,7 @@
     let defaultVideo = null; 
     let visitorCount = 0;
 
-    function play(id, title) {
+    function play(id, title, isFromArchive = false) {
         if (currentVideoId === id) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
@@ -258,6 +273,10 @@
         currentVideoId = id;
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
         document.getElementById('mainTitle').innerText = title;
+        
+        // הצגה/הסתרה של הודעת הארכיון
+        document.getElementById('pastNotice').style.display = isFromArchive ? 'inline-block' : 'none';
+        
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -285,23 +304,21 @@
             const data = await res.json();
             const today = new Date(); today.setHours(0,0,0,0);
             
-            // מפצל את האירועים לשניים: עתיד ועבר
             const futureEvents = data.items.filter(i => new Date(i.date) >= today);
-            const pastEvents = data.items.filter(i => new Date(i.date) < today).reverse(); // סורק מההכי קרוב אחורה
+            const pastEvents = data.items.filter(i => new Date(i.date) < today).reverse(); 
             
             let video = null;
+            let foundFuture = false;
             
-            // שלב 1: חיפוש באירועים העתידיים (השבוע הקרוב)
             for (const item of futureEvents) {
                 if (item.category === 'holiday' && holidayMap[item.title]) {
                     video = videoData.find(v => v.t.includes(holidayMap[item.title]));
                 } else if (item.category === 'parashat') {
                     video = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
                 }
-                if (video) break;
+                if (video) { foundFuture = true; break; }
             }
 
-            // שלב 2: אם לא מצא (כמו שביקשת - "יבדוק שוב פעם וישים את הקודם")
             if (!video) {
                 for (const item of pastEvents) {
                     if (item.category === 'holiday' && holidayMap[item.title]) {
@@ -309,18 +326,17 @@
                     } else if (item.category === 'parashat') {
                         video = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
                     }
-                    if (video) break; // עוצר ברגע שהוא מוצא את הסרטון האחרון שהיה רלוונטי
+                    if (video) break; 
                 }
             }
 
-            // הפעלת הסרטון שנמצא
             if (video) { 
                 defaultVideo = video; 
-                play(video.id, video.t); 
+                // אם לא מצאנו בעתיד ומצאנו בעבר - שולחים "אמת" לסימון הארכיון
+                play(video.id, video.t, !foundFuture); 
             }
         } catch (e) { console.log(e); }
         
-        // שלב 3: גיבוי למקרה קיצון בלבד (אם Hebcal נופל לחלוטין)
         if (!document.querySelector('iframe') && !defaultVideo) { 
             defaultVideo = videoData[0]; 
             play(videoData[0].id, videoData[0].t); 
@@ -340,7 +356,7 @@
             card.className = 'v-card';
             card.dataset.vid = v.id;
             card.dataset.vtitle = v.t;
-            card.onclick = () => play(v.id, v.t);
+            card.onclick = () => play(v.id, v.t, false); // לחיצה ידנית תמיד מעלימה את ההודעה
             card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${v.t}</span>`;
             list.appendChild(card);
         });
@@ -361,7 +377,7 @@
         bottomArea.style.display = 'block';
 
         if (q === '') {
-            if (defaultVideo) play(defaultVideo.id, defaultVideo.t);
+            if (defaultVideo) play(defaultVideo.id, defaultVideo.t, false);
             return;
         }
 
@@ -379,7 +395,7 @@
 
         const videoToPlay = exactMatch || firstMatch;
         if (videoToPlay) {
-            play(videoToPlay.id, videoToPlay.t);
+            play(videoToPlay.id, videoToPlay.t, false);
         }
     }
 
