@@ -5,22 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ארכיון מבזקס המלא | איתיאל דדון</title>
 
-
-<meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
-<meta property="og:description" content="מאגר שיעורי וידאו קצרים על פרשת השבוע, חגים ומועדים מאת הרב אמיר דדון.">
-<meta property="og:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
-<meta property="og:url" content="https://aiddadon-blip.github.io/MivSacks/">
-<meta property="og:type" content="website">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ארכיון מבזקס המלא">
-<meta name="twitter:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
-
-
- 
     <meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
-    <meta property="og:description" content="ארכיון שיעורי מבזקס המבוססים על תורת הרב יונתן זקס זצ״ל.">
-    <meta property="og:image" content="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa">
+    <meta property="og:description" content="מאגר שיעורי וידאו קצרים על פרשת השבוע, חגים ומועדים מאת הרב אמיר דדון.">
+    <meta property="og:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
+    <meta property="og:url" content="https://aiddadon-blip.github.io/MivSacks/">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ארכיון מבזקס המלא">
+    <meta name="twitter:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
 
     <style>
         :root {
@@ -35,40 +28,80 @@
         }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); direction: rtl; margin: 0; transition: 0.3s; overflow-x: hidden; }
         
-        header { padding: 15px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
-        .corner-img { position: absolute; bottom: 10px; right: 20px; width: 70px; height: 70px; border: 2px solid var(--gold); border-radius: 10px; object-fit: contain; }
+        header { padding: 10px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
+        header h1 { font-size: 20px; margin: 5px 0; }
+        .corner-img { position: absolute; bottom: 8px; right: 15px; width: 55px; height: 55px; border: 2px solid var(--gold); border-radius: 8px; object-fit: contain; }
         
-        .header-controls { max-width: 500px; margin: 10px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
-        #searchInput { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; }
-        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; transition: 0.3s; }
+        .header-controls { max-width: 450px; margin: 5px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
+        #searchInput { flex: 1; padding: 8px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 14px; }
+        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 7px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; white-space: nowrap; transition: 0.3s; }
         
-        .container { width: 98%; margin: 0 auto; padding: 10px; }
-        .top-section { display: flex; flex-direction: row-reverse; gap: 15px; margin-bottom: 20px; min-height: 400px; }
-        #mainPlayerSection { flex: 1.5; background: var(--card-bg); padding: 15px; border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); text-align: center; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000; }
+        .container { width: 98%; margin: 0 auto; padding: 10px 5px; }
+        
+        /* הפתרון: הגבלת רוחב האזור העליון ומירכוז שלו, מה שמקטין גם את הגבולות וגם את הוידאו יחד */
+        .top-section { 
+            display: flex; 
+            flex-direction: row-reverse; 
+            justify-content: center; 
+            align-items: flex-start; /* מונע מהקופסאות להימתח כלפי מטה */
+            gap: 15px; 
+            margin: 0 auto 15px auto; 
+            max-width: 1050px; /* זה מה שמקטין הכל ב-35% בערך */
+        }
+        
+        /* קופסת הנגן מתאימה את עצמה במדויק */
+        #mainPlayerSection { 
+            flex: 1.6; 
+            background: var(--card-bg); 
+            padding: 10px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(148, 163, 184, 0.2); 
+            text-align: center; 
+            width: 100%;
+        }
+        
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        #mainTitle { font-size: 18px; margin-top: 15px; color: var(--gold); font-weight: bold; margin-bottom: 5px; }
+        #mainTitle { font-size: 16px; margin-top: 10px; color: var(--gold); font-weight: bold; margin-bottom: 2px; }
         
-        .profile-section { flex: 1; background: var(--card-bg); border-radius: 15px; border: 1px solid rgba(148, 163, 184, 0.2); padding: 25px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; max-height: 550px; }
-        .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; margin-bottom: 15px; cursor: pointer; }
-        .profile-text { text-align: right; font-size: 13.5px; line-height: 1.6; width: 100%; }
+        .profile-section { 
+            flex: 1; 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            border: 1px solid rgba(148, 163, 184, 0.2); 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            overflow-y: auto; 
+            max-height: 330px; 
+            width: 100%;
+        }
+        .profile-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 8px; cursor: pointer; }
+        .profile-text { text-align: right; font-size: 12px; line-height: 1.4; width: 100%; }
+        .profile-text h3 { margin: 5px 0; font-size: 16px; }
         
-        .contact-buttons { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
-        .contact-btn { flex: 1; padding: 10px; text-align: center; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; box-sizing: border-box; }
+        .contact-buttons { display: flex; gap: 8px; width: 100%; margin: 8px 0; }
+        .contact-btn { flex: 1; padding: 6px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px; transition: 0.3s; box-sizing: border-box; }
         .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
-        .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 20px; }
-        .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 12px; height: 650px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
-        .humash-title { text-align: center; padding: 10px 5px; font-weight: bold; color: white; border-radius: 12px 12px 0 0; font-size: 15px; }
-        .list { flex: 1; overflow-y: auto; padding: 8px; }
-        .v-card { background: var(--card-bg); border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; }
-        .v-card:hover { border-color: var(--gold); transform: translateY(-3px); }
-        .v-card img { width: 100%; border-radius: 8px 8px 0 0; }
-        .v-label { padding: 8px; display: block; font-size: 12px; text-align: center; font-weight: bold; }
+        .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 5px; }
+        .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 10px; height: 480px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
+        .humash-title { text-align: center; padding: 8px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 14px; }
+        .list { flex: 1; overflow-y: auto; padding: 6px; }
+        .v-card { background: var(--card-bg); border-radius: 6px; margin-bottom: 10px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; }
+        .v-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .v-card img { width: 100%; border-radius: 6px 6px 0 0; }
+        .v-label { padding: 6px; display: block; font-size: 11px; text-align: center; font-weight: bold; line-height: 1.2; }
         
-        footer { background: var(--header-bg); padding: 20px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 20px; font-weight: bold; }
+        footer { background: var(--header-bg); padding: 12px; text-align: center; font-size: 13px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; }
         
-        @media (max-width: 768px) { .top-section { flex-direction: column; } .columns-wrapper { flex-direction: column; gap: 15px; } .humash-col { height: auto; } }
+        @media (max-width: 768px) { 
+            .top-section { flex-direction: column; max-width: 100%; } 
+            .columns-wrapper { flex-direction: column; gap: 15px; } 
+            .humash-col { height: auto; } 
+            .profile-section { max-height: none; }
+        }
     </style>
 </head>
 <body id="mainBody">
@@ -91,7 +124,7 @@
         <div class="profile-section">
             <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1rRhADtUxG81fZTDTS6RvGAhwQmY8FqKT" class="profile-img" onclick="secretCounter()">
             <div class="profile-text">
-                <h3 style="color:var(--accent); text-align:center;">הרב אמיר דדון<br><span style="font-size: 16px; color: var(--text-muted);">Rabbi Amir Dadon</span></h3>
+                <h3 style="color:var(--accent); text-align:center;">הרב אמיר דדון<br><span style="font-size: 14px; color: var(--text-muted);">Rabbi Amir Dadon</span></h3>
                 
                 <div class="contact-buttons">
                     <a href="mailto:amirddon@gmail.com" target="_blank" class="contact-btn">✉️ מייל</a>
@@ -103,14 +136,13 @@
                 <p>תושב שכונת חומת שמואל. לשעבר ראש ישיבת נועם ירושלים.</p>
                 <p>מנהל תוכנית ConnectEd בשיתוף UnitEd ו-SAR.</p>
                 <p>חבר צוות 'תורת חיים' ומנהל קהילת תושב"ע באמית.</p>
-                <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 15px 0;">
+                <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 10px 0;">
                 
-                <p style="text-align: left; direction: ltr; font-size: 12.5px; color: var(--text-muted);">
+                <p style="text-align: left; direction: ltr; font-size: 10px; color: var(--text-muted); margin-bottom: 0;">
                     <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
                     MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
-                    Director of the ConnectEd program in partnership with UnitEd and SAR.<br>
-                    Member of 'Torat Chaim' and Manager of the Oral Torah community at AMIT.
+                    Director of the ConnectEd program in partnership with UnitEd and SAR.
                 </p>
             </div>
         </div>
@@ -255,11 +287,9 @@
         const q = document.getElementById('searchInput').value.toLowerCase().trim();
         const bottomArea = document.getElementById('bottomArea');
         
-        // החלק התחתון נשאר תמיד גלוי לפי בקשתך
         bottomArea.style.display = 'block';
 
         if (q === '') {
-            // כשמוחקים את החיפוש - מחזירים לסרטון ברירת המחדל למעלה
             if (defaultVideo) play(defaultVideo.id, defaultVideo.t);
             return;
         }
@@ -278,7 +308,6 @@
 
         const videoToPlay = exactMatch || firstMatch;
         if (videoToPlay) {
-            // מעדכן רק את הנגן למעלה, מבלי להסתיר כלום למטה
             play(videoToPlay.id, videoToPlay.t);
         }
     }
