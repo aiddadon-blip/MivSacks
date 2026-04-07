@@ -265,9 +265,10 @@
 
     async function initCounter() {
         try {
-            const res = await fetch('https://api.countapi.xyz/hit/mivsacks_archive/visits');
+            // החלפנו לשירות CounterAPI החדש
+            const res = await fetch('https://api.counterapi.dev/v1/mivsacks_archive/visits/up');
             const data = await res.json();
-            visitorCount = data.value;
+            visitorCount = data.count; // שולף את המספר מהשדה החדש
         } catch (e) { console.log('Counter error'); }
     }
 
