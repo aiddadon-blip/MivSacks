@@ -16,6 +16,9 @@
     <meta name="twitter:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
 
     <style>
+        /* יבוא פונט נקי, פשוט ויפה */
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap');
+
         :root {
             --bg-dark: #0b0f1a; --card-bg: #161e2d; --header-bg: #020617;
             --text-main: #f8fafc; --text-muted: #94a3b8; --accent: #ef4444; --gold: #fbbf24;
@@ -51,7 +54,7 @@
         #mainPlayerSection { 
             flex: 2.2; 
             background: var(--card-bg); 
-            padding: 10px; 
+            padding: 15px 10px 10px 10px; 
             border-radius: 12px; 
             border: 1px solid rgba(148, 163, 184, 0.2); 
             text-align: center; 
@@ -61,12 +64,38 @@
             box-sizing: border-box;
         }
         
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; }
+        /* כותרת חדשה: יפה, פשוטה, קריאה, כחולה וללא מסגרת Outline */
+        .blue-3d-title {
+            text-align: center;
+            color: #38bdf8; /* תכלת-כחול יפהפה שקריא מאוד על הרקע הכהה */
+            font-family: 'Rubik', sans-serif;
+            font-size: 27px;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            line-height: 1.25;
+            text-shadow:
+                0px 1px 0px #0284c7, /* שכבות תלת מימד עדינות בגווני כחול כהה יותר */
+                0px 2px 0px #0369a1,
+                0px 3px 0px #075985,
+                0px 5px 8px rgba(0,0,0,0.6); /* צל רך שמרים את הטקסט מהרקע */
+        }
+        .blue-3d-title .en-title {
+            font-size: 17px;
+            display: block;
+            direction: ltr;
+            margin-top: 6px;
+            font-weight: 500;
+            color: #7dd3fc;
+            text-shadow:
+                0px 1px 0px #0369a1,
+                0px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        .title-area { margin-top: auto; padding-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
-        #mainTitle { font-size: 18px; color: var(--gold); font-weight: bold; margin: 0; }
-        #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; }
+        .title-area { padding-top: 8px; display: flex; flex-direction: column; align-items: center; }
+        #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 5px; }
 
         .side-panel {
             flex: 1; 
@@ -127,9 +156,11 @@
             .side-panel { flex: 1 1 45%; max-height: 350px; }
         }
 
-        /* עיצוב ייעודי לטלפונים - לפי הסקיצה */
         @media (max-width: 768px) { 
-            .corner-img { display: none; } /* הסתרת תמונת הרב זקס במובייל */
+            .corner-img { display: none; } 
+            
+            .blue-3d-title { font-size: 21px; }
+            .blue-3d-title .en-title { font-size: 14px; }
 
             .container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px; }
             .top-section { display: contents; }
@@ -137,11 +168,9 @@
             #mainPlayerSection { grid-column: 1 / span 2; grid-row: 1; width: 100%; margin: 0; }
             #bottomArea { grid-column: 1 / span 2; grid-row: 2; width: 100%; margin: 0; }
             
-            /* פאנלים תחתונים בחצי מסך כל אחד */
             .profile-section { grid-column: 1; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
             .description-section { grid-column: 2; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
             
-            /* התאמת גודל הטקסט לפאנלים בחצי מסך בנייד */
             .profile-img { width: 50px; height: 50px; margin-bottom: 5px; }
             .profile-text h3 { font-size: 13px; margin: 3px 0; }
             .profile-text p, .description-section p { font-size: 10.5px; line-height: 1.35; margin: 4px 0; }
@@ -150,22 +179,20 @@
             .en-desc { padding-top: 8px; margin-top: 8px; }
             .en-desc p { font-size: 9.5px; }
 
-            /* רשת קטגוריות למובייל */
             .columns-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-direction: unset; }
             .humash-col { height: auto; border: none; background: transparent; }
-            .humash-title { display: none; } /* הסתרת טקסט כותרת רגיל */
-            .mobile-cat-img { display: block; } /* הצגת תמונות הקטגוריה */
+            .humash-title { display: none; } 
+            .mobile-cat-img { display: block; } 
             
             .list { display: none; padding: 5px 0; max-height: 350px; overflow-y: auto; }
             .list.open { display: block; animation: fadeIn 0.3s ease; }
 
-            /* סידור קטגוריות מדויק לפי סדר הסקיצה */
-            #col-0 { order: 1; } /* בראשית */
-            #col-1 { order: 2; } /* שמות */
-            #col-3 { order: 3; } /* במדבר */
-            #col-2 { order: 4; } /* ויקרא */
-            #col-5 { order: 5; } /* חגים */
-            #col-4 { order: 6; } /* דברים */
+            #col-0 { order: 1; } 
+            #col-1 { order: 2; } 
+            #col-3 { order: 3; } 
+            #col-2 { order: 4; } 
+            #col-5 { order: 5; } 
+            #col-4 { order: 6; } 
         }
         
         @keyframes fadeIn {
@@ -197,31 +224,29 @@
                     <a href="mailto:amirddon@gmail.com" target="_blank" class="contact-btn">✉️ מייל</a>
                     <a href="tel:+972544350895" target="_blank" class="contact-btn">📞 טלפון</a>
                 </div>
-
-                <p><strong>רב קהילת 'שמואל הצעיר' בירושלים.</strong></p>
-                <p>ארכיון שיעורי "מבזקס" המבוססים על תורת הרב יונתן זקס זצ"ל.</p>
-                <p>תושב שכונת חומת שמואל. לשעבר מנהל בישיבת נועם ירושלים.</p>
+  <p><strong>רב קהילת 'שמואל הצעיר' בירושלים.</strong></p>
+                <p>חבר צוות 'תורת חיים' ומנהל קהילת תושב"ע ברשת החינוכית אמית.</p>
                 <p>מנהל תוכנית ConnectEd בשיתוף UnitEd ו-SAR.</p>
-                <p>חבר צוות 'תורת חיים' ומנהל קהילת תושב"ע באמית.</p>
+                <p>לשעבר מנהל בישיבת נועם ירושלים.</p>
+                <p>תושב שכונת חומת שמואל.</p>
                 <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 10px 0;">
                 
                 <p style="text-align: left; direction: ltr; font-size: 10px; color: var(--text-muted); margin-bottom: 0;">
                     <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
-                    MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
-                    Director of the ConnectEd program in partnership with UnitEd and SAR.
-                    Strategist & Mentor for Jewish Climate and Education at AMIT Schools,
-                    including heading their Rabbi Sacks Learning Programme.
-                    Rabbi Amir lectures on Jewish thought and education,
-                    and delivers inspirational talks in seminars, schools, and community programmes. <br>                  
-                </p>
+                    Strategist & Mentor for Jewish Climate and Education at AMIT Schools,</p>
+                    including heading their Rabbi Sacks Learning Programme.</p>
+                    Director of the ConnectEd program in partnership with UnitEd and SAR.</p>
+                    Was a Principal in 'Noam' Yeshiva High School,</p>
+                    Rabbi Amir lectures on Jewish thought and education,</p>
+                    and delivers inspirational talks in seminars, schools, and community programmes. <br>                      </p>
             </div>
         </div>
 
         <div id="mainPlayerSection">
+            <h1 id="nextWeekTitle" class="blue-3d-title">טוען...</h1>
             <div id="player" class="video-wrapper"></div>
             <div class="title-area">
-                <h2 id="mainTitle">טוען מבזק...</h2>
                 <span id="pastNotice">* מוצג סרטון מהשבוע האחרון</span>
             </div>
         </div>
@@ -255,14 +280,17 @@
 <script>
     const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
     
-    // מילון תמונות עבור תצוגת מובייל - יש לוודא שהתמונות קיימות בתיקייה
     const catImages = {
-        '0': '13.jpg',
-        '1': '14.jpg',
-        '2': '15.jpg',
-        '3': '16.jpg',
-        '4': '17.jpg',
-        '5': '18.jpg'
+        '0': '13.jpg', '1': '14.jpg', '2': '15.jpg', '3': '16.jpg', '4': '17.jpg', '5': '18.jpg'
+    };
+
+    const engNamesMap = {
+        'פרשת בראשית': 'Parashat Bereishit', 'פרשת נח': 'Parashat Noach', 'פרשת לך לך': 'Parashat Lech-Lecha', 'פרשת וירא': 'Parashat Vayera', 'פרשת חיי שרה': 'Parashat Chayei Sara', 'פרשת תולדות': 'Parashat Toldot', 'פרשת ויצא': 'Parashat Vayetzei', 'פרשת וישלח': 'Parashat Vayishlach', 'פרשת וישב': 'Parashat Vayeshev', 'פרשת מקץ': 'Parashat Miketz', 'פרשת ויגש': 'Parashat Vayigash', 'פרשת ויחי': 'Parashat Vayechi',
+        'פרשת שמות': 'Parashat Shemot', 'פרשת וארא': 'Parashat Vaera', 'פרשת בא': 'Parashat Bo', 'פרשת בשלח': 'Parashat Beshalach', 'פרשת יתרו': 'Parashat Yitro', 'פרשת משפטים': 'Parashat Mishpatim', 'פרשת תרומה': 'Parashat Terumah', 'פרשת תצוה': 'Parashat Tetzaveh', 'פרשת כי תשא': 'Parashat Ki Tisa', 'פרשת ויקהל': 'Parashat Vayakhel', 'פרשת פקודי': 'Parashat Pekudei',
+        'פרשת ויקרא': 'Parashat Vayikra', 'פרשת צו': 'Parashat Tzav', 'פרשת שמיני': 'Parashat Shmini', 'פרשת תזריע': 'Parashat Tazria', 'פרשת מצורע': 'Parashat Metzora', 'פרשת אחרי מות': 'Parashat Achrei Mot', 'פרשת קדושים': 'Parashat Kedoshim', 'פרשת אמור': 'Parashat Emor', 'פרשת בהר': 'Parashat Behar', 'פרשת בחוקותי': 'Parashat Bechukotai',
+        'פרשת במדבר': 'Parashat Bamidbar', 'פרשת נשא': 'Parashat Nasso', 'פרשת בהעלותך': 'Parashat Beha\'alotcha', 'פרשת שלח': 'Parashat Sh\'lach', 'פרשת קרח': 'Parashat Korach', 'פרשת חוקת': 'Parashat Chukat', 'פרשת פנחס': 'Parashat Pinchas', 'פרשת מטות': 'Parashat Matot', 'פרשת מסעי': 'Parashat Masei',
+        'פרשת דברים': 'Parashat Devarim', 'פרשת ואתחנן': 'Parashat Vaetchanan', 'פרשת עקב': 'Parashat Eikev', 'פרשת ראה': 'Parashat Re\'eh', 'פרשת שופטים': 'Parashat Shoftim', 'פרשת כי תצא': 'Parashat Ki Teitzei', 'פרשת כי תבוא': 'Parashat Ki Tavo', 'פרשת נצבים': 'Parashat Nitzavim', 'פרשת וילך': 'Parashat Vayeilech', 'פרשת האזינו': 'Parashat Ha\'Azinu', 'פרשת וזאת הברכה': 'Parashat V\'Zot HaBerachah',
+        'ראש השנה': 'Rosh Hashanah', 'יום כיפור': 'Yom Kippur', 'סוכות': 'Sukkot', 'חול המועד סוכות': 'Chol HaMoed Sukkot', 'שמחת תורה': 'Simchat Torah', 'שמחת תורה - וזאת הברכה': 'Simchat Torah', 'חנוכה': 'Hanukkah', 'פורים': 'Purim', 'חג הפסח': 'Pesach', 'יום הזכרון והעצמאות': 'Yom HaZikaron & Yom HaAtzmaut', 'ל"ג בעומר': 'Lag BaOmer', 'יום ירושלים': 'Yom Yerushalayim', 'חג השבועות': 'Shavuot', 'תשעה באב': 'Tisha B\'Av', 'יום השואה': 'Yom HaShoah'
     };
 
     const videoData = [
@@ -293,14 +321,22 @@
         {id: 'FDExf43fTxE', t: 'פרשת כי תבוא', cat: '4'}, {id: 'GIIpb7tGdss', t: 'פרשת נצבים', cat: '4'},
         {id: '56T6sL6DCmE', t: 'פרשת וילך', cat: '4'}, {id: 'gWn6ekr_EAM', t: 'פרשת האזינו', cat: '4'},
         {id: 'QFQ9WZM2KnU', t: 'פרשת וזאת הברכה', cat: '4'},
-        {id: 'IuE4noHrHP8', t: 'זיכרון לרב זקס זצ"ל', cat: '5'},
-        {id: 'X_G23J6OiCQ', t: 'ראש השנה', cat: '5'}, {id: 'uYT9pZxJxuE', t: 'יום כיפור', cat: '5'},
-        {id: 'aB9JiasWVaI', t: 'סוכות', cat: '5'}, {id: '3s_kdvgL01o', t: 'חול המועד סוכות', cat: '5'},
-        {id: 'QFQ9WZM2KnU', t: 'שמחת תורה - וזאת הברכה', cat: '5'}, {id: 'HJ7KsHznDn4', t: 'חנוכה', cat: '5'},
-        {id: 'NLEyzF-FdoI', t: 'פורים', cat: '5'}, {id: 'P1q6FArrjOk', t: 'חג הפסח', cat: '5'},
-        {id: '7AEHt927_IM', t: 'יום הזכרון והעצמאות', cat: '5'}, {id: 'XwOADVZrdho', t: 'ל"ג בעומר', cat: '5'},
-        {id: 'SEdgegZWfRY', t: 'יום ירושלים', cat: '5'}, {id: '_76tnGi-rNA', t: 'חג השבועות', cat: '5'},
-        {id: 'I54KmxD8Cxc', t: 'תשעה באב', cat: '5'}, {id: 'MVZuDpxavIw', t: 'יום השואה', cat: '5'}
+        
+        {id: 'X_G23J6OiCQ', t: 'ראש השנה', cat: '5'},
+        {id: 'uYT9pZxJxuE', t: 'יום כיפור', cat: '5'},
+        {id: 'aB9JiasWVaI', t: 'סוכות', cat: '5'},
+        {id: '3s_kdvgL01o', t: 'חול המועד סוכות', cat: '5'},
+        {id: 'QFQ9WZM2KnU', t: 'שמחת תורה - וזאת הברכה', cat: '5'},
+        {id: 'IuE4noHrHP8', t: 'זיכרון לרב זקס זצ"ל', cat: '5'}, // נעוץ אחרי שמחת תורה
+        {id: 'HJ7KsHznDn4', t: 'חנוכה', cat: '5'},
+        {id: 'NLEyzF-FdoI', t: 'פורים', cat: '5'},
+        {id: 'P1q6FArrjOk', t: 'חג הפסח', cat: '5'},
+        {id: 'MVZuDpxavIw', t: 'יום השואה', cat: '5'},
+        {id: '7AEHt927_IM', t: 'יום הזכרון והעצמאות', cat: '5'},
+        {id: 'XwOADVZrdho', t: 'ל"ג בעומר', cat: '5'},
+        {id: 'SEdgegZWfRY', t: 'יום ירושלים', cat: '5'},
+        {id: '_76tnGi-rNA', t: 'חג השבועות', cat: '5'},
+        {id: 'I54KmxD8Cxc', t: 'תשעה באב', cat: '5'}
     ];
 
     const holidayMap = { 'Rosh Hashana': 'ראש השנה', 'Yom Kippur': 'יום כיפור', 'Sukkot': 'סוכות', 'Shmini Atzeret': 'שמחת תורה', 'Hanukkah': 'חנוכה', 'Purim': 'פורים', 'Pesach': 'חג הפסח', 'Yom HaAtzma\'ut': 'יום הזכרון והעצמאות', 'Lag BaOmer': 'ל"ג בעומר', 'Yom Yerushalayim': 'יום ירושלים', 'Shavuot': 'חג השבועות', 'Tish\'a B\'Av': 'תשעה באב', 'Yom HaShoah': 'יום השואה' };
@@ -325,7 +361,19 @@
         }
         currentVideoId = id;
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
-        document.getElementById('mainTitle').innerText = title;
+        
+        const nextWeekTitleElement = document.getElementById('nextWeekTitle');
+        if (nextWeekTitleElement) {
+            let engTitle = engNamesMap[title] || '';
+            let isParasha = title.includes('פרשת');
+            let hebPrefix = isParasha ? 'השבת הקרובה, ' : 'לקראת ';
+            let engPrefix = isParasha ? 'This coming Shabbat, ' : 'Approaching ';
+            
+            if (id === 'IuE4noHrHP8') {
+                hebPrefix = ''; engPrefix = ''; engTitle = 'In Memory of Rabbi Sacks ZT"L';
+            }
+            nextWeekTitleElement.innerHTML = `${hebPrefix}${title}<span class="en-title">${engPrefix}${engTitle}</span>`;
+        }
         
         const notice = document.getElementById('pastNotice');
         clearTimeout(noticeTimeout1); 
@@ -334,7 +382,6 @@
         if (isFromArchive) {
             notice.style.display = 'block';
             notice.style.opacity = '1';
-            
             noticeTimeout1 = setTimeout(() => {
                 notice.style.opacity = '0';
                 noticeTimeout2 = setTimeout(() => notice.style.display = 'none', 1000);
@@ -343,7 +390,6 @@
             notice.style.display = 'none';
             notice.style.opacity = '1';
         }
-        
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -365,7 +411,7 @@
         }
     }
 
-    async function setDynamicFeaturedVideo() {
+    async function initApp() {
         try {
             const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on');
             const data = await res.json();
@@ -373,55 +419,81 @@
             
             const futureEvents = data.items.filter(i => new Date(i.date) >= today);
             const pastEvents = data.items.filter(i => new Date(i.date) < today).reverse(); 
-            
-            let video = null;
+
+            let cat5Videos = videoData.filter(v => v.cat === '5');
+            let otherVideos = videoData.filter(v => v.cat !== '5');
+
+            // מציאת החג שמתקרב
+            let upcomingHolidayVideo = null;
+            for (const item of futureEvents) {
+                if (item.category === 'holiday' && holidayMap[item.title]) {
+                    upcomingHolidayVideo = cat5Videos.find(v => v.t.includes(holidayMap[item.title]));
+                    if (upcomingHolidayVideo) break;
+                }
+            }
+
+            // גלגל השנה: החג הקרוב יהפוך לראשון, ואלה שעברו עוברים לסוף
+            if (upcomingHolidayVideo) {
+                let cutIndex = cat5Videos.findIndex(v => v.id === upcomingHolidayVideo.id);
+                if (cutIndex > -1) {
+                    cat5Videos = cat5Videos.slice(cutIndex).concat(cat5Videos.slice(0, cutIndex));
+                }
+            }
+
+            // עדכון המערך הכללי
+            videoData.length = 0;
+            for(let i=0; i<=4; i++) {
+                videoData.push(...otherVideos.filter(v => v.cat === i.toString()));
+            }
+            videoData.push(...cat5Videos);
+
+            // הגדרת הסרטון הראשי בנגן
+            let featuredVideo = null;
             let foundFuture = false;
             
             for (const item of futureEvents) {
                 if (item.category === 'holiday' && holidayMap[item.title]) {
-                    video = videoData.find(v => v.t.includes(holidayMap[item.title]));
+                    featuredVideo = videoData.find(v => v.t.includes(holidayMap[item.title]));
                 } else if (item.category === 'parashat') {
-                    video = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
+                    featuredVideo = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
                 }
-                if (video) { foundFuture = true; break; }
+                if (featuredVideo) { foundFuture = true; break; }
             }
 
-            if (!video) {
+            if (!featuredVideo) {
                 for (const item of pastEvents) {
                     if (item.category === 'holiday' && holidayMap[item.title]) {
-                        video = videoData.find(v => v.t.includes(holidayMap[item.title]));
+                        featuredVideo = videoData.find(v => v.t.includes(holidayMap[item.title]));
                     } else if (item.category === 'parashat') {
-                        video = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
+                        featuredVideo = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
                     }
-                    if (video) break; 
+                    if (featuredVideo) break; 
                 }
             }
 
-            if (video) { 
-                defaultVideo = video; 
-                play(video.id, video.t, !foundFuture); 
-            }
-        } catch (e) { console.log(e); }
-        
-        if (!document.querySelector('iframe') && !defaultVideo) { 
-            defaultVideo = videoData[0]; 
-            play(videoData[0].id, videoData[0].t); 
+            window.fetchedFeaturedVideo = featuredVideo;
+            window.foundFutureFeatured = foundFuture;
+
+        } catch (e) { console.log('Hebcal error', e); }
+
+        renderUI();
+
+        if (window.fetchedFeaturedVideo) {
+            defaultVideo = window.fetchedFeaturedVideo;
+            play(defaultVideo.id, defaultVideo.t, !window.foundFutureFeatured);
+        } else {
+            defaultVideo = videoData[0];
+            play(videoData[0].id, videoData[0].t);
         }
     }
 
-    // פונקציית פתיחה/סגירה לקטגוריות במובייל
     function toggleCat(id) {
-        if (window.innerWidth > 768) return; // מונע הפעלה במחשב
+        if (window.innerWidth > 768) return; 
         const list = document.getElementById('list-' + id);
-        
-        // סגירת קטגוריות אחרות שנשארו פתוחות לחוויה נקייה
         document.querySelectorAll('.list').forEach(el => {
             if (el.id !== 'list-' + id) el.classList.remove('open');
         });
-        
         list.classList.toggle('open');
-        
-        // גלילה קלה כדי לראות את התוכן שנפתח
         if (list.classList.contains('open')) {
             setTimeout(() => {
                 list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -458,25 +530,18 @@
             document.getElementById('mainBody').classList.add('light-mode');
             document.getElementById('themeBtn').innerText = '🌙 מצב לילה';
         }
-        
-        setDynamicFeaturedVideo();
-        initCounter();
     }
 
     function filterVideos() {
         const q = document.getElementById('searchInput').value.toLowerCase().trim();
         const bottomArea = document.getElementById('bottomArea');
-        
         bottomArea.style.display = 'block';
-
         if (q === '') {
             if (defaultVideo) play(defaultVideo.id, defaultVideo.t, false);
             return;
         }
-
         let exactMatch = null;
         let firstMatch = null;
-
         videoData.forEach(v => {
             const title = v.t.toLowerCase();
             if (title.includes(q)) {
@@ -485,14 +550,14 @@
                 if (words.some(w => w === q)) exactMatch = v;
             }
         });
-
         const videoToPlay = exactMatch || firstMatch;
         if (videoToPlay) {
             play(videoToPlay.id, videoToPlay.t, false);
         }
     }
 
-    renderUI();
+    initCounter();
+    initApp();
 </script>
 </body>
 </html>
