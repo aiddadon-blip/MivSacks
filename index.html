@@ -64,7 +64,6 @@
             box-sizing: border-box;
         }
         
-        /* כותרת חדשה: יפה, פשוטה, קריאה, כחולה וללא מסגרת Outline */
         .blue-3d-title {
             text-align: center;
             color: #38bdf8; 
@@ -207,7 +206,7 @@
     <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa" class="corner-img">
     <h1>ארכיון מבזקס המלא | The Full MivSacks Archive</h1>
     <div class="header-controls">
-        <input type="text" id="searchInput" placeholder="לחיפוש פרשה או מבזקס..." oninput="filterVideos()">
+        <input type="text" id="searchInput" placeholder="לחיפוש פרשה או מבזקס (עברית/English)..." oninput="filterVideos()">
         <button id="themeBtn" onclick="toggleTheme()">☀️ מצב יום</button>
     </div>
 </header>
@@ -281,10 +280,7 @@
 
 <script>
     const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
-    
-    // מילון שמות החומשים באנגלית עבור הכותרות
     const engColNames = {'0':'Bereishit','1':'Shemot','2':'Vayikra','3':'Bamidbar','4':'Devarim','5':'Holidays'};
-    
     const catImages = {
         '0': '13.jpg', '1': '14.jpg', '2': '15.jpg', '3': '16.jpg', '4': '17.jpg', '5': '18.jpg'
     };
@@ -360,7 +356,8 @@
     let visitorCount = 0;
     let noticeTimeout1, noticeTimeout2; 
 
-    function play(id, title, isFromArchive = false) {
+    // שונתה הפונקציה לקבל את המשתנה isFeatured כדי לדעת אם זה הווידאו הראשי האוטומטי
+    function play(id, title, isFeatured = false, showArchiveNotice = false) {
         if (currentVideoId === id) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
@@ -372,12 +369,20 @@
         if (nextWeekTitleElement) {
             let engTitle = engNamesMap[title] || '';
             let isParasha = title.includes('פרשת');
-            let hebPrefix = isParasha ? 'השבת הקרובה, ' : 'לקראת ';
-            let engPrefix = isParasha ? 'This coming Shabbat, ' : 'Approaching ';
+            
+            let hebPrefix = '';
+            let engPrefix = '';
+            
+            // רק אם זה הסרטון הראשי האוטומטי נציג את המילים "השבת הקרובה"
+            if (isFeatured) {
+                hebPrefix = isParasha ? 'השבת הקרובה, ' : 'לקראת ';
+                engPrefix = isParasha ? 'This coming Shabbat, ' : 'Approaching ';
+            }
             
             if (id === 'IuE4noHrHP8') {
                 hebPrefix = ''; engPrefix = ''; engTitle = 'In Memory of Rabbi Sacks ZT"L';
             }
+            
             nextWeekTitleElement.innerHTML = `${hebPrefix}${title}<span class="en-title">${engPrefix}${engTitle}</span>`;
         }
         
@@ -385,7 +390,7 @@
         clearTimeout(noticeTimeout1); 
         clearTimeout(noticeTimeout2);
         
-        if (isFromArchive) {
+        if (showArchiveNotice) {
             notice.style.display = 'block';
             notice.style.opacity = '1';
             noticeTimeout1 = setTimeout(() => {
@@ -482,10 +487,11 @@
 
         if (window.fetchedFeaturedVideo) {
             defaultVideo = window.fetchedFeaturedVideo;
-            play(defaultVideo.id, defaultVideo.t, !window.foundFutureFeatured);
+            // מפעיל את הסרטון האוטומטי - אז אומר לו שזה ה-Featured
+            play(defaultVideo.id, defaultVideo.t, true, !window.foundFutureFeatured);
         } else {
             defaultVideo = videoData[0];
-            play(videoData[0].id, videoData[0].t);
+            play(videoData[0].id, videoData[0].t, true, false);
         }
     }
 
@@ -507,7 +513,6 @@
         const container = document.getElementById('colsContainer');
         container.innerHTML = '';
         Object.keys(colNames).forEach(id => {
-            // הוספת השם באנגלית עם קו מפריד לכותרות העמודות העליונות
             const titleHtml = `${colNames[id]} <span style="margin:0 4px; opacity:0.6;">|</span> <span dir="ltr" style="font-size: 0.9em; font-weight: normal; opacity:0.9;">${engColNames[id]}</span>`;
             
             container.innerHTML += `
@@ -526,7 +531,8 @@
             card.className = 'v-card';
             card.dataset.vid = v.id;
             card.dataset.vtitle = v.t;
-            card.onclick = () => play(v.id, v.t, false); 
+            // לחיצה על סרטון לא מהווה אוטומטית 'Featured', אז מועבר false
+            card.onclick = () => play(v.id, v.t, false, false); 
             
             let cleanHeb = v.t.replace('פרשת ', '');
             let cleanEng = (engNamesMap[v.t] || '').replace('Parashat ', '');
@@ -547,22 +553,30 @@
         const bottomArea = document.getElementById('bottomArea');
         bottomArea.style.display = 'block';
         if (q === '') {
-            if (defaultVideo) play(defaultVideo.id, defaultVideo.t, false);
+            // אם חיפוש ריק חוזרים לסרטון הדיפולטי האוטומטי
+            if (defaultVideo) play(defaultVideo.id, defaultVideo.t, true, !window.foundFutureFeatured);
             return;
         }
+        
         let exactMatch = null;
         let firstMatch = null;
+        
         videoData.forEach(v => {
-            const title = v.t.toLowerCase();
-            if (title.includes(q)) {
+            const hebTitle = v.t.toLowerCase();
+            const engTitle = (engNamesMap[v.t] || '').toLowerCase();
+            
+            // חיפוש חכם שתומך גם בעברית וגם באנגלית
+            if (hebTitle.includes(q) || engTitle.includes(q)) {
                 if (!firstMatch) firstMatch = v;
-                const words = title.split(/[\s,/#]+/);
+                const words = hebTitle.split(/[\s,/#]+/).concat(engTitle.split(/[\s,/#]+/));
                 if (words.some(w => w === q)) exactMatch = v;
             }
         });
+        
         const videoToPlay = exactMatch || firstMatch;
         if (videoToPlay) {
-            play(videoToPlay.id, videoToPlay.t, false);
+            // טעינה מתוך חיפוש לא צריכה לכלול את "השבת הקרובה"
+            play(videoToPlay.id, videoToPlay.t, false, false);
         }
     }
 
