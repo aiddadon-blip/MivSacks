@@ -67,17 +67,17 @@
         /* כותרת חדשה: יפה, פשוטה, קריאה, כחולה וללא מסגרת Outline */
         .blue-3d-title {
             text-align: center;
-            color: #38bdf8; /* תכלת-כחול יפהפה שקריא מאוד על הרקע הכהה */
+            color: #38bdf8; 
             font-family: 'Rubik', sans-serif;
             font-size: 27px;
             font-weight: 700;
             margin: 0 0 15px 0;
             line-height: 1.25;
             text-shadow:
-                0px 1px 0px #0284c7, /* שכבות תלת מימד עדינות בגווני כחול כהה יותר */
+                0px 1px 0px #0284c7, 
                 0px 2px 0px #0369a1,
                 0px 3px 0px #075985,
-                0px 5px 8px rgba(0,0,0,0.6); /* צל רך שמרים את הטקסט מהרקע */
+                0px 5px 8px rgba(0,0,0,0.6); 
         }
         .blue-3d-title .en-title {
             font-size: 17px;
@@ -136,12 +136,12 @@
 
         .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 5px; }
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 10px; height: 480px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
-        .humash-title { text-align: center; padding: 8px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 14px; }
+        .humash-title { text-align: center; padding: 8px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 13.5px; line-height: 1.3; }
         .list { flex: 1; overflow-y: auto; padding: 6px; }
         .v-card { background: var(--card-bg); border-radius: 6px; margin-bottom: 10px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; }
         .v-card:hover { border-color: var(--gold); transform: translateY(-2px); }
         .v-card img { width: 100%; border-radius: 6px 6px 0 0; }
-        .v-label { padding: 6px; display: block; font-size: 11px; text-align: center; font-weight: bold; line-height: 1.2; }
+        .v-label { padding: 6px; display: block; font-size: 12px; text-align: center; font-weight: bold; line-height: 1.3; }
         
         footer { background: var(--header-bg); padding: 15px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; line-height: 1.6; }
         
@@ -224,21 +224,24 @@
                     <a href="mailto:amirddon@gmail.com" target="_blank" class="contact-btn">✉️ מייל</a>
                     <a href="tel:+972544350895" target="_blank" class="contact-btn">📞 טלפון</a>
                 </div>
-  <p><strong>רב קהילת 'שמואל הצעיר' בירושלים.</strong></p>
-                <p>חבר צוות 'תורת חיים' ומנהל קהילת תושב"ע ברשת החינוכית אמית.</p>
+
+                <p><strong>רב קהילת 'שמואל הצעיר' בירושלים.</strong></p>
+                <p>ארכיון שיעורי "מבזקס" המבוססים על תורת הרב יונתן זקס זצ"ל.</p>
+                <p>תושב שכונת חומת שמואל. לשעבר מנהל בישיבת נועם ירושלים.</p>
                 <p>מנהל תוכנית ConnectEd בשיתוף UnitEd ו-SAR.</p>
-                <p>מרצה ומעביר שיעורים וסדנאות ומגוון תכנים בנושאי יהודות וחינוך.</p>
-                <p>לשעבר מנהל בישיבת נועם ירושלים.</p>
-                <p>תושב שכונת חומת שמואל.</p>
+                <p>חבר צוות 'תורת חיים' ומנהל קהילת תושב"ע באמית.</p>
                 <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 10px 0;">
                 
                 <p style="text-align: left; direction: ltr; font-size: 10px; color: var(--text-muted); margin-bottom: 0;">
                     <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
-                    Strategist & Mentor for Jewish Climate and Education at AMIT Schools, including heading their Rabbi Sacks Learning Programme.<br>
-                    Director of the ConnectEd program in partnership with UnitEd and SAR.<br>
-                    Was a Principal in 'Noam' Yeshiva High School, Rabbi Amir lectures on Jewish thought and education,<br>
-                    and delivers inspirational talks in seminars, schools, and community programmes. <br> </p>
+                    MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
+                    Director of the ConnectEd program in partnership with UnitEd and SAR.
+                    Strategist & Mentor for Jewish Climate and Education at AMIT Schools,
+                    including heading their Rabbi Sacks Learning Programme.
+                    Rabbi Amir lectures on Jewish thought and education,
+                    and delivers inspirational talks in seminars, schools, and community programmes. <br>                  
+                </p>
             </div>
         </div>
 
@@ -279,6 +282,9 @@
 <script>
     const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
     
+    // מילון שמות החומשים באנגלית עבור הכותרות
+    const engColNames = {'0':'Bereishit','1':'Shemot','2':'Vayikra','3':'Bamidbar','4':'Devarim','5':'Holidays'};
+    
     const catImages = {
         '0': '13.jpg', '1': '14.jpg', '2': '15.jpg', '3': '16.jpg', '4': '17.jpg', '5': '18.jpg'
     };
@@ -289,7 +295,8 @@
         'פרשת ויקרא': 'Parashat Vayikra', 'פרשת צו': 'Parashat Tzav', 'פרשת שמיני': 'Parashat Shmini', 'פרשת תזריע': 'Parashat Tazria', 'פרשת מצורע': 'Parashat Metzora', 'פרשת אחרי מות': 'Parashat Achrei Mot', 'פרשת קדושים': 'Parashat Kedoshim', 'פרשת אמור': 'Parashat Emor', 'פרשת בהר': 'Parashat Behar', 'פרשת בחוקותי': 'Parashat Bechukotai',
         'פרשת במדבר': 'Parashat Bamidbar', 'פרשת נשא': 'Parashat Nasso', 'פרשת בהעלותך': 'Parashat Beha\'alotcha', 'פרשת שלח': 'Parashat Sh\'lach', 'פרשת קרח': 'Parashat Korach', 'פרשת חוקת': 'Parashat Chukat', 'פרשת פנחס': 'Parashat Pinchas', 'פרשת מטות': 'Parashat Matot', 'פרשת מסעי': 'Parashat Masei',
         'פרשת דברים': 'Parashat Devarim', 'פרשת ואתחנן': 'Parashat Vaetchanan', 'פרשת עקב': 'Parashat Eikev', 'פרשת ראה': 'Parashat Re\'eh', 'פרשת שופטים': 'Parashat Shoftim', 'פרשת כי תצא': 'Parashat Ki Teitzei', 'פרשת כי תבוא': 'Parashat Ki Tavo', 'פרשת נצבים': 'Parashat Nitzavim', 'פרשת וילך': 'Parashat Vayeilech', 'פרשת האזינו': 'Parashat Ha\'Azinu', 'פרשת וזאת הברכה': 'Parashat V\'Zot HaBerachah',
-        'ראש השנה': 'Rosh Hashanah', 'יום כיפור': 'Yom Kippur', 'סוכות': 'Sukkot', 'חול המועד סוכות': 'Chol HaMoed Sukkot', 'שמחת תורה': 'Simchat Torah', 'שמחת תורה - וזאת הברכה': 'Simchat Torah', 'חנוכה': 'Hanukkah', 'פורים': 'Purim', 'חג הפסח': 'Pesach', 'יום הזכרון והעצמאות': 'Yom HaZikaron & Yom HaAtzmaut', 'ל"ג בעומר': 'Lag BaOmer', 'יום ירושלים': 'Yom Yerushalayim', 'חג השבועות': 'Shavuot', 'תשעה באב': 'Tisha B\'Av', 'יום השואה': 'Yom HaShoah'
+        'ראש השנה': 'Rosh Hashanah', 'יום כיפור': 'Yom Kippur', 'סוכות': 'Sukkot', 'חול המועד סוכות': 'Chol HaMoed Sukkot', 'שמחת תורה': 'Simchat Torah', 'שמחת תורה - וזאת הברכה': 'Simchat Torah', 'חנוכה': 'Hanukkah', 'פורים': 'Purim', 'חג הפסח': 'Pesach', 'יום הזכרון והעצמאות': 'Yom HaZikaron & Yom HaAtzmaut', 'ל"ג בעומר': 'Lag BaOmer', 'יום ירושלים': 'Yom Yerushalayim', 'חג השבועות': 'Shavuot', 'תשעה באב': 'Tisha B\'Av', 'יום השואה': 'Yom HaShoah',
+        'זיכרון לרב זקס זצ"ל': 'In Memory of Rabbi Sacks'
     };
 
     const videoData = [
@@ -326,7 +333,7 @@
         {id: 'aB9JiasWVaI', t: 'סוכות', cat: '5'},
         {id: '3s_kdvgL01o', t: 'חול המועד סוכות', cat: '5'},
         {id: 'QFQ9WZM2KnU', t: 'שמחת תורה - וזאת הברכה', cat: '5'},
-        {id: 'IuE4noHrHP8', t: 'זיכרון לרב זקס זצ"ל', cat: '5'}, // נעוץ אחרי שמחת תורה
+        {id: 'IuE4noHrHP8', t: 'זיכרון לרב זקס זצ"ל', cat: '5'},
         {id: 'HJ7KsHznDn4', t: 'חנוכה', cat: '5'},
         {id: 'NLEyzF-FdoI', t: 'פורים', cat: '5'},
         {id: 'P1q6FArrjOk', t: 'חג הפסח', cat: '5'},
@@ -422,7 +429,6 @@
             let cat5Videos = videoData.filter(v => v.cat === '5');
             let otherVideos = videoData.filter(v => v.cat !== '5');
 
-            // מציאת החג שמתקרב
             let upcomingHolidayVideo = null;
             for (const item of futureEvents) {
                 if (item.category === 'holiday' && holidayMap[item.title]) {
@@ -431,7 +437,6 @@
                 }
             }
 
-            // גלגל השנה: החג הקרוב יהפוך לראשון, ואלה שעברו עוברים לסוף
             if (upcomingHolidayVideo) {
                 let cutIndex = cat5Videos.findIndex(v => v.id === upcomingHolidayVideo.id);
                 if (cutIndex > -1) {
@@ -439,14 +444,12 @@
                 }
             }
 
-            // עדכון המערך הכללי
             videoData.length = 0;
             for(let i=0; i<=4; i++) {
                 videoData.push(...otherVideos.filter(v => v.cat === i.toString()));
             }
             videoData.push(...cat5Videos);
 
-            // הגדרת הסרטון הראשי בנגן
             let featuredVideo = null;
             let foundFuture = false;
             
@@ -504,9 +507,12 @@
         const container = document.getElementById('colsContainer');
         container.innerHTML = '';
         Object.keys(colNames).forEach(id => {
+            // הוספת השם באנגלית עם קו מפריד לכותרות העמודות העליונות
+            const titleHtml = `${colNames[id]} <span style="margin:0 4px; opacity:0.6;">|</span> <span dir="ltr" style="font-size: 0.9em; font-weight: normal; opacity:0.9;">${engColNames[id]}</span>`;
+            
             container.innerHTML += `
             <div class="humash-col" id="col-${id}">
-                <div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${colNames[id]}</div>
+                <div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${titleHtml}</div>
                 <div class="mobile-cat-img" onclick="toggleCat('${id}')">
                     <img src="${catImages[id]}" alt="${colNames[id]}">
                 </div>
@@ -521,7 +527,12 @@
             card.dataset.vid = v.id;
             card.dataset.vtitle = v.t;
             card.onclick = () => play(v.id, v.t, false); 
-            card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${v.t}</span>`;
+            
+            let cleanHeb = v.t.replace('פרשת ', '');
+            let cleanEng = (engNamesMap[v.t] || '').replace('Parashat ', '');
+            let displayLabel = cleanEng ? `${cleanHeb} <span style="color:var(--gold); margin:0 3px;">|</span> <span dir="ltr" style="opacity:0.9;">${cleanEng}</span>` : cleanHeb;
+            
+            card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${displayLabel}</span>`;
             list.appendChild(card);
         });
         
