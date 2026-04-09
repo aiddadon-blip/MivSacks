@@ -58,25 +58,15 @@
             width: 100%;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
         
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        /* כותרת והודעת "מהעבר" */
-        .title-area { margin-top: auto; padding-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .title-area { margin-top: auto; padding-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
         #mainTitle { font-size: 18px; color: var(--gold); font-weight: bold; margin: 0; }
-        #pastNotice { 
-            display: none; 
-            background: var(--accent); 
-            color: white; 
-            font-size: 11px; 
-            padding: 2px 10px; 
-            border-radius: 12px; 
-            font-weight: bold;
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; }
 
         .side-panel {
             flex: 1; 
@@ -124,18 +114,61 @@
         .v-card img { width: 100%; border-radius: 6px 6px 0 0; }
         .v-label { padding: 6px; display: block; font-size: 11px; text-align: center; font-weight: bold; line-height: 1.2; }
         
-        footer { background: var(--header-bg); padding: 12px; text-align: center; font-size: 13px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; }
+        footer { background: var(--header-bg); padding: 15px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; line-height: 1.6; }
         
+        /* אלמנטים ייעודיים למובייל */
+        .mobile-cat-img { display: none; width: 100%; cursor: pointer; border-radius: 8px; transition: transform 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+        .mobile-cat-img img { width: 100%; display: block; border-radius: 8px; border: 1px solid var(--gold); }
+        .mobile-cat-img:active { transform: scale(0.96); }
+
         @media (max-width: 1024px) {
             .top-section { flex-wrap: wrap; }
             #mainPlayerSection { flex: 1 1 100%; order: -1; } 
             .side-panel { flex: 1 1 45%; max-height: 350px; }
         }
+
+        /* עיצוב ייעודי לטלפונים - לפי הסקיצה */
         @media (max-width: 768px) { 
-            .top-section { flex-direction: column; flex-wrap: nowrap; max-width: 100%; } 
-            .columns-wrapper { flex-direction: column; gap: 15px; } 
-            .humash-col { height: auto; } 
-            .side-panel { max-height: none; flex: 1 1 100%; }
+            .container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px; }
+            .top-section { display: contents; }
+            
+            #mainPlayerSection { grid-column: 1 / span 2; grid-row: 1; width: 100%; margin: 0; }
+            #bottomArea { grid-column: 1 / span 2; grid-row: 2; width: 100%; margin: 0; }
+            
+            /* פאנלים תחתונים בחצי מסך כל אחד */
+            .profile-section { grid-column: 1; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
+            .description-section { grid-column: 2; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
+            
+            /* התאמת גודל הטקסט לפאנלים בחצי מסך בנייד */
+            .profile-img { width: 50px; height: 50px; margin-bottom: 5px; }
+            .profile-text h3 { font-size: 13px; margin: 3px 0; }
+            .profile-text p, .description-section p { font-size: 10.5px; line-height: 1.35; margin: 4px 0; }
+            .description-section h4 { font-size: 12px; margin-bottom: 5px; }
+            .contact-btn { padding: 4px; font-size: 10px; }
+            .en-desc { padding-top: 8px; margin-top: 8px; }
+            .en-desc p { font-size: 9.5px; }
+
+            /* רשת קטגוריות למובייל */
+            .columns-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-direction: unset; }
+            .humash-col { height: auto; border: none; background: transparent; }
+            .humash-title { display: none; } /* הסתרת טקסט כותרת רגיל */
+            .mobile-cat-img { display: block; } /* הצגת תמונות הקטגוריה */
+            
+            .list { display: none; padding: 5px 0; max-height: 350px; overflow-y: auto; }
+            .list.open { display: block; animation: fadeIn 0.3s ease; }
+
+            /* סידור קטגוריות מדויק לפי סדר הסקיצה */
+            #col-0 { order: 1; } /* בראשית */
+            #col-1 { order: 2; } /* שמות */
+            #col-3 { order: 3; } /* במדבר */
+            #col-2 { order: 4; } /* ויקרא */
+            #col-5 { order: 5; } /* חגים */
+            #col-4 { order: 6; } /* דברים */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -187,7 +220,7 @@
             <div id="player" class="video-wrapper"></div>
             <div class="title-area">
                 <h2 id="mainTitle">טוען מבזק...</h2>
-                <span id="pastNotice">שחזור מהארכיון: לא נמצא סרטון לשבוע זה</span>
+                <span id="pastNotice">* מוצג סרטון מהשבוע האחרון</span>
             </div>
         </div>
 
@@ -210,10 +243,26 @@
     </div>
 </div>
 
-<footer>נבנה ופותח ע"י איתיאל דדון | itieldadon123@gmail.com</footer>
+<footer>
+    נבנה על ידי איתיאל דדון. להארות והערות ניתן לפנות ל- <a href="mailto:itieldadon123@gmail.com" style="color:var(--gold); text-decoration:none;">itieldadon123@gmail.com</a><br>
+    <span style="font-size: 11px; font-weight: normal; color: var(--text-muted); display: block; margin-top: 5px; direction: ltr;">
+        Built by Itiel Dadon. For comments and feedback please contact <a href="mailto:itieldadon123@gmail.com" style="color:var(--gold); text-decoration:none;">itieldadon123@gmail.com</a>
+    </span>
+</footer>
 
 <script>
-    const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים','misc':'אחר'};
+    const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
+    
+    // מילון תמונות עבור תצוגת מובייל - יש לוודא שהתמונות קיימות בתיקייה
+    const catImages = {
+        '0': '13.jpg',
+        '1': '14.jpg',
+        '2': '15.jpg',
+        '3': '16.jpg',
+        '4': '17.jpg',
+        '5': '18.jpg'
+    };
+
     const videoData = [
         {id: 'GOcivgfk844', t: 'פרשת בראשית', cat: '0'}, {id: 'cyc6KWd6Igo', t: 'פרשת נח', cat: '0'},
         {id: 'VLI172Oy11w', t: 'פרשת לך לך', cat: '0'}, {id: 'xLq4RTmabhw', t: 'פרשת וירא', cat: '0'},
@@ -241,14 +290,15 @@
         {id: 'kb33F5edS8Q', t: 'פרשת שופטים', cat: '4'}, {id: 'MLy9HpwOHtI', t: 'פרשת כי תצא', cat: '4'},
         {id: 'FDExf43fTxE', t: 'פרשת כי תבוא', cat: '4'}, {id: 'GIIpb7tGdss', t: 'פרשת נצבים', cat: '4'},
         {id: '56T6sL6DCmE', t: 'פרשת וילך', cat: '4'}, {id: 'gWn6ekr_EAM', t: 'פרשת האזינו', cat: '4'},
+        {id: 'QFQ9WZM2KnU', t: 'פרשת וזאת הברכה', cat: '4'},
+        {id: 'IuE4noHrHP8', t: 'זיכרון לרב זקס זצ"ל', cat: '5'},
         {id: 'X_G23J6OiCQ', t: 'ראש השנה', cat: '5'}, {id: 'uYT9pZxJxuE', t: 'יום כיפור', cat: '5'},
         {id: 'aB9JiasWVaI', t: 'סוכות', cat: '5'}, {id: '3s_kdvgL01o', t: 'חול המועד סוכות', cat: '5'},
-        {id: 'QFQ9WZM2KnU', t: 'שמחת תורה', cat: '5'}, {id: 'HJ7KsHznDn4', t: 'חנוכה', cat: '5'},
+        {id: 'QFQ9WZM2KnU', t: 'שמחת תורה - וזאת הברכה', cat: '5'}, {id: 'HJ7KsHznDn4', t: 'חנוכה', cat: '5'},
         {id: 'NLEyzF-FdoI', t: 'פורים', cat: '5'}, {id: 'P1q6FArrjOk', t: 'חג הפסח', cat: '5'},
         {id: '7AEHt927_IM', t: 'יום הזכרון והעצמאות', cat: '5'}, {id: 'XwOADVZrdho', t: 'ל"ג בעומר', cat: '5'},
         {id: 'SEdgegZWfRY', t: 'יום ירושלים', cat: '5'}, {id: '_76tnGi-rNA', t: 'חג השבועות', cat: '5'},
-        {id: 'I54KmxD8Cxc', t: 'תשעה באב', cat: '5'}, {id: 'MVZuDpxavIw', t: 'יום השואה', cat: '5'},
-        {id: 'IuE4noHrHP8', t: 'זיכרון לרב זקס זצ"ל', cat: 'misc'}
+        {id: 'I54KmxD8Cxc', t: 'תשעה באב', cat: '5'}, {id: 'MVZuDpxavIw', t: 'יום השואה', cat: '5'}
     ];
 
     const holidayMap = { 'Rosh Hashana': 'ראש השנה', 'Yom Kippur': 'יום כיפור', 'Sukkot': 'סוכות', 'Shmini Atzeret': 'שמחת תורה', 'Hanukkah': 'חנוכה', 'Purim': 'פורים', 'Pesach': 'חג הפסח', 'Yom HaAtzma\'ut': 'יום הזכרון והעצמאות', 'Lag BaOmer': 'ל"ג בעומר', 'Yom Yerushalayim': 'יום ירושלים', 'Shavuot': 'חג השבועות', 'Tish\'a B\'Av': 'תשעה באב', 'Yom HaShoah': 'יום השואה' };
@@ -264,6 +314,7 @@
     let currentVideoId = null;
     let defaultVideo = null; 
     let visitorCount = 0;
+    let noticeTimeout1, noticeTimeout2; 
 
     function play(id, title, isFromArchive = false) {
         if (currentVideoId === id) {
@@ -274,8 +325,22 @@
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
         document.getElementById('mainTitle').innerText = title;
         
-        // הצגה/הסתרה של הודעת הארכיון
-        document.getElementById('pastNotice').style.display = isFromArchive ? 'inline-block' : 'none';
+        const notice = document.getElementById('pastNotice');
+        clearTimeout(noticeTimeout1); 
+        clearTimeout(noticeTimeout2);
+        
+        if (isFromArchive) {
+            notice.style.display = 'block';
+            notice.style.opacity = '1';
+            
+            noticeTimeout1 = setTimeout(() => {
+                notice.style.opacity = '0';
+                noticeTimeout2 = setTimeout(() => notice.style.display = 'none', 1000);
+            }, 5000);
+        } else {
+            notice.style.display = 'none';
+            notice.style.opacity = '1';
+        }
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -293,7 +358,7 @@
         clicks++;
         if (clicks === 1) setTimeout(() => clicks = 0, 3000);
         if (clicks === 5) {
-            alert(`שלום הרב אמיר!\nעד כה נרשמו ${visitorCount} כניסות לארכיון המבזקס.`);
+            alert(`שלום!\nעד כה נרשמו ${visitorCount} כניסות לארכיון המבזקס.`);
             clicks = 0;
         }
     }
@@ -332,7 +397,6 @@
 
             if (video) { 
                 defaultVideo = video; 
-                // אם לא מצאנו בעתיד ומצאנו בעבר - שולחים "אמת" לסימון הארכיון
                 play(video.id, video.t, !foundFuture); 
             }
         } catch (e) { console.log(e); }
@@ -343,11 +407,38 @@
         }
     }
 
+    // פונקציית פתיחה/סגירה לקטגוריות במובייל
+    function toggleCat(id) {
+        if (window.innerWidth > 768) return; // מונע הפעלה במחשב
+        const list = document.getElementById('list-' + id);
+        
+        // סגירת קטגוריות אחרות שנשארו פתוחות לחוויה נקייה
+        document.querySelectorAll('.list').forEach(el => {
+            if (el.id !== 'list-' + id) el.classList.remove('open');
+        });
+        
+        list.classList.toggle('open');
+        
+        // גלילה קלה כדי לראות את התוכן שנפתח
+        if (list.classList.contains('open')) {
+            setTimeout(() => {
+                list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+    }
+
     function renderUI() {
         const container = document.getElementById('colsContainer');
         container.innerHTML = '';
         Object.keys(colNames).forEach(id => {
-            container.innerHTML += `<div class="humash-col" id="col-${id}"><div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${colNames[id]}</div><div class="list" id="list-${id}"></div></div>`;
+            container.innerHTML += `
+            <div class="humash-col" id="col-${id}">
+                <div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${colNames[id]}</div>
+                <div class="mobile-cat-img" onclick="toggleCat('${id}')">
+                    <img src="${catImages[id]}" alt="${colNames[id]}">
+                </div>
+                <div class="list" id="list-${id}"></div>
+            </div>`;
         });
         
         videoData.forEach(v => {
@@ -356,7 +447,7 @@
             card.className = 'v-card';
             card.dataset.vid = v.id;
             card.dataset.vtitle = v.t;
-            card.onclick = () => play(v.id, v.t, false); // לחיצה ידנית תמיד מעלימה את ההודעה
+            card.onclick = () => play(v.id, v.t, false); 
             card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${v.t}</span>`;
             list.appendChild(card);
         });
