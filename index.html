@@ -34,13 +34,13 @@
         }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); direction: rtl; margin: 0; transition: 0.3s; overflow-x: hidden; }
         
-        header { padding: 10px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
-        header h1 { font-size: 20px; margin: 5px 0; }
-        .corner-img { position: absolute; bottom: 8px; right: 15px; width: 55px; height: 55px; border: 2px solid var(--gold); border-radius: 8px; object-fit: contain; }
+        header { padding: 6px 10px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
+        header h1 { font-size: 18px; margin: 4px 0; }
+        .corner-img { position: absolute; bottom: 6px; right: 15px; width: 50px; height: 50px; border: 2px solid var(--gold); border-radius: 8px; object-fit: contain; }
         
-        .header-controls { max-width: 450px; margin: 5px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
-        #searchInput { flex: 1; padding: 8px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 14px; }
-        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 7px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; white-space: nowrap; transition: 0.3s; }
+        .header-controls { max-width: 450px; margin: 3px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
+        #searchInput { flex: 1; padding: 7px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 13px; }
+        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap; transition: 0.3s; }
         
         .container { width: 98%; margin: 0 auto; padding: 10px 5px; }
         
@@ -50,15 +50,14 @@
             justify-content: center; 
             align-items: stretch; 
             gap: 15px; 
-            /* חזרנו לרווח קטן כדי למשוך את העמודות למעלה */
             margin: 0 auto 15px auto; 
-            max-width: 1350px; 
+            max-width: 1220px; /* הקטנה קלה כדי למשוך את הווידאו והעמודות למעלה */
         }
         
         #mainPlayerSection { 
             flex: 2.2; 
             background: var(--card-bg); 
-            padding: 15px 10px 10px 10px; 
+            padding: 12px 10px 8px 10px; 
             border-radius: 12px; 
             border: 1px solid rgba(148, 163, 184, 0.2); 
             text-align: center; 
@@ -72,38 +71,38 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
-            gap: 10px;
+            margin-bottom: 10px;
+            gap: 8px;
         }
 
         .blue-3d-title {
             text-align: center;
             color: #38bdf8; 
             font-family: 'Rubik', sans-serif;
-            font-size: 27px;
+            font-size: 24px;
             font-weight: 700;
             margin: 0;
             flex: 1;
-            line-height: 1.25;
+            line-height: 1.2;
             text-shadow:
                 0px 1px 0px #0284c7, 
                 0px 2px 0px #0369a1,
                 0px 3px 0px #075985,
-                0px 5px 8px rgba(0,0,0,0.6); 
+                0px 4px 6px rgba(0,0,0,0.5); 
         }
         .blue-3d-title .en-title {
-            font-size: 17px;
+            font-size: 14px;
             display: block;
             direction: ltr;
-            margin-top: 6px;
+            margin-top: 2px;
             font-weight: 500;
             color: #7dd3fc;
             text-shadow:
                 0px 1px 0px #0369a1,
-                0px 2px 4px rgba(0,0,0,0.5);
+                0px 2px 3px rgba(0,0,0,0.5);
         }
 
-        /* המסגרת הכסופה העדינה שהוספנו */
+        /* המסגרת הכסופה העדינה */
         .player-outer-wrapper { 
             position: relative; 
             border-radius: 12px; 
@@ -126,7 +125,7 @@
         .nav-arrow {
             background: rgba(11, 15, 26, 0.85);
             color: #ffffff;
-            padding: 8px 12px;
+            padding: 5px 10px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
@@ -135,7 +134,7 @@
             justify-content: center;
             transition: all 0.2s ease;
             border: 1px solid rgba(251, 191, 36, 0.4);
-            min-width: 75px;
+            min-width: 60px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
@@ -145,15 +144,15 @@
             transform: scale(1.05);
         }
         
-        .nav-arrow .arrow-icon { color: var(--gold); font-size: 20px; line-height: 1; margin-bottom: 2px; font-weight: bold; }
-        .nav-arrow .arrow-direction-title { font-size: 10.5px; color: var(--gold); font-weight: bold; margin-bottom: 4px; }
-        .nav-arrow .arrow-text { font-size: 11px; font-weight: bold; }
-        .nav-arrow .arrow-text .en { direction: ltr; display: block; font-size: 10px; font-weight: normal; color: #cbd5e1; margin-top: 2px; }
+        .nav-arrow .arrow-icon { color: var(--gold); font-size: 16px; line-height: 1; margin-bottom: 1px; font-weight: bold; }
+        .nav-arrow .arrow-direction-title { font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: 2px; }
+        .nav-arrow .arrow-text { font-size: 10px; font-weight: bold; }
+        .nav-arrow .arrow-text .en { direction: ltr; display: block; font-size: 9px; font-weight: normal; color: #cbd5e1; margin-top: 1px; }
 
-        .title-area { padding-top: 8px; display: flex; flex-direction: column; align-items: center; }
-        #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 5px; }
+        .title-area { padding-top: 5px; display: flex; flex-direction: column; align-items: center; }
+        #pastNotice { display: none; color: var(--text-muted); font-size: 11px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 3px; }
 
-        /* הגבלנו חזרה את הגובה והחזרנו את הגלילה הפנימית! */
+        /* חזרנו להגבלת הגובה כדי למנוע דחיפה של האתר למטה! */
         .side-panel {
             flex: 1; 
             background: var(--card-bg); 
@@ -163,29 +162,29 @@
             display: flex; 
             flex-direction: column; 
             overflow-y: auto; 
-            max-height: 480px; /* התאמנו לגובה של הווידאו */
+            max-height: 430px; /* הגובה המקסימלי שהחזרנו */
             width: 100%;
             box-sizing: border-box;
         }
 
         .profile-section { align-items: center; }
-        .profile-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 8px; cursor: pointer; }
-        .profile-text { text-align: right; font-size: 12px; line-height: 1.4; width: 100%; }
-        .profile-text h3 { margin: 5px 0; font-size: 16px; }
+        .profile-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 6px; cursor: pointer; }
+        .profile-text { text-align: right; font-size: 11.5px; line-height: 1.35; width: 100%; }
+        .profile-text h3 { margin: 4px 0; font-size: 15px; }
         
-        .contact-buttons { display: flex; gap: 8px; width: 100%; margin: 8px 0; }
-        .contact-btn { flex: 1; padding: 6px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px; transition: 0.3s; box-sizing: border-box; }
+        .contact-buttons { display: flex; gap: 8px; width: 100%; margin: 6px 0; }
+        .contact-btn { flex: 1; padding: 5px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 11px; transition: 0.3s; box-sizing: border-box; }
         .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
         .description-section { text-align: right; align-items: flex-start; }
-        .description-section h4 { margin: 0 0 10px 0; color: var(--accent); font-size: 15px;}
-        .description-section p { margin: 5px 0; font-size: 13px; line-height: 1.5; }
+        .description-section h4 { margin: 0 0 6px 0; color: var(--accent); font-size: 14px;}
+        .description-section p { margin: 3px 0; font-size: 12px; line-height: 1.4; }
         
         .en-desc {
             direction: ltr;
             text-align: left;
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid rgba(148, 163, 184, 0.2);
             color: var(--text-muted);
             width: 100%;
@@ -216,14 +215,14 @@
         @media (max-width: 768px) { 
             .corner-img { display: none; } 
             
-            .blue-3d-title { font-size: 21px; }
-            .blue-3d-title .en-title { font-size: 14px; }
+            .blue-3d-title { font-size: 19px; }
+            .blue-3d-title .en-title { font-size: 12px; }
 
-            .nav-arrow { padding: 4px; min-width: 55px; border-radius: 6px; }
-            .nav-arrow .arrow-icon { font-size: 16px; margin-bottom: 1px; }
-            .nav-arrow .arrow-direction-title { font-size: 9px; margin-bottom: 2px; }
-            .nav-arrow .arrow-text { font-size: 9px; }
-            .nav-arrow .arrow-text .en { font-size: 8px; margin-top: 1px; }
+            .nav-arrow { padding: 4px; min-width: 50px; border-radius: 6px; }
+            .nav-arrow .arrow-icon { font-size: 14px; }
+            .nav-arrow .arrow-direction-title { font-size: 8px; }
+            .nav-arrow .arrow-text { font-size: 8px; }
+            .nav-arrow .arrow-text .en { font-size: 7px; }
 
             .container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px; }
             .top-section { display: contents; }
@@ -234,13 +233,13 @@
             .profile-section { grid-column: 1; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
             .description-section { grid-column: 2; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
             
-            .profile-img { width: 50px; height: 50px; margin-bottom: 5px; }
-            .profile-text h3 { font-size: 13px; margin: 3px 0; }
-            .profile-text p, .description-section p { font-size: 10.5px; line-height: 1.35; margin: 4px 0; }
-            .description-section h4 { font-size: 12px; margin-bottom: 5px; }
-            .contact-btn { padding: 4px; font-size: 10px; }
+            .profile-img { width: 45px; height: 45px; margin-bottom: 5px; }
+            .profile-text h3 { font-size: 12px; margin: 3px 0; }
+            .profile-text p, .description-section p { font-size: 10px; line-height: 1.35; margin: 4px 0; }
+            .description-section h4 { font-size: 11px; margin-bottom: 5px; }
+            .contact-btn { padding: 4px; font-size: 9px; }
             .en-desc { padding-top: 8px; margin-top: 8px; }
-            .en-desc p { font-size: 9.5px; }
+            .en-desc p { font-size: 9px; }
 
             .columns-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-direction: unset; }
             .humash-col { height: auto; border: none; background: transparent; }
@@ -294,9 +293,9 @@
                 <p>תושב שכונת חומת שמואל </p>
                  <p>לשעבר מנהל בישיבת נועם ירושלים.</p>
                 <p>מעביר שיחות וסדנאות בנושאי יהדות וחינוך.</p>
-                <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 10px 0;">
+                <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 8px 0;">
                 
-                <p style="text-align: left; direction: ltr; font-size: 10px; color: var(--text-muted); margin-bottom: 0;">
+                <p style="text-align: left; direction: ltr; font-size: 9.5px; color: var(--text-muted); margin-bottom: 0;">
                     <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
                     MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
@@ -329,7 +328,7 @@
             <p>לקראת שבת או חג, אתם מוזמנים לרגעים של התבוננות עמוקה ומעוררת מחשבה, שבסופם תמצאו הצעה והזמנה לשיח משפחתי מעמיק סביב שולחן השבת שלכם – בעקבות דבריו המאירים.<br><strong style="color:var(--gold);">צפייה מהנה!</strong></p>
             
             <div class="en-desc">
-                <h4 style="color: var(--accent); margin-bottom: 8px;">Weekly Inspiration and a Family Conversation Starter!</h4>
+                <h4 style="color: var(--accent); margin-bottom: 6px;">Weekly Inspiration and a Family Conversation Starter!</h4>
                 <p>Join a weekly encounter with Rabbi Sacks and his illuminating teachings. Watch Rabbi Sacks inspire every Parasha and festival, across all 68 episodes of the series – all fully subtitled.</p>
                 <p>As Shabbat or the holiday approaches, you are invited to moments of deep and thought-provoking reflection, culminating in a suggestion for a meaningful family discussion around your Shabbat table – inspired by his guiding words.<br><strong style="color:var(--gold);">Enjoy the viewing!</strong></p>
             </div>
