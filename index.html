@@ -102,27 +102,27 @@
                 0px 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* --- עדכון: מסגרת יפה, בולטת ומכובדת לווידאו המרכזי --- */
+        /* --- עדכון: מסגרת כסופה, דקה ועדינה יותר לווידאו המרכזי --- */
         .player-outer-wrapper { 
             position: relative; 
-            border-radius: 12px; /* פינות מעוגלות מעט יותר לאלגנטיות */
+            border-radius: 12px; 
             overflow: hidden; 
             
-            /* מסגרת זהב עבה ובולטת */
-            border: 6px solid var(--gold); 
+            /* מסגרת כסופה דקה יותר (3px במקום 6px) */
+            border: 3px solid silver; 
             
-            /* שילוב של צל חיצוני עמוק והילה מוזהבת עדינה לדומיננטיות */
+            /* שילוב של הילה כסופה עדינה וצל חיצוני רך */
             box-shadow: 
-                0 0 25px rgba(251, 191, 36, 0.4), /* הילה מוזהבת חיצונית */
-                0 15px 35px rgba(0,0,0,0.6);      /* צל עמוק ליצירת עומק */
+                0 0 15px rgba(192, 192, 192, 0.3), /* הילה כסופה עדינה */
+                0 10px 25px rgba(0,0,0,0.5);       /* צל חיצוני רך */
             
-            transition: box-shadow 0.3s ease; /* אפקט מעבר חלק */
+            transition: box-shadow 0.3s ease; 
         }
-        /* אפקט קטן במעבר עכבר להדגשת הדומיננטיות */
+        /* אפקט מעבר עכבר עדין תואם */
         .player-outer-wrapper:hover {
             box-shadow: 
-                0 0 35px rgba(251, 191, 36, 0.6), /* הילה חזקה יותר */
-                0 20px 45px rgba(0,0,0,0.7);
+                0 0 20px rgba(192, 192, 192, 0.4), /* הילה כסופה מעט חזקה יותר */
+                0 15px 35px rgba(0,0,0,0.6);
         }
         
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
