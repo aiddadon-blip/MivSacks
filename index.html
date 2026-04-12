@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -43,22 +42,24 @@ HTML
         #searchInput { flex: 1; padding: 8px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 14px; }
         #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 7px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; white-space: nowrap; transition: 0.3s; }
         
-        .container { width: 98%; margin: 0 auto; padding: 10px 5px; }
+        .container { width: 98%; margin: 0 auto; padding: 10px 5px; box-sizing: border-box; }
         
         .top-section { 
             display: flex; 
             flex-direction: row; 
             justify-content: center; 
             align-items: stretch; 
-            gap: 15px; 
+            gap: 20px; 
             margin: 0 auto 15px auto; 
-            max-width: 1350px; 
+            /* הגדלנו את הרוחב המקסימלי כדי שיתקרב יותר לקצוות המסך */
+            max-width: 1550px; 
+            width: 100%;
         }
         
         #mainPlayerSection { 
             flex: 2.2; 
             background: var(--card-bg); 
-            padding: 15px 10px 10px 10px; 
+            padding: 15px; 
             border-radius: 12px; 
             border: 1px solid rgba(148, 163, 184, 0.2); 
             text-align: center; 
@@ -68,35 +69,35 @@ HTML
             box-sizing: border-box;
         }
 
-        /* סרגל הניווט החדש מעל הווידאו */
-        .top-nav-bar {
+        /* עיצוב שורת הכותרת והחיצים (מעל הווידאו) */
+        .header-nav-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 15px;
-            padding: 0 5px;
+            gap: 15px;
         }
         
         .blue-3d-title {
             text-align: center;
             color: #38bdf8; 
             font-family: 'Rubik', sans-serif;
-            font-size: 24px; /* הקטנתי מעט כדי שיהיה מקום ללחצנים */
+            font-size: 26px;
             font-weight: 700;
             margin: 0;
+            flex: 1;
             line-height: 1.25;
             text-shadow:
                 0px 1px 0px #0284c7, 
                 0px 2px 0px #0369a1,
                 0px 3px 0px #075985,
                 0px 5px 8px rgba(0,0,0,0.6); 
-            flex: 1; /* כדי שיתפוס את המרכז */
         }
         .blue-3d-title .en-title {
-            font-size: 15px;
+            font-size: 16px;
             display: block;
             direction: ltr;
-            margin-top: 4px;
+            margin-top: 6px;
             font-weight: 500;
             color: #7dd3fc;
             text-shadow:
@@ -104,11 +105,15 @@ HTML
                 0px 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* עיצוב חיצי הניווט החדשים למעלה */
-        .nav-btn {
-            background: rgba(11, 15, 26, 0.5);
+        .player-outer-wrapper { position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        /* עיצוב משופר לחיצי הניווט - יצאו מתוך הווידאו */
+        .nav-arrow {
+            background: rgba(11, 15, 26, 0.85);
             color: #ffffff;
-            padding: 6px 12px;
+            padding: 8px 15px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
@@ -119,25 +124,20 @@ HTML
             border: 1px solid rgba(251, 191, 36, 0.4);
             min-width: 80px;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
-        .nav-btn:hover {
-            background: rgba(0, 0, 0, 0.8);
+        .nav-arrow:hover {
+            background: rgba(0, 0, 0, 1);
             border-color: var(--gold);
-            transform: translateY(-2px);
+            transform: scale(1.05);
         }
         
-        .nav-btn .arrow-icon { color: var(--gold); font-size: 16px; line-height: 1; margin-bottom: 2px; font-weight: bold; }
-        .nav-btn .arrow-direction-title { font-size: 10px; color: var(--gold); font-weight: bold; margin-bottom: 3px; }
-        .nav-btn .arrow-text { font-size: 11px; font-weight: bold; }
-        .nav-btn .arrow-text .en { direction: ltr; display: block; font-size: 9px; font-weight: normal; color: #cbd5e1; margin-top: 1px; }
+        .nav-arrow .arrow-icon { color: var(--gold); font-size: 18px; line-height: 1; margin-bottom: 2px; font-weight: bold; }
+        .nav-arrow .arrow-direction-title { font-size: 10px; color: var(--gold); font-weight: bold; margin-bottom: 4px; }
+        .nav-arrow .arrow-text { font-size: 11px; font-weight: bold; }
+        .nav-arrow .arrow-text .en { direction: ltr; display: block; font-size: 10px; font-weight: normal; color: #cbd5e1; margin-top: 2px; }
 
-        .player-outer-wrapper { position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        .title-area { padding-top: 8px; display: flex; flex-direction: column; align-items: center; }
+        .title-area { padding-top: 10px; display: flex; flex-direction: column; align-items: center; }
         #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 5px; }
 
         .side-panel {
@@ -145,27 +145,26 @@ HTML
             background: var(--card-bg); 
             border-radius: 12px; 
             border: 1px solid rgba(148, 163, 184, 0.2); 
-            padding: 15px; 
+            padding: 20px; /* קצת יותר ריווח פנימי שיראה נקי */
             display: flex; 
             flex-direction: column; 
-            overflow-y: auto; 
-            max-height: 450px; 
+            /* הסרנו את ההגבלת גובה ואת הגלילה הפנימית! */
             width: 100%;
             box-sizing: border-box;
         }
 
         .profile-section { align-items: center; }
         .profile-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 8px; cursor: pointer; }
-        .profile-text { text-align: right; font-size: 12px; line-height: 1.4; width: 100%; }
-        .profile-text h3 { margin: 5px 0; font-size: 16px; }
+        .profile-text { text-align: right; font-size: 13px; line-height: 1.5; width: 100%; }
+        .profile-text h3 { margin: 5px 0 10px 0; font-size: 16px; }
         
-        .contact-buttons { display: flex; gap: 8px; width: 100%; margin: 8px 0; }
-        .contact-btn { flex: 1; padding: 6px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px; transition: 0.3s; box-sizing: border-box; }
+        .contact-buttons { display: flex; gap: 8px; width: 100%; margin: 10px 0; }
+        .contact-btn { flex: 1; padding: 8px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px; transition: 0.3s; box-sizing: border-box; }
         .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
         .description-section { text-align: right; align-items: flex-start; }
         .description-section h4 { margin: 0 0 10px 0; color: var(--accent); font-size: 15px;}
-        .description-section p { margin: 5px 0; font-size: 13px; line-height: 1.5; }
+        .description-section p { margin: 5px 0; font-size: 13px; line-height: 1.6; }
         
         .en-desc {
             direction: ltr;
@@ -196,20 +195,21 @@ HTML
         @media (max-width: 1024px) {
             .top-section { flex-wrap: wrap; }
             #mainPlayerSection { flex: 1 1 100%; order: -1; } 
-            .side-panel { flex: 1 1 45%; max-height: 350px; }
+            .side-panel { flex: 1 1 100%; }
         }
 
         @media (max-width: 768px) { 
             .corner-img { display: none; } 
             
-            .blue-3d-title { font-size: 18px; }
-            .blue-3d-title .en-title { font-size: 12px; }
+            .header-nav-container { gap: 5px; margin-bottom: 10px; }
+            .blue-3d-title { font-size: 19px; }
+            .blue-3d-title .en-title { font-size: 13px; }
 
-            .nav-btn { padding: 4px; min-width: 60px; border-radius: 6px; }
-            .nav-btn .arrow-icon { font-size: 14px; margin-bottom: 1px; }
-            .nav-btn .arrow-direction-title { font-size: 8px; margin-bottom: 2px; }
-            .nav-btn .arrow-text { font-size: 9px; }
-            .nav-btn .arrow-text .en { font-size: 8px; margin-top: 1px; }
+            .nav-arrow { padding: 5px; min-width: 50px; border-radius: 6px; }
+            .nav-arrow .arrow-icon { font-size: 14px; margin-bottom: 1px; }
+            .nav-arrow .arrow-direction-title { font-size: 8px; margin-bottom: 2px; }
+            .nav-arrow .arrow-text { font-size: 9px; }
+            .nav-arrow .arrow-text .en { font-size: 8px; margin-top: 1px; }
 
             .container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px; }
             .top-section { display: contents; }
@@ -217,10 +217,11 @@ HTML
             #mainPlayerSection { grid-column: 1 / span 2; grid-row: 1; width: 100%; margin: 0; }
             #bottomArea { grid-column: 1 / span 2; grid-row: 2; width: 100%; margin: 0; }
             
-            .profile-section { grid-column: 1; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
-            .description-section { grid-column: 2; grid-row: 3; padding: 10px; max-height: none; margin: 0; }
+            .profile-section { grid-column: 1; grid-row: 3; padding: 10px; margin: 0; }
+            .description-section { grid-column: 2; grid-row: 3; padding: 10px; margin: 0; }
             
             .profile-img { width: 50px; height: 50px; margin-bottom: 5px; }
+            .profile-text { font-size: 11px; }
             .profile-text h3 { font-size: 13px; margin: 3px 0; }
             .profile-text p, .description-section p { font-size: 10.5px; line-height: 1.35; margin: 4px 0; }
             .description-section h4 { font-size: 12px; margin-bottom: 5px; }
@@ -256,7 +257,7 @@ HTML
     <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa" class="corner-img">
     <h1>ארכיון מבזקס המלא | The Full MivSacks Archive</h1>
     <div class="header-controls">
-        <input type="text" id="searchInput" placeholder="לחיפוש פרשה או מבזקס / Search for Parasha or MivSacks..." oninput="filterVideos()">
+        <input type="text" id="searchInput" placeholder="לחיפוש פרשה או מבזקס (MivSacks / English)..." oninput="filterVideos()">
         <button id="themeBtn" onclick="toggleTheme()">☀️ מצב יום</button>
     </div>
 </header>
@@ -275,30 +276,29 @@ HTML
                 </div>
 
                 <p><strong>רב קהילת 'שמואל הצעיר' בירושלים.</strong></p>
-                <p>ארכיון שיעורי "מבזקס" המבוססים על תורת הרב יונתן זקס זצ"ל.</p>
-                <p>תושב שכונת חומת שמואל. לשעבר מנהל בישיבת נועם ירושלים.</p>
-                <p>מנהל תוכנית ConnectEd בשיתוף UnitEd ו-SAR.</p>
                 <p>חבר צוות 'תורת חיים' ומנהל קהילת תושב"ע באמית.</p>
+                <p>מנהל תוכנית ConnectEd בשיתוף UnitEd ו-SAR.</p>
+                <p>תושב שכונת חומת שמואל.</p>
+                 <p>לשעבר מנהל בישיבת נועם ירושלים.</p>
+                <p>מעביר שיחות וסדנאות בנושאי יהדות וחינוך.</p>
                 <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 10px 0;">
                 
                 <p style="text-align: left; direction: ltr; font-size: 10px; color: var(--text-muted); margin-bottom: 0;">
                     <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
                     MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
-                    Director of the ConnectEd program in partnership with UnitEd and SAR.
-                    Strategist & Mentor for Jewish Climate and Education at AMIT Schools,
-                    including heading their Rabbi Sacks Learning Programme.
-                    Rabbi Amir lectures on Jewish thought and education,
-                    and delivers inspirational talks in seminars, schools, and community programmes. <br>                  
+                    Director of the ConnectEd program in partnership with UnitEd and SAR.<br>
+                    Strategist & Mentor for Jewish Climate and Education at AMIT Schools, including heading their Rabbi Sacks Learning Programme.<br>
+                    Rabbi Amir lectures on Jewish thought and education, and delivers inspirational talks in seminars, schools, and community programmes. <br>     
                 </p>
             </div>
         </div>
 
         <div id="mainPlayerSection">
-            <div class="top-nav-bar">
-                <a id="prevArrowBtn" class="nav-btn"></a>
+            <div class="header-nav-container">
+                <div id="prevArrowBtn" class="nav-arrow"></div>
                 <h1 id="nextWeekTitle" class="blue-3d-title">טוען...</h1>
-                <a id="nextArrowBtn" class="nav-btn"></a>
+                <div id="nextArrowBtn" class="nav-arrow"></div>
             </div>
             
             <div class="player-outer-wrapper">
@@ -462,14 +462,12 @@ HTML
         if (nextIndex >= window.chronoList.length) nextIndex = 0; 
         let nextVid = window.chronoList[nextIndex];
         
-        // עדכון כפתור צד ימין (הקודם ב-RTL) - שימו לב לחץ שפונה ימינה
         const prevHeb = prevVid.t.replace('פרשת ', '');
         const prevEng = (engNamesMap[prevVid.t] || '').replace('Parashat ', '');
         const btnPrev = document.getElementById('prevArrowBtn');
         btnPrev.innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
         btnPrev.onclick = () => play(prevVid.id, prevVid.t, false, false);
         
-        // עדכון כפתור צד שמאל (הבא ב-RTL) - שימו לב לחץ שפונה שמאלה
         const nextHeb = nextVid.t.replace('פרשת ', '');
         const nextEng = (engNamesMap[nextVid.t] || '').replace('Parashat ', '');
         const btnNext = document.getElementById('nextArrowBtn');
