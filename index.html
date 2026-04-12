@@ -50,7 +50,8 @@
             justify-content: center; 
             align-items: stretch; 
             gap: 15px; 
-            margin: 0 auto 35px auto; 
+            /* חזרנו לרווח קטן כדי למשוך את העמודות למעלה */
+            margin: 0 auto 15px auto; 
             max-width: 1350px; 
         }
         
@@ -102,26 +103,20 @@
                 0px 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* --- עדכון: מסגרת כסופה, דקה ועדינה יותר לווידאו המרכזי --- */
+        /* המסגרת הכסופה העדינה שהוספנו */
         .player-outer-wrapper { 
             position: relative; 
             border-radius: 12px; 
             overflow: hidden; 
-            
-            /* מסגרת כסופה דקה יותר (3px במקום 6px) */
             border: 3px solid silver; 
-            
-            /* שילוב של הילה כסופה עדינה וצל חיצוני רך */
             box-shadow: 
-                0 0 15px rgba(192, 192, 192, 0.3), /* הילה כסופה עדינה */
-                0 10px 25px rgba(0,0,0,0.5);       /* צל חיצוני רך */
-            
+                0 0 15px rgba(192, 192, 192, 0.3), 
+                0 10px 25px rgba(0,0,0,0.5);       
             transition: box-shadow 0.3s ease; 
         }
-        /* אפקט מעבר עכבר עדין תואם */
         .player-outer-wrapper:hover {
             box-shadow: 
-                0 0 20px rgba(192, 192, 192, 0.4), /* הילה כסופה מעט חזקה יותר */
+                0 0 20px rgba(192, 192, 192, 0.4), 
                 0 15px 35px rgba(0,0,0,0.6);
         }
         
@@ -158,6 +153,7 @@
         .title-area { padding-top: 8px; display: flex; flex-direction: column; align-items: center; }
         #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 5px; }
 
+        /* הגבלנו חזרה את הגובה והחזרנו את הגלילה הפנימית! */
         .side-panel {
             flex: 1; 
             background: var(--card-bg); 
@@ -166,6 +162,8 @@
             padding: 15px; 
             display: flex; 
             flex-direction: column; 
+            overflow-y: auto; 
+            max-height: 480px; /* התאמנו לגובה של הווידאו */
             width: 100%;
             box-sizing: border-box;
         }
@@ -212,7 +210,7 @@
         @media (max-width: 1024px) {
             .top-section { flex-wrap: wrap; }
             #mainPlayerSection { flex: 1 1 100%; order: -1; } 
-            .side-panel { flex: 1 1 45%; }
+            .side-panel { flex: 1 1 45%; max-height: 350px; }
         }
 
         @media (max-width: 768px) { 
@@ -272,7 +270,7 @@
     <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1-sb5c39FfOaiOj1OrZXfKxfu24kwDhPa" class="corner-img">
     <h1>ארכיון מבזקס המלא | The Full MivSacks Archive</h1>
     <div class="header-controls">
-        <input type="text" id="searchInput" placeholder="לחיפוש פרשה / Search for Parasha..." oninput="filterVideos()">
+        <input type="text" id="searchInput" placeholder="לחיפוש פרשה או מבזקס / Search for Parasha or MivSacks..." oninput="filterVideos()">
         <button id="themeBtn" onclick="toggleTheme()">☀️ מצב יום</button>
     </div>
 </header>
@@ -361,7 +359,7 @@
     const engNamesMap = {
         'פרשת בראשית': 'Parashat Bereishit', 'פרשת נח': 'Parashat Noach', 'פרשת לך לך': 'Parashat Lech-Lecha', 'פרשת וירא': 'Parashat Vayera', 'פרשת חיי שרה': 'Parashat Chayei Sara', 'פרשת תולדות': 'Parashat Toldot', 'פרשת ויצא': 'Parashat Vayetzei', 'פרשת וישלח': 'Parashat Vayishlach', 'פרשת וישב': 'Parashat Vayeshev', 'פרשת מקץ': 'Parashat Miketz', 'פרשת ויגש': 'Parashat Vayigash', 'פרשת ויחי': 'Parashat Vayechi',
         'פרשת שמות': 'Parashat Shemot', 'פרשת וארא': 'Parashat Vaera', 'פרשת בא': 'Parashat Bo', 'פרשת בשלח': 'Parashat Beshalach', 'פרשת יתרו': 'Parashat Yitro', 'פרשת משפטים': 'Parashat Mishpatim', 'פרשת תרומה': 'Parashat Terumah', 'פרשת תצוה': 'Parashat Tetzaveh', 'פרשת כי תשא': 'Parashat Ki Tisa', 'פרשת ויקהל': 'Parashat Vayakhel', 'פרשת פקודי': 'Parashat Pekudei',
-        'פרשת ויקרא': 'Parashat Vayקרא', 'פרשת צו': 'Parashat Tzav', 'פרשת שמיני': 'Parashat Shmini', 'פרשת תזריע': 'Parashat Tazria', 'פרשת מצורע': 'Parashat Metzora', 'פרשת אחרי מות': 'Parashat Achrei Mot', 'פרשת קדושים': 'Parashat Kedoshim', 'פרשת אמור': 'Parashat Emor', 'פרשת בהר': 'Parashat Behar', 'פרשת בחוקותי': 'Parashat Bechukotai',
+        'פרשת ויקרא': 'Parashat Vayikra', 'פרשת צו': 'Parashat Tzav', 'פרשת שמיני': 'Parashat Shmini', 'פרשת תזריע': 'Parashat Tazria', 'פרשת מצורע': 'Parashat Metzora', 'פרשת אחרי מות': 'Parashat Achrei Mot', 'פרשת קדושים': 'Parashat Kedoshim', 'פרשת אמור': 'Parashat Emor', 'פרשת בהר': 'Parashat Behar', 'פרשת בחוקותי': 'Parashat Bechukotai',
         'פרשת במדבר': 'Parashat Bamidbar', 'פרשת נשא': 'Parashat Nasso', 'פרשת בהעלותך': 'Parashat Beha\'alotcha', 'פרשת שלח': 'Parashat Sh\'lach', 'פרשת קרח': 'Parashat Korach', 'פרשת חוקת': 'Parashat Chukat', 'פרשת פנחס': 'Parashat Pinchas', 'פרשת מטות': 'Parashat Matot', 'פרשת מסעי': 'Parashat Masei',
         'פרשת דברים': 'Parashat Devarim', 'פרשת ואתחנן': 'Parashat Vaetchanan', 'פרשת עקב': 'Parashat Eikev', 'פרשת ראה': 'Parashat Re\'eh', 'פרשת שופטים': 'Parashat Shoftim', 'פרשת כי תצא': 'Parashat Ki Teitzei', 'פרשת כי תבוא': 'Parashat Ki Tavo', 'פרשת נצבים': 'Parashat Nitzavim', 'פרשת וילך': 'Parashat Vayeilech', 'פרשת האזינו': 'Parashat Ha\'Azinu', 'פרשת וזאת הברכה': 'Parashat V\'Zot HaBerachah',
         'ראש השנה': 'Rosh Hashanah', 'יום כיפור': 'Yom Kippur', 'סוכות': 'Sukkot', 'חול המועד סוכות': 'Chol HaMoed Sukkot', 'שמחת תורה': 'Simchat Torah', 'שמחת תורה - וזאת הברכה': 'Simchat Torah', 'חנוכה': 'Hanukkah', 'פורים': 'Purim', 'חג הפסח': 'Pesach', 'יום הזכרון והעצמאות': 'Yom HaZikaron & Yom HaAtzmaut', 'ל"ג בעומר': 'Lag BaOmer', 'יום ירושלים': 'Yom Yerushalayim', 'חג השבועות': 'Shavuot', 'תשעה באב': 'Tisha B\'Av', 'יום השואה': 'Yom HaShoah',
