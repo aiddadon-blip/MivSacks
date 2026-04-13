@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="RS.png">
 
     <meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
-    <meta property="og:description" content="בואו לצפות בקטעי הוידאו של הרב יונתן זקס על פרשת השבוע והמועדים, עם הצעה לשיח לשלחן שבת. בהגשת הרב אמיר דדון.">
+    <meta property="og:description" content="בואו לצפות בקטעי הוידאו של הרב יונתן זקס על פרשת השבוע והמועדים, בהגשת הרב אמיר דדון.">
     <meta property="og:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
     <meta property="og:url" content="https://aiddadon-blip.github.io/MivSacks/">
     <meta property="og:type" content="website">
@@ -34,30 +34,32 @@
         }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); direction: rtl; margin: 0; transition: 0.3s; overflow-x: hidden; }
         
-        header { padding: 8px 10px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
-        header h1 { font-size: 20px; margin: 5px 0; }
-        .corner-img { position: absolute; bottom: 8px; right: 15px; width: 55px; height: 55px; border: 2px solid var(--gold); border-radius: 8px; object-fit: contain; }
+        /* צמצום רווחים עליונים כדי למשוך את האתר למעלה */
+        header { padding: 4px 10px; text-align: center; background: var(--header-bg); border-bottom: 2px solid var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; }
+        header h1 { font-size: 19px; margin: 3px 0; }
+        .corner-img { position: absolute; bottom: 5px; right: 15px; width: 45px; height: 45px; border: 2px solid var(--gold); border-radius: 8px; object-fit: contain; }
         
-        .header-controls { max-width: 450px; margin: 5px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
-        #searchInput { flex: 1; padding: 8px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 14px; }
-        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 7px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; white-space: nowrap; transition: 0.3s; }
+        .header-controls { max-width: 450px; margin: 2px auto; width: 100%; display: flex; gap: 10px; align-items: center; justify-content: center; }
+        #searchInput { flex: 1; padding: 6px; border-radius: 20px; border: 1px solid var(--text-muted); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 13px; }
+        #themeBtn { background: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap; transition: 0.3s; }
         
-        .container { width: 98%; margin: 0 auto; padding: 10px 5px; }
+        .container { width: 98%; margin: 0 auto; padding: 5px; }
         
         .top-section { 
             display: flex; 
             flex-direction: row; 
             justify-content: center; 
             align-items: stretch; 
-            gap: 20px; 
-            margin: 0 auto 15px auto; 
-            max-width: 1650px; 
+            gap: 15px; 
+            margin: 0 auto 10px auto; 
+            max-width: 1450px; /* רוחב אופטימלי */
         }
         
+        /* שינוי יחס הפלקס: סרטון צר יותר מוריד את הגובה שלו משמעותית */
         #mainPlayerSection { 
-            flex: 1.8; 
+            flex: 1.4; 
             background: var(--card-bg); 
-            padding: 15px 10px 10px 10px; 
+            padding: 10px; 
             border-radius: 12px; 
             border: 1px solid rgba(148, 163, 184, 0.2); 
             text-align: center; 
@@ -71,8 +73,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
-            gap: 15px;
+            margin-bottom: 8px;
+            gap: 10px;
             width: 100%;
         }
         
@@ -84,7 +86,7 @@
             background: rgba(11, 15, 26, 0.85);
             border: 1px solid silver;
             border-radius: 40px; 
-            padding: 8px 15px 8px 110px; 
+            padding: 6px 10px 6px 95px; /* מותאם לכפתור שיתוף */
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
@@ -95,45 +97,44 @@
         .main-title-box .title-texts { display: flex; flex-direction: column; align-items: center; }
         .main-title-box .heb-title {
             font-family: 'Rubik', sans-serif;
-            font-size: 24px;
+            font-size: 21px;
             font-weight: 700;
             color: #ffffff; 
             line-height: 1.2;
         }
         .main-title-box .en-title {
             font-family: 'Rubik', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: silver; 
             direction: ltr;
-            margin-top: 3px;
+            margin-top: 2px;
         }
 
         .main-share-btn {
             position: absolute;
-            left: 12px;
+            left: 8px;
             top: 50%;
             transform: translateY(-50%);
             background: rgba(251, 191, 36, 0.15);
             border: 1px solid var(--gold);
             color: var(--gold);
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 20px;
             cursor: pointer;
             font-family: inherit;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
             z-index: 10;
             white-space: nowrap;
         }
         .main-share-btn:hover { background: var(--gold); color: #000; }
 
-        /* קלאס מצב מועתק הכללי */
         .copied {
             background: #22c55e !important;
             color: white !important;
@@ -141,7 +142,7 @@
         }
         
         .main-share-btn.copied {
-            padding: 4px 12px !important;
+            padding: 4px 10px !important;
             border-radius: 12px !important;
         }
 
@@ -160,7 +161,7 @@
         .nav-arrow {
             background: rgba(11, 15, 26, 0.85);
             color: #ffffff;
-            padding: 8px 10px;
+            padding: 6px 8px;
             border-radius: 40px; 
             cursor: pointer;
             display: flex;
@@ -169,20 +170,20 @@
             justify-content: center;
             transition: all 0.2s ease;
             border: 1px solid rgba(251, 191, 36, 0.4);
-            width: 155px; 
-            flex: 0 0 155px;
+            width: 130px; 
+            flex: 0 0 130px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             box-sizing: border-box;
         }
         .nav-arrow:hover { background: rgba(0, 0, 0, 1); border-color: var(--gold); transform: scale(1.05); }
-        .nav-arrow .arrow-icon { color: var(--gold); font-size: 18px; line-height: 1; margin-bottom: 2px; font-weight: bold; }
-        .nav-arrow .arrow-direction-title { font-size: 9.5px; color: var(--gold); font-weight: bold; margin-bottom: 2px; }
-        .nav-arrow .arrow-text { font-size: 10px; font-weight: bold; line-height: 1.2; width: 100%; }
-        .nav-arrow .arrow-text .en { direction: ltr; display: block; font-size: 9px; font-weight: normal; color: #cbd5e1; margin-top: 1px; }
+        .nav-arrow .arrow-icon { color: var(--gold); font-size: 16px; line-height: 1; margin-bottom: 2px; font-weight: bold; }
+        .nav-arrow .arrow-direction-title { font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: 2px; }
+        .nav-arrow .arrow-text { font-size: 9.5px; font-weight: bold; line-height: 1.2; width: 100%; }
+        .nav-arrow .arrow-text .en { direction: ltr; display: block; font-size: 8.5px; font-weight: normal; color: #cbd5e1; margin-top: 1px; }
 
-        .title-area { padding-top: 8px; display: flex; flex-direction: column; align-items: center; }
-        #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 5px; }
+        .title-area { padding-top: 5px; display: flex; flex-direction: column; align-items: center; }
+        #pastNotice { display: none; color: var(--text-muted); font-size: 11px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 2px; }
 
         /* התאמות למצב יום */
         body.light-mode .main-title-box,
@@ -192,12 +193,13 @@
         body.light-mode .nav-arrow .arrow-text { color: #0f172a; }
         body.light-mode .nav-arrow .arrow-text .en { color: #64748b; }
 
+        /* פאנלים צידיים ללא גלילה עם טיפה פחות ריווח לבזבוז מינימלי */
         .side-panel {
-            flex: 1.2; 
+            flex: 1; 
             background: var(--card-bg); 
             border-radius: 12px; 
             border: 1px solid rgba(148, 163, 184, 0.2); 
-            padding: 20px; 
+            padding: 12px; 
             display: flex; 
             flex-direction: column; 
             width: 100%;
@@ -207,32 +209,32 @@
         }
 
         .profile-section { align-items: center; }
-        .profile-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 8px; cursor: pointer; }
-        .profile-text { text-align: right; font-size: 12.5px; line-height: 1.5; width: 100%; }
-        .profile-text h3 { margin: 5px 0 10px 0; font-size: 16px; }
+        .profile-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 6px; cursor: pointer; }
+        .profile-text { text-align: right; font-size: 12px; line-height: 1.45; width: 100%; }
+        .profile-text h3 { margin: 4px 0 8px 0; font-size: 15px; }
         
-        .contact-buttons { display: flex; gap: 8px; width: 100%; margin: 10px 0; }
-        .contact-btn { flex: 1; padding: 7px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px; transition: 0.3s; box-sizing: border-box; }
+        .contact-buttons { display: flex; gap: 8px; width: 100%; margin: 8px 0; }
+        .contact-btn { flex: 1; padding: 6px; text-align: center; border: 1.5px solid var(--gold); color: var(--gold); border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 11.5px; transition: 0.3s; box-sizing: border-box; }
         .contact-btn:hover { background: var(--gold); color: var(--header-bg); }
         
         .description-section { text-align: right; align-items: flex-start; }
-        .description-section h4 { margin: 0 0 10px 0; color: var(--accent); font-size: 15px;}
-        .description-section p { margin: 5px 0; font-size: 13px; line-height: 1.5; }
+        .description-section h4 { margin: 0 0 8px 0; color: var(--accent); font-size: 14px;}
+        .description-section p { margin: 4px 0; font-size: 12px; line-height: 1.4; }
         
         .en-desc {
             direction: ltr;
             text-align: left;
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid rgba(148, 163, 184, 0.2);
             color: var(--text-muted);
             width: 100%;
         }
 
-        .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 10px; }
-        .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 10px; height: 480px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
-        .humash-title { text-align: center; padding: 8px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 13.5px; line-height: 1.3; }
-        .list { flex: 1; overflow-y: auto; padding: 6px; }
+        .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 5px; }
+        .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 10px; height: 380px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
+        .humash-title { text-align: center; padding: 6px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 13px; line-height: 1.2; }
+        .list { flex: 1; overflow-y: auto; padding: 5px; }
         
         .v-card { background: var(--card-bg); border-radius: 6px; margin-bottom: 10px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; overflow: hidden; }
         .v-card:hover { border-color: var(--gold); transform: translateY(-2px); }
@@ -242,23 +244,23 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px;
+            padding: 6px;
             gap: 5px;
         }
-        .v-label { font-size: 12px; text-align: right; font-weight: bold; line-height: 1.3; flex: 1; }
+        .v-label { font-size: 11px; text-align: right; font-weight: bold; line-height: 1.2; flex: 1; }
         
         .share-card-btn {
             background: rgba(251, 191, 36, 0.1);
             border: 1px solid var(--gold);
             color: var(--gold);
             border-radius: 20px;
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            font-size: 11px;
             transition: all 0.3s ease;
             flex-shrink: 0;
             padding: 0;
@@ -266,16 +268,15 @@
         }
         .share-card-btn:hover { background: var(--gold); color: #000; transform: scale(1.05); }
         
-        /* כשהכפתור הקטן מועתק, הוא מתרחב יפה כדי להכיל את שתי השורות */
         .share-card-btn.copied {
             width: auto !important;
             height: auto !important;
             border-radius: 8px !important;
-            padding: 4px 8px !important;
+            padding: 4px 6px !important;
             transform: scale(1) !important;
         }
         
-        footer { background: var(--header-bg); padding: 15px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; line-height: 1.6; }
+        footer { background: var(--header-bg); padding: 10px; text-align: center; font-size: 13px; border-top: 1px solid var(--accent); margin-top: 10px; font-weight: bold; line-height: 1.4; }
         
         @media (max-width: 1024px) {
             .top-section { flex-wrap: wrap; }
@@ -287,16 +288,16 @@
             .corner-img { display: none; } 
             .header-nav-container { gap: 5px; }
             
-            .main-title-box { padding: 6px 10px 6px 45px; border-radius: 30px; }
-            .main-title-box .heb-title { font-size: 17px; }
-            .main-title-box .en-title { font-size: 11px; margin-top: 1px; }
+            .main-title-box { padding: 4px 8px 4px 40px; border-radius: 30px; }
+            .main-title-box .heb-title { font-size: 16px; }
+            .main-title-box .en-title { font-size: 10px; margin-top: 1px; }
             
-            .main-share-btn { padding: 5px; width: 28px; height: 28px; border-radius: 50%; left: 6px; justify-content: center;}
+            .main-share-btn { padding: 4px; width: 26px; height: 26px; border-radius: 50%; left: 5px; justify-content: center;}
             .main-share-btn .share-text { display: none; } 
-            .main-share-btn.copied { width: auto; border-radius: 8px !important; padding: 4px 8px !important; }
-            .main-share-btn.copied .share-text { display: inline; font-size: 10px; }
+            .main-share-btn.copied { width: auto; border-radius: 8px !important; padding: 3px 6px !important; }
+            .main-share-btn.copied .share-text { display: inline; font-size: 9px; }
 
-            .nav-arrow { width: 85px; flex: 0 0 85px; padding: 5px; }
+            .nav-arrow { width: 80px; flex: 0 0 80px; padding: 4px; }
             .columns-wrapper { display: grid; grid-template-columns: 1fr 1fr; }
             .side-panel { overflow: visible; max-height: none; }
         }
@@ -319,14 +320,14 @@
         <div class="profile-section side-panel">
             <img src="https://images.weserv.nl/?url=https://drive.google.com/uc?id=1rRhADtUxG81fZTDTS6RvGAhwQmY8FqKT" class="profile-img" onclick="secretCounter()">
             <div class="profile-text">
-                <h3 style="color:var(--accent); text-align:center;">הרב אמיר דדון<br><span style="font-size: 14px; color: var(--text-muted);">Rabbi Amir Dadon</span></h3>
+                <h3 style="color:var(--accent); text-align:center;">הרב אמיר דדון<br><span style="font-size: 13px; color: var(--text-muted);">Rabbi Amir Dadon</span></h3>
                 
                 <div class="contact-buttons">
                     <a href="mailto:amirddon@gmail.com" target="_blank" class="contact-btn">✉️ מייל</a>
                     <a href="tel:+972544350895" target="_blank" class="contact-btn">📞 טלפון</a>
                 </div>
 
-                <p style="margin-bottom: 8px;">
+                <p style="margin-bottom: 6px;">
                     <strong>רב קהילת 'שמואל הצעיר' בשכונת הר חומה בירושלים.</strong>
                     מנהל קהילת תושב"ע וחבר צוות 'תורת חיים' ברשת אמית.
                     מנהל תוכנית ConnectEd בשיתוף UnitEd ו-SAR.
@@ -334,9 +335,9 @@
                     מעביר שיחות וסדנאות מגוונות בנושאי יהדות וחינוך.
                 </p>
                 
-                <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 10px 0;">
+                <hr style="border-color: rgba(148, 163, 184, 0.2); margin: 8px 0;">
                 
-                <p style="text-align: left; direction: ltr; font-size: 10px; color: var(--text-muted); margin-bottom: 0;">
+                <p style="text-align: left; direction: ltr; font-size: 9.5px; color: var(--text-muted); margin-bottom: 0;">
                     <strong>Rabbi Amir Dadon</strong><br>
                     Rabbi of the 'Shmuel HaTzair' community in Jerusalem.<br>
                     MivSacks video archive based on the teachings of Rabbi Lord Jonathan Sacks.<br>
@@ -379,7 +380,7 @@
             <p>לקראת שבת או חג, אתם מוזמנים לרגעים של התבוננות עמוקה ומעוררת מחשבה, שבסופם תמצאו הצעה והזמנה לשיח משפחתי מעמיק סביב שולחן השבת שלכם – בעקבות דבריו המאירים.<br><strong style="color:var(--gold);">צפייה מהנה!</strong></p>
             
             <div class="en-desc">
-                <h4 style="color: var(--accent); margin-bottom: 8px;">Weekly Inspiration and a Family Conversation Starter!</h4>
+                <h4 style="color: var(--accent); margin-bottom: 6px;">Weekly Inspiration and a Family Conversation Starter!</h4>
                 <p>Join a weekly encounter with Rabbi Sacks and his illuminating teachings. Watch Rabbi Sacks inspire every Parasha and festival, across all 68 episodes of the series – all fully subtitled.</p>
                 <p>As Shabbat or the holiday approaches, you are invited to moments of deep and thought-provoking reflection, culminating in a suggestion for a meaningful family discussion around your Shabbat table – inspired by his guiding words.<br><strong style="color:var(--gold);">Enjoy the viewing!</strong></p>
             </div>
@@ -394,7 +395,7 @@
 
 <footer>
     נבנה על ידי איתיאל דדון. להארות והערות ניתן לפנות ל- <a href="mailto:itieldadon123@gmail.com" style="color:var(--gold); text-decoration:none;">itieldadon123@gmail.com</a><br>
-    <span style="font-size: 11px; font-weight: normal; color: var(--text-muted); display: block; margin-top: 5px; direction: ltr;">
+    <span style="font-size: 11px; font-weight: normal; color: var(--text-muted); display: block; margin-top: 4px; direction: ltr;">
         Built by Itiel Dadon. For comments and feedback please contact <a href="mailto:itieldadon123@gmail.com" style="color:var(--gold); text-decoration:none;">itieldadon123@gmail.com</a>
     </span>
 </footer>
@@ -486,10 +487,8 @@
     let visitorCount = 0;
     let noticeTimeout1, noticeTimeout2; 
 
-    // פונקציית שיתוף עם יישור מרכזי וטקסט זהה
     function shareVideo(e, id) {
         if (e) e.stopPropagation(); 
-        
         const btn = e.currentTarget || e.target; 
         
         let url = window.location.origin + window.location.pathname;
@@ -505,7 +504,6 @@
                 lastCopiedOriginalHtml = btn.innerHTML;
             }
             
-            // טקסט קטנטן (9px), ממורכז ומונח בדיוק אחד תחת השני
             const copiedHtml = `
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; text-align: center; width: 100%;">
                     <span style="font-size: 9px; font-weight: bold; white-space: nowrap;">✅ קישור הועתק</span>
@@ -540,7 +538,9 @@
             return;
         }
         currentVideoId = id;
-        document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
+        
+        // הוספנו את הגדרות האבטחה הרשמיות של יוטיוב כדי למנוע חסימות דפדפן ו-Adblock
+        document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
         
         document.getElementById('mainShareBtn').onclick = (e) => shareVideo(e, id);
 
@@ -567,12 +567,12 @@
         
         const prevHeb = prevVid.t.replace('פרשת ', '');
         const prevEng = (engNamesMap[prevVid.t] || '').replace('Parashat ', '');
-        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
+        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
         document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false);
         
         const nextHeb = nextVid.t.replace('פרשת ', '');
         const nextEng = (engNamesMap[nextVid.t] || '').replace('Parashat ', '');
-        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
+        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
         document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false);
         
         const notice = document.getElementById('pastNotice');
