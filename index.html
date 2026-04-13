@@ -84,8 +84,7 @@
             background: rgba(11, 15, 26, 0.85);
             border: 1px solid silver;
             border-radius: 40px; 
-            /* הוספת ריווח שמאלי גדול יותר כדי שהטקסט לא יעלה על כפתור השיתוף */
-            padding: 8px 15px 8px 90px;
+            padding: 8px 15px 8px 110px; /* ריווח שמאלי גדול יותר לכפתור השיתוף שמתרחב */
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
@@ -129,8 +128,16 @@
             align-items: center;
             gap: 6px;
             z-index: 10;
+            white-space: nowrap;
         }
         .main-share-btn:hover { background: var(--gold); color: #000; }
+
+        /* קלאס מצב מועתק */
+        .copied {
+            background: #22c55e !important;
+            color: white !important;
+            border-color: #22c55e !important;
+        }
 
         .player-outer-wrapper { 
             position: relative; 
@@ -233,22 +240,31 @@
             gap: 5px;
         }
         .v-label { font-size: 12px; text-align: right; font-weight: bold; line-height: 1.3; flex: 1; }
+        
         .share-card-btn {
             background: rgba(251, 191, 36, 0.1);
             border: 1px solid var(--gold);
             color: var(--gold);
-            border-radius: 50%;
-            width: 28px;
+            border-radius: 20px;
+            min-width: 28px;
             height: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 13px;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             flex-shrink: 0;
+            padding: 0;
+            white-space: nowrap;
         }
-        .share-card-btn:hover { background: var(--gold); color: #000; transform: scale(1.1); }
+        .share-card-btn:hover { background: var(--gold); color: #000; transform: scale(1.05); }
+        
+        .share-card-btn.copied {
+            padding: 0 8px;
+            font-size: 11px;
+            transform: scale(1);
+        }
         
         footer { background: var(--header-bg); padding: 15px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; line-height: 1.6; }
         
@@ -266,8 +282,10 @@
             .main-title-box .heb-title { font-size: 17px; }
             .main-title-box .en-title { font-size: 11px; margin-top: 1px; }
             
-            .main-share-btn { padding: 5px; width: 28px; height: 28px; border-radius: 50%; left: 6px; }
+            .main-share-btn { padding: 5px; width: 28px; height: 28px; border-radius: 50%; left: 6px; justify-content: center;}
             .main-share-btn .share-text { display: none; } 
+            .main-share-btn.copied { width: auto; border-radius: 20px; padding: 5px 8px; }
+            .main-share-btn.copied .share-text { display: inline; font-size: 10px; }
 
             .nav-arrow { width: 85px; flex: 0 0 85px; padding: 5px; }
             .columns-wrapper { display: grid; grid-template-columns: 1fr 1fr; }
@@ -443,6 +461,10 @@
     window.chronoList = interleavedTitles.map(title => videoData.find(v => v.t === title)).filter(Boolean);
     const holidayMap = { 'Rosh Hashana': 'ראש השנה', 'Yom Kippur': 'יום כיפור', 'Sukkot': 'סוכות', 'Shmini Atzeret': 'שמחת תורה', 'Hanukkah': 'חנוכה', 'Purim': 'פורים', 'Pesach': 'חג הפסח', 'Yom HaAtzma\'ut': 'יום הזכרון והעצמאות', 'Lag BaOmer': 'ל"ג בעומר', 'Yom Yerushalayim': 'יום ירושלים', 'Shavuot': 'חג השבועות', 'Tish\'a B\'Av': 'תשעה באב', 'Yom HaShoah': 'יום השואה' };
 
+    // שמירת הלחצן האחרון שהועתק כדי שנוכל לאפס אותו
+    let lastCopiedBtn = null;
+    let lastCopiedOriginalHtml = "";
+
     function toggleTheme() {
         const body = document.getElementById('mainBody');
         body.classList.toggle('light-mode');
@@ -456,26 +478,34 @@
     let visitorCount = 0;
     let noticeTimeout1, noticeTimeout2; 
 
-    // פונקציית שיתוף חכמה שמעתיקה קישור עם מזהה הסרטון
     function shareVideo(e, id) {
         if (e) e.stopPropagation(); 
         const url = window.location.origin + window.location.pathname + "?v=" + id;
         
         navigator.clipboard.writeText(url).then(() => {
             const btn = e.currentTarget;
-            const originalHtml = btn.innerHTML;
             
-            btn.innerHTML = '✅';
-            btn.style.background = '#22c55e'; 
-            btn.style.color = 'white';
-            btn.style.borderColor = '#22c55e';
+            // אם יש כפתור קודם שהועתק והוא לא הכפתור הנוכחי, מאפסים אותו
+            if (lastCopiedBtn && lastCopiedBtn !== btn) {
+                lastCopiedBtn.innerHTML = lastCopiedOriginalHtml;
+                lastCopiedBtn.classList.remove('copied');
+            }
             
-            setTimeout(() => { 
-                btn.innerHTML = originalHtml; 
-                btn.style.background = '';
-                btn.style.color = '';
-                btn.style.borderColor = '';
-            }, 2000);
+            // אם זה כפתור חדש, שומרים את המראה המקורי שלו לפני השינוי
+            if (lastCopiedBtn !== btn) {
+                lastCopiedOriginalHtml = btn.innerHTML;
+            }
+            
+            // מחילים את מצב "הועתק" על הכפתור שלחצו עליו עכשיו
+            if (btn.classList.contains('share-card-btn')) {
+                btn.innerHTML = '✅ קישור הועתק';
+            } else {
+                btn.innerHTML = '<span class="share-icon">✅</span> <span class="share-text">קישור הועתק</span>';
+            }
+            
+            btn.classList.add('copied');
+            lastCopiedBtn = btn;
+            
         }).catch(err => console.error('Failed to copy: ', err));
     }
 
@@ -487,7 +517,6 @@
         currentVideoId = id;
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
         
-        // עדכון כפתור השיתוף הראשי שיכיר את הוידאו החדש
         document.getElementById('mainShareBtn').onclick = (e) => shareVideo(e, id);
 
         const hebTitleEl = document.getElementById('hebTitle');
@@ -513,12 +542,12 @@
         
         const prevHeb = prevVid.t.replace('פרשת ', '');
         const prevEng = (engNamesMap[prevVid.t] || '').replace('Parashat ', '');
-        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
+        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
         document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false);
         
         const nextHeb = nextVid.t.replace('פרשת ', '');
         const nextEng = (engNamesMap[nextVid.t] || '').replace('Parashat ', '');
-        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
+        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
         document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false);
         
         const notice = document.getElementById('pastNotice');
