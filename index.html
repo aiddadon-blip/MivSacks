@@ -76,15 +76,16 @@
             width: 100%;
         }
         
-        /* עיצוב חדש לכותרת: בתוך כפתור אלגנטי עם מסגרת כסופה */
         .main-title-box {
+            position: relative;
             text-align: center;
             margin: 0;
             flex: 1;
             background: rgba(11, 15, 26, 0.85);
-            border: 1px solid silver; /* מסגרת כסופה */
-            border-radius: 40px; /* תואם לחיצים */
-            padding: 8px 15px;
+            border: 1px solid silver;
+            border-radius: 40px; 
+            /* הוספת ריווח שמאלי גדול יותר כדי שהטקסט לא יעלה על כפתור השיתוף */
+            padding: 8px 15px 8px 90px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
@@ -92,23 +93,44 @@
             align-items: center;
             transition: all 0.3s ease;
         }
-        
+        .main-title-box .title-texts { display: flex; flex-direction: column; align-items: center; }
         .main-title-box .heb-title {
             font-family: 'Rubik', sans-serif;
             font-size: 24px;
             font-weight: 700;
-            color: #ffffff; /* טקסט לבן נקי במקום כחול */
+            color: #ffffff; 
             line-height: 1.2;
         }
-        
         .main-title-box .en-title {
             font-family: 'Rubik', sans-serif;
             font-size: 14px;
             font-weight: 500;
-            color: silver; /* טקסט כסוף לאנגלית */
+            color: silver; 
             direction: ltr;
             margin-top: 3px;
         }
+
+        .main-share-btn {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+        }
+        .main-share-btn:hover { background: var(--gold); color: #000; }
 
         .player-outer-wrapper { 
             position: relative; 
@@ -149,14 +171,9 @@
         .title-area { padding-top: 8px; display: flex; flex-direction: column; align-items: center; }
         #pastNotice { display: none; color: var(--text-muted); font-size: 12px; transition: opacity 1s ease-in-out; opacity: 1; margin-top: 5px; }
 
-        /* התאמות למצב יום (Light Mode) עבור שורת הניווט החדשה */
+        /* התאמות למצב יום */
         body.light-mode .main-title-box,
-        body.light-mode .nav-arrow {
-            background: #ffffff;
-            border-color: #cbd5e1;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            color: #1e293b;
-        }
+        body.light-mode .nav-arrow { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 2px 8px rgba(0,0,0,0.05); color: #1e293b; }
         body.light-mode .main-title-box .heb-title { color: #0f172a; }
         body.light-mode .main-title-box .en-title { color: #64748b; }
         body.light-mode .nav-arrow .arrow-text { color: #0f172a; }
@@ -203,10 +220,35 @@
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 10px; height: 480px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
         .humash-title { text-align: center; padding: 8px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 13.5px; line-height: 1.3; }
         .list { flex: 1; overflow-y: auto; padding: 6px; }
-        .v-card { background: var(--card-bg); border-radius: 6px; margin-bottom: 10px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; }
+        
+        .v-card { background: var(--card-bg); border-radius: 6px; margin-bottom: 10px; border: 1px solid rgba(128,128,128,0.2); cursor: pointer; transition: 0.2s; overflow: hidden; }
         .v-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-        .v-card img { width: 100%; border-radius: 6px 6px 0 0; }
-        .v-label { padding: 6px; display: block; font-size: 12px; text-align: center; font-weight: bold; line-height: 1.3; }
+        .v-card img { width: 100%; display: block; }
+        
+        .v-label-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            gap: 5px;
+        }
+        .v-label { font-size: 12px; text-align: right; font-weight: bold; line-height: 1.3; flex: 1; }
+        .share-card-btn {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+        .share-card-btn:hover { background: var(--gold); color: #000; transform: scale(1.1); }
         
         footer { background: var(--header-bg); padding: 15px; text-align: center; font-size: 14px; border-top: 1px solid var(--accent); margin-top: 15px; font-weight: bold; line-height: 1.6; }
         
@@ -220,9 +262,12 @@
             .corner-img { display: none; } 
             .header-nav-container { gap: 5px; }
             
-            .main-title-box { padding: 6px 10px; border-radius: 30px; }
+            .main-title-box { padding: 6px 10px 6px 45px; border-radius: 30px; }
             .main-title-box .heb-title { font-size: 17px; }
             .main-title-box .en-title { font-size: 11px; margin-top: 1px; }
+            
+            .main-share-btn { padding: 5px; width: 28px; height: 28px; border-radius: 50%; left: 6px; }
+            .main-share-btn .share-text { display: none; } 
 
             .nav-arrow { width: 85px; flex: 0 0 85px; padding: 5px; }
             .columns-wrapper { display: grid; grid-template-columns: 1fr 1fr; }
@@ -278,7 +323,17 @@
         <div id="mainPlayerSection">
             <div class="header-nav-container">
                 <div id="prevArrowBtn" class="nav-arrow"></div>
-                <h1 id="nextWeekTitle" class="main-title-box">טוען...</h1>
+                
+                <div class="main-title-box">
+                    <div class="title-texts">
+                        <span id="hebTitle" class="heb-title">טוען...</span>
+                        <span id="enTitle" class="en-title"></span>
+                    </div>
+                    <button id="mainShareBtn" class="main-share-btn" title="העתק קישור לשיעור זה">
+                        <span class="share-icon">🔗</span> <span class="share-text">שתף</span>
+                    </button>
+                </div>
+
                 <div id="nextArrowBtn" class="nav-arrow"></div>
             </div>
             
@@ -320,9 +375,6 @@
 <script>
     const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
     const engColNames = {'0':'Bereishit','1':'Shemot','2':'Vayikra','3':'Bamidbar','4':'Devarim','5':'Holidays'};
-    const catImages = {
-        '0': '13.jpg', '1': '14.jpg', '2': '15.jpg', '3': '16.jpg', '4': '17.jpg', '5': '18.jpg'
-    };
 
     const engNamesMap = {
         'פרשת בראשית': 'Parashat Bereishit', 'פרשת נח': 'Parashat Noach', 'פרשת לך לך': 'Parashat Lech-Lecha', 'פרשת וירא': 'Parashat Vayera', 'פרשת חיי שרה': 'Parashat Chayei Sara', 'פרשת תולדות': 'Parashat Toldot', 'פרשת ויצא': 'Parashat Vayetzei', 'פרשת וישלח': 'Parashat Vayishlach', 'פרשת וישב': 'Parashat Vayeshev', 'פרשת מקץ': 'Parashat Miketz', 'פרשת ויגש': 'Parashat Vayigash', 'פרשת ויחי': 'Parashat Vayechi',
@@ -404,6 +456,29 @@
     let visitorCount = 0;
     let noticeTimeout1, noticeTimeout2; 
 
+    // פונקציית שיתוף חכמה שמעתיקה קישור עם מזהה הסרטון
+    function shareVideo(e, id) {
+        if (e) e.stopPropagation(); 
+        const url = window.location.origin + window.location.pathname + "?v=" + id;
+        
+        navigator.clipboard.writeText(url).then(() => {
+            const btn = e.currentTarget;
+            const originalHtml = btn.innerHTML;
+            
+            btn.innerHTML = '✅';
+            btn.style.background = '#22c55e'; 
+            btn.style.color = 'white';
+            btn.style.borderColor = '#22c55e';
+            
+            setTimeout(() => { 
+                btn.innerHTML = originalHtml; 
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+            }, 2000);
+        }).catch(err => console.error('Failed to copy: ', err));
+    }
+
     function play(id, title, isFeatured = false, showArchiveNotice = false) {
         if (currentVideoId === id) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -412,16 +487,21 @@
         currentVideoId = id;
         document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
         
-        const nextWeekTitleElement = document.getElementById('nextWeekTitle');
-        if (nextWeekTitleElement) {
+        // עדכון כפתור השיתוף הראשי שיכיר את הוידאו החדש
+        document.getElementById('mainShareBtn').onclick = (e) => shareVideo(e, id);
+
+        const hebTitleEl = document.getElementById('hebTitle');
+        const enTitleEl = document.getElementById('enTitle');
+        
+        if (hebTitleEl) {
             let engTitle = engNamesMap[title] || '';
             let isParasha = title.includes('פרשת');
             let hebPrefix = isFeatured ? (isParasha ? 'השבת הקרובה, ' : 'לקראת ') : '';
             let engPrefix = isFeatured ? (isParasha ? 'This coming Shabbat, ' : 'Approaching ') : '';
             if (id === 'IuE4noHrHP8') { hebPrefix = ''; engPrefix = ''; engTitle = 'In Memory of Rabbi Sacks ZT"L'; }
             
-            /* עדכון כאן: שימוש בקלאסים החדשים במקום טקסט צף */
-            nextWeekTitleElement.innerHTML = `<span class="heb-title">${hebPrefix}${title}</span><span class="en-title">${engPrefix}${engTitle}</span>`;
+            hebTitleEl.innerText = hebPrefix + title;
+            if (enTitleEl) enTitleEl.innerText = engPrefix + engTitle;
         }
 
         let currentIndex = window.chronoList.findIndex(v => v.id === id);
@@ -465,6 +545,9 @@
     }
 
     async function initApp() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedVidId = urlParams.get('v');
+
         try {
             const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on');
             const data = await res.json();
@@ -516,13 +599,21 @@
                     if (featuredVideo) break; 
                 }
             }
-            window.fetchedFeaturedVideo = featuredVideo; window.foundFutureFeatured = foundFuture;
+            
+            if (sharedVidId && videoData.find(v => v.id === sharedVidId)) {
+                window.fetchedFeaturedVideo = videoData.find(v => v.id === sharedVidId);
+                window.foundFutureFeatured = false; 
+            } else {
+                window.fetchedFeaturedVideo = featuredVideo; 
+                window.foundFutureFeatured = foundFuture;
+            }
+
         } catch (e) {}
 
         renderUI();
         if (window.fetchedFeaturedVideo) {
             defaultVideo = window.fetchedFeaturedVideo;
-            play(defaultVideo.id, defaultVideo.t, true, !window.foundFutureFeatured);
+            play(defaultVideo.id, defaultVideo.t, window.foundFutureFeatured, !window.foundFutureFeatured);
         } else {
             defaultVideo = videoData[0];
             play(videoData[0].id, videoData[0].t, true, false);
@@ -540,11 +631,19 @@
             const list = document.getElementById('list-' + v.cat);
             const card = document.createElement('div');
             card.className = 'v-card';
+            card.onclick = () => play(v.id, v.t, false, false);
+            
             let cleanHeb = v.t.replace('פרשת ', '');
             let cleanEng = (engNamesMap[v.t] || '').replace('Parashat ', '');
             let displayLabel = cleanEng ? `${cleanHeb} <span style="color:var(--gold); margin:0 3px;">|</span> <span dir="ltr" style="opacity:0.9;">${cleanEng}</span>` : cleanHeb;
-            card.innerHTML = `<img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"><span class="v-label">${displayLabel}</span>`;
-            card.onclick = () => play(v.id, v.t, false, false);
+            
+            card.innerHTML = `
+                <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg">
+                <div class="v-label-container">
+                    <span class="v-label">${displayLabel}</span>
+                    <button class="share-card-btn" onclick="shareVideo(event, '${v.id}')" title="העתק קישור לשיעור זה">🔗</button>
+                </div>
+            `;
             list.appendChild(card);
         });
     }
