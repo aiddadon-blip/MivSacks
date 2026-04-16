@@ -52,7 +52,7 @@
             align-items: stretch; 
             gap: 15px; 
             margin: 0 auto 10px auto; 
-            max-width: 1550px; /* הקטנה קלה כדי להוריד גובה של הסרטון */
+            max-width: 1550px; 
         }
         
         #mainPlayerSection { 
@@ -157,6 +157,24 @@
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
+        /* עיצוב תמונת הכיסוי המותאמת אישית שלנו */
+        .yt-cover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; background-size: cover; background-position: center; 
+            cursor: pointer; transition: opacity 0.3s ease; z-index: 10;
+        }
+        .yt-cover:hover { opacity: 0.85; }
+        .custom-play-btn {
+            position: absolute; bottom: 15px; left: 15px;
+            background: rgba(220, 38, 38, 0.95); color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.6); 
+            transition: all 0.3s ease; z-index: 11; padding-left: 4px; 
+            font-family: Arial, sans-serif;
+        }
+        .yt-cover:hover .custom-play-btn { transform: scale(1.1); background: #ef4444; }
+
         .nav-arrow {
             background: rgba(11, 15, 26, 0.85);
             color: #ffffff;
@@ -231,12 +249,10 @@
 
         .columns-wrapper { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 5px; }
         
-        /* הקטנת גובה העמודות כדי שלא ייחתכו במסך */
         .humash-col { flex: 1; min-width: 0; background: rgba(148, 163, 184, 0.05); border-radius: 10px; height: 320px; display: flex; flex-direction: column; border: 1px solid rgba(148, 163, 184, 0.1); }
         .humash-title { text-align: center; padding: 6px 4px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; font-size: 13px; line-height: 1.2; }
         .list { flex: 1; overflow-y: auto; padding: 5px; }
         
-        /* כפתורי התמונה לטלפון - מוסתרים במחשב */
         .mobile-cat-img { display: none; width: 100%; cursor: pointer; border-radius: 8px; transition: transform 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
         .mobile-cat-img img { width: 100%; display: block; border-radius: 8px; border: 1px solid var(--gold); }
         .mobile-cat-img:active { transform: scale(0.96); }
@@ -304,7 +320,6 @@
 
             .nav-arrow { width: 80px; flex: 0 0 80px; padding: 4px; }
             
-            /* שחזור מלא של מראה הטלפון: כרטיסיות למטה ותמונות לחומשים */
             .container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px; }
             .top-section { display: contents; }
             
@@ -398,8 +413,14 @@
                 <div id="nextArrowBtn" class="nav-arrow"></div>
             </div>
             
-            <div class="player-outer-wrapper">
-                <div id="player" class="video-wrapper"></div>
+            <div class="player-outer-wrapper" id="playerWrapper">
+                <div class="video-wrapper">
+                    <div id="ytPlayerDiv" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+                    
+                    <div id="ytCover" class="yt-cover" onclick="handleCoverClick()">
+                        <div class="custom-play-btn">▶</div>
+                    </div>
+                </div>
             </div>
             
             <div class="title-area">
@@ -434,6 +455,76 @@
 </footer>
 
 <script>
+    // ==========================================
+    // מערכת נגן יוטיוב חכמה - פותרת את בעיית הסלולר ומונעת שעוני חול
+    // ==========================================
+    let ytPlayer = null;
+    let ytPlayerReady = false;
+    let currentVideoId = null;
+
+    // הפונקציה הזו תקרא רק אחרי שנדע מה ה-ID הראשון לניגון
+    function initYouTubeAPI() {
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    window.onYouTubeIframeAPIReady = function() {
+        ytPlayer = new YT.Player('ytPlayerDiv', {
+            videoId: currentVideoId,
+            playerVars: { 'autoplay': 0, 'rel': 0, 'playsinline': 1 },
+            events: {
+                'onReady': function(event) {
+                    ytPlayerReady = true;
+                },
+                'onStateChange': function(event) {
+                    if (event.data === YT.PlayerState.PLAYING) {
+                        const cover = document.getElementById('ytCover');
+                        if (cover) cover.style.display = 'none';
+                    }
+                }
+            }
+        });
+    };
+
+    window.handleCoverClick = function() {
+        const cover = document.getElementById('ytCover');
+        const btn = cover.querySelector('.custom-play-btn');
+        
+        if (ytPlayerReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+            ytPlayer.playVideo();
+            cover.style.opacity = '0';
+            setTimeout(() => cover.style.display = 'none', 300);
+        } else {
+            // אם במקרה לוחצים מהר מידי לפני שיוטיוב סיים לטעון את המערכת שלו
+            if (btn) btn.innerHTML = '⏳';
+            let checkInterval = setInterval(() => {
+                if (ytPlayerReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+                    clearInterval(checkInterval);
+                    ytPlayer.playVideo();
+                    cover.style.opacity = '0';
+                    setTimeout(() => cover.style.display = 'none', 300);
+                }
+            }, 200);
+            
+            // גיבוי אולטימטיבי למקרה של אינטרנט איטי מאוד - אחרי 2.5 שניות עוקף את יוטיוב
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                if (cover.style.display !== 'none') {
+                    cover.style.display = 'none';
+                    const wrapper = document.getElementById('playerWrapper');
+                    wrapper.innerHTML = `
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${currentVideoId}?autoplay=1&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                    `;
+                }
+            }, 2500);
+        }
+    };
+    // ==========================================
+
     const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
     const engColNames = {'0':'Bereishit','1':'Shemot','2':'Vayikra','3':'Bamidbar','4':'Devarim','5':'Holidays'};
     const catImages = {
@@ -518,15 +609,11 @@
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
     }
 
-    let currentVideoId = null;
-    let defaultVideo = null; 
-    let visitorCount = 0;
     let noticeTimeout1, noticeTimeout2; 
 
-    // פונקציית שיתוף עם יישור מרכזי וטקסט זהה
+    // שיתוף הקישור בלבד!
     function shareVideo(e, id) {
         if (e) e.stopPropagation(); 
-        
         const btn = e.currentTarget || e.target; 
         
         let url = window.location.origin + window.location.pathname;
@@ -542,7 +629,6 @@
                 lastCopiedOriginalHtml = btn.innerHTML;
             }
             
-            // טקסט קטנטן (9px), ממורכז ומונח בדיוק אחד תחת השני
             const copiedHtml = `
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; text-align: center; width: 100%;">
                     <span style="font-size: 9px; font-weight: bold; white-space: nowrap;">✅ קישור הועתק</span>
@@ -571,7 +657,6 @@
         }
     }
 
-    // הפונקציה שפותחת את החומש בטלפון
     function toggleCat(id) {
         if (window.innerWidth > 768) return; 
         const list = document.getElementById('list-' + id);
@@ -586,25 +671,66 @@
         }
     }
 
-    function play(id, title, isFeatured = false, showArchiveNotice = false) {
-        if (currentVideoId === id) {
+    function play(id, title, isFeatured = false, showArchiveNotice = false, isInitialLoad = false) {
+        if (currentVideoId === id && !isInitialLoad) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
         currentVideoId = id;
-        document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
         
+        const cover = document.getElementById('ytCover');
+
+        if (isInitialLoad) {
+            // טעינה ראשונית - מעדכנים את תמונת הכיסוי המעוצבת
+            if (cover) {
+                cover.style.backgroundImage = `url('https://img.youtube.com/vi/${id}/maxresdefault.jpg')`;
+                cover.style.display = 'block';
+                cover.style.opacity = '1';
+                const btn = cover.querySelector('.custom-play-btn');
+                if (btn) btn.innerHTML = '▶';
+            }
+        } else {
+            // מעבר מסרטון אחד לשני דרך התפריט
+            if (cover) cover.style.display = 'none';
+            if (ytPlayerReady && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+                ytPlayer.loadVideoById(id);
+            } else {
+                // מקרה חירום
+                const wrapper = document.getElementById('playerWrapper');
+                wrapper.innerHTML = `
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                `;
+            }
+        }
+
         document.getElementById('mainShareBtn').onclick = (e) => shareVideo(e, id);
 
         const hebTitleEl = document.getElementById('hebTitle');
         const enTitleEl = document.getElementById('enTitle');
         
         if (hebTitleEl) {
-            let engTitle = engNamesMap[title] || '';
+            let engTitle = '';
             let isParasha = title.includes('פרשת');
+            let isDouble = isParasha && (title.includes('-') || title.includes('־') || title.includes('–'));
             let hebPrefix = isFeatured ? (isParasha ? 'השבת הקרובה, ' : 'לקראת ') : '';
             let engPrefix = isFeatured ? (isParasha ? 'This coming Shabbat, ' : 'Approaching ') : '';
-            if (id === 'IuE4noHrHP8') { hebPrefix = ''; engPrefix = ''; engTitle = 'In Memory of Rabbi Sacks ZT"L'; }
+            
+            if (isDouble) {
+                let cleanT = title.replace('פרשת ', '');
+                let parts = cleanT.split(/[-־–—]/); 
+                if(parts.length > 1) {
+                    let p1 = parts[0].trim();
+                    let p2 = parts[1].trim();
+                    let eng1 = (engNamesMap['פרשת ' + p1] || p1).replace('Parashat ', '');
+                    let eng2 = (engNamesMap['פרשת ' + p2] || p2).replace('Parashat ', '');
+                    engTitle = eng1 + "-" + eng2;
+                }
+            } else {
+                engTitle = engNamesMap[title] || '';
+                if (id === 'IuE4noHrHP8') { hebPrefix = ''; engPrefix = ''; engTitle = 'In Memory of Rabbi Sacks ZT"L'; }
+            }
             
             hebTitleEl.innerText = hebPrefix + title;
             if (enTitleEl) enTitleEl.innerText = engPrefix + engTitle;
@@ -612,20 +738,26 @@
 
         let currentIndex = window.chronoList.findIndex(v => v.id === id);
         if (currentIndex === -1) currentIndex = 0; 
+        
         let prevIndex = (currentIndex - 1 + window.chronoList.length) % window.chronoList.length;
         let prevVid = window.chronoList[prevIndex];
+        
         let nextIndex = (currentIndex + 1) % window.chronoList.length;
         let nextVid = window.chronoList[nextIndex];
         
         const prevHeb = prevVid.t.replace('פרשת ', '');
         const prevEng = (engNamesMap[prevVid.t] || '').replace('Parashat ', '');
+        
+        // כיוון החיצים: הקודם = חץ שמאלה ❮
         document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
-        document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false);
+        document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false, false);
         
         const nextHeb = nextVid.t.replace('פרשת ', '');
         const nextEng = (engNamesMap[nextVid.t] || '').replace('Parashat ', '');
+        
+        // כיוון החיצים: הבא = חץ ימינה ❯
         document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
-        document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false);
+        document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false, false);
         
         const notice = document.getElementById('pastNotice');
         clearTimeout(noticeTimeout1); clearTimeout(noticeTimeout2);
@@ -636,6 +768,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    let visitorCount = 0;
     async function initCounter() {
         try {
             const res = await fetch('https://api.counterapi.dev/v1/mivsacks_archive/visits/up');
@@ -650,16 +783,69 @@
         if (clicks === 5) { alert(`שלום!\nעד כה נרשמו ${visitorCount} כניסות לארכיון המבזקס.`); clicks = 0; }
     }
 
+    function findParashaVideos(hebcalTitle) {
+        let engName = hebcalTitle.replace('Parashat ', '');
+        let vids = [];
+        if (engName.includes('-')) {
+            let parts = engName.split('-');
+            let v1 = videoData.find(v => (engNamesMap[v.t]||'') === 'Parashat ' + parts[0].trim());
+            let v2 = videoData.find(v => (engNamesMap[v.t]||'') === 'Parashat ' + parts[1].trim());
+            if (v1) vids.push(v1);
+            if (v2) vids.push(v2);
+        } else {
+            let v = videoData.find(v => (engNamesMap[v.t]||'') === 'Parashat ' + engName.trim());
+            if (v) vids.push(v);
+        }
+        return vids;
+    }
+
     async function initApp() {
         const urlParams = new URLSearchParams(window.location.search);
         const sharedVidId = urlParams.get('v');
 
         try {
-            const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on');
+            const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on&yt=H&year=now');
             const data = await res.json();
+            
+            let dynamicChrono = [];
+            let addedIds = new Set();
+
+            data.items.forEach(item => {
+                let matches = [];
+                if (item.category === 'holiday' && holidayMap[item.title]) {
+                    let v = videoData.find(vid => vid.t.includes(holidayMap[item.title]));
+                    if (v) matches.push(v);
+                } else if (item.category === 'parashat' && item.title) {
+                    matches = findParashaVideos(item.title);
+                }
+                matches.forEach(v => {
+                    if (!addedIds.has(v.id)) {
+                        dynamicChrono.push(v);
+                        addedIds.add(v.id);
+                    }
+                });
+            });
+
+            const fallbackChrono = [
+                'פרשת בראשית', 'פרשת נח', 'פרשת לך לך', 'פרשת וירא', 'פרשת חיי שרה', 'פרשת תולדות', 'פרשת ויצא', 'פרשת וישלח', 'פרשת וישב', 'חנוכה', 'פרשת מקץ', 'פרשת ויגש', 'פרשת ויחי',
+                'פרשת שמות', 'פרשת וארא', 'פרשת בא', 'פרשת בשלח', 'פרשת יתרו', 'פרשת משפטים', 'פרשת תרומה', 'פרשת תצוה', 'פורים', 'פרשת כי תשא', 'פרשת ויקהל', 'פרשת פקודי',
+                'פרשת ויקרא', 'פרשת צו', 'חג הפסח', 'פרשת שמיני', 'פרשת תזריע', 'פרשת מצורע', 'פרשת אחרי מות', 'יום השואה', 'יום הזכרון והעצמאות', 'פרשת קדושים', 'פרשת אמור', 'ל"ג בעומר', 'פרשת בהר', 'פרשת בחוקותי', 'יום ירושלים',
+                'פרשת במדבר', 'חג השבועות', 'פרשת נשא', 'פרשת בהעלותך', 'פרשת שלח', 'פרשת קרח', 'פרשת חוקת', 'פרשת פנחס', 'פרשת מטות', 'פרשת מסעי',
+                'פרשת דברים', 'תשעה באב', 'פרשת ואתחנן', 'פרשת עקב', 'פרשת ראה', 'פרשת שופטים', 'פרשת כי תצא', 'פרשת כי תבוא', 'פרשת נצבים', 'פרשת וילך', 'ראש השנה', 'יום כיפור', 'פרשת האזינו', 'סוכות', 'חול המועד סוכות', 'שמחת תורה - וזאת הברכה', 'זיכרון לרב זקס זצ"ל'
+            ].map(title => videoData.find(v => v.t === title)).filter(Boolean);
+
+            if (dynamicChrono.length > 20) { 
+                fallbackChrono.forEach(v => {
+                    if (!addedIds.has(v.id)) { dynamicChrono.push(v); }
+                });
+                window.chronoList = dynamicChrono;
+            } else {
+                window.chronoList = fallbackChrono;
+            }
+
             const today = new Date(); today.setHours(0,0,0,0);
             const futureEvents = data.items.filter(i => new Date(i.date) >= today);
-            const pastEvents = data.items.filter(i => new Date(i.date) < today).reverse(); 
+            const pastEvents = data.items.filter(i => new Date(i.date) < today).reverse();
 
             let cat5Videos = videoData.filter(v => v.cat === '5');
             let otherVideos = videoData.filter(v => v.cat !== '5');
@@ -686,11 +872,24 @@
             videoData.push(...cat5Videos);
 
             let featuredVideo = null; let foundFuture = false;
+            
             for (const item of futureEvents) {
                 if (item.category === 'holiday' && holidayMap[item.title]) {
                     featuredVideo = videoData.find(v => v.t.includes(holidayMap[item.title]));
-                } else if (item.category === 'parashat') {
-                    featuredVideo = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
+                    if (featuredVideo) {
+                        featuredVideo = {...featuredVideo}; 
+                        featuredVideo.displayTitle = featuredVideo.t; 
+                    }
+                } else if (item.category === 'parashat' && item.title) {
+                    let matchedVids = findParashaVideos(item.title);
+                    if (matchedVids.length > 0) {
+                        featuredVideo = {...matchedVids[0]}; 
+                        if (matchedVids.length > 1) {
+                            featuredVideo.displayTitle = "פרשת " + matchedVids[0].t.replace('פרשת ','') + "-" + matchedVids[1].t.replace('פרשת ',''); 
+                        } else {
+                            featuredVideo.displayTitle = featuredVideo.t;
+                        }
+                    }
                 }
                 if (featuredVideo) { foundFuture = true; break; }
             }
@@ -699,8 +898,20 @@
                 for (const item of pastEvents) {
                     if (item.category === 'holiday' && holidayMap[item.title]) {
                         featuredVideo = videoData.find(v => v.t.includes(holidayMap[item.title]));
-                    } else if (item.category === 'parashat') {
-                        featuredVideo = videoData.find(v => v.t.includes(item.hebrew.replace('פרשת ', '')));
+                        if (featuredVideo) {
+                            featuredVideo = {...featuredVideo};
+                            featuredVideo.displayTitle = featuredVideo.t; 
+                        }
+                    } else if (item.category === 'parashat' && item.title) {
+                        let matchedVids = findParashaVideos(item.title);
+                        if (matchedVids.length > 0) {
+                            featuredVideo = {...matchedVids[0]};
+                            if (matchedVids.length > 1) {
+                                featuredVideo.displayTitle = "פרשת " + matchedVids[0].t.replace('פרשת ','') + "-" + matchedVids[1].t.replace('פרשת ','');
+                            } else {
+                                featuredVideo.displayTitle = featuredVideo.t;
+                            }
+                        }
                     }
                     if (featuredVideo) break; 
                 }
@@ -708,6 +919,8 @@
             
             if (sharedVidId && videoData.find(v => v.id === sharedVidId)) {
                 window.fetchedFeaturedVideo = videoData.find(v => v.id === sharedVidId);
+                window.fetchedFeaturedVideo = {...window.fetchedFeaturedVideo};
+                window.fetchedFeaturedVideo.displayTitle = window.fetchedFeaturedVideo.t;
                 window.foundFutureFeatured = false; 
             } else {
                 window.fetchedFeaturedVideo = featuredVideo; 
@@ -717,13 +930,18 @@
         } catch (e) {}
 
         renderUI();
+        
+        let defaultVid = videoData[0];
         if (window.fetchedFeaturedVideo) {
-            defaultVideo = window.fetchedFeaturedVideo;
-            play(defaultVideo.id, defaultVideo.t, window.foundFutureFeatured, !window.foundFutureFeatured);
+            defaultVid = window.fetchedFeaturedVideo;
+            let titleToPass = defaultVid.displayTitle || defaultVid.t;
+            play(defaultVid.id, titleToPass, window.foundFutureFeatured, !window.foundFutureFeatured, true);
         } else {
-            defaultVideo = videoData[0];
-            play(videoData[0].id, videoData[0].t, true, false);
+            play(defaultVid.id, defaultVid.t, true, false, true);
         }
+        
+        // מפעיל את טעינת יוטיוב מיד לאחר סיום טעינת הנתונים
+        initYouTubeAPI();
     }
 
     function renderUI() {
@@ -732,7 +950,6 @@
         Object.keys(colNames).forEach(id => {
             const titleHtml = `${colNames[id]} <span style="margin:0 4px; opacity:0.6;">|</span> <span dir="ltr" style="font-size: 0.9em; font-weight: normal; opacity:0.9;">${engColNames[id]}</span>`;
             
-            // הוספת התמונה למובייל בחזרה!
             container.innerHTML += `
             <div class="humash-col" id="col-${id}">
                 <div class="humash-title" style="background:var(--color-${id === 'misc' ? 'misc' : id})">${titleHtml}</div>
@@ -742,11 +959,16 @@
                 <div class="list" id="list-${id}"></div>
             </div>`;
         });
-        videoData.forEach(v => {
+        
+        let cat5Videos = videoData.filter(v => v.cat === '5');
+        let otherVideos = videoData.filter(v => v.cat !== '5');
+        let sortedVideoData = [...otherVideos, ...cat5Videos];
+
+        sortedVideoData.forEach(v => {
             const list = document.getElementById('list-' + v.cat);
             const card = document.createElement('div');
             card.className = 'v-card';
-            card.onclick = () => play(v.id, v.t, false, false);
+            card.onclick = () => play(v.id, v.t, false, false, false);
             
             let cleanHeb = v.t.replace('פרשת ', '');
             let cleanEng = (engNamesMap[v.t] || '').replace('Parashat ', '');
@@ -765,9 +987,14 @@
 
     function filterVideos() {
         const q = document.getElementById('searchInput').value.toLowerCase().trim();
-        if (q === '') { if (defaultVideo) play(defaultVideo.id, defaultVideo.t, true, !window.foundFutureFeatured); return; }
+        if (q === '') { 
+            let defaultVid = window.fetchedFeaturedVideo || videoData[0];
+            let titleToPass = defaultVid.displayTitle || defaultVid.t;
+            play(defaultVid.id, titleToPass, window.foundFutureFeatured, !window.foundFutureFeatured, false); 
+            return; 
+        }
         let match = videoData.find(v => v.t.toLowerCase().includes(q) || (engNamesMap[v.t] || '').toLowerCase().includes(q));
-        if (match) play(match.id, match.t, false, false);
+        if (match) play(match.id, match.t, false, false, false);
     }
 
     initCounter(); initApp();
