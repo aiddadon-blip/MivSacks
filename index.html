@@ -451,11 +451,6 @@
 </footer>
 
 <script>
-    // הפעלת הוידאו על ידי החלפה לאייפריים - לחיצה אחת בלבד (עם הרשאות Autoplay מוגברות)
-    window.loadVideo = function(el, id) {
-        el.outerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-    };
-
     const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
     const engColNames = {'0':'Bereishit','1':'Shemot','2':'Vayikra','3':'Bamidbar','4':'Devarim','5':'Holidays'};
     const catImages = {
@@ -605,19 +600,18 @@
         }
     }
 
-    function play(id, title, isFeatured = false, showArchiveNotice = false) {
-        if (currentVideoId === id) {
+    function play(id, title, isFeatured = false, showArchiveNotice = false, isInitialLoad = false) {
+        if (currentVideoId === id && !isInitialLoad) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
         currentVideoId = id;
         
-        // יצירת תמונת כיסוי תמיד! הכפתור נשאר בצד ולא מסתיר שום טקסט
+        // טעינה ישירה של הנגן של יוטיוב למניעת לחיצה כפולה
+        let autoPlayVal = isInitialLoad ? '0' : '1';
         document.getElementById('player').innerHTML = `
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000;">
-                <div class="yt-cover" style="background-image: url('https://img.youtube.com/vi/${id}/maxresdefault.jpg'), url('https://img.youtube.com/vi/${id}/hqdefault.jpg');" onclick="loadVideo(this, '${id}')">
-                    <div class="custom-play-btn">&#9654;</div>
-                </div>
+                <iframe src="https://www.youtube.com/embed/${id}?autoplay=${autoPlayVal}&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
         `;
         
@@ -664,16 +658,16 @@
         const prevHeb = prevVid.t.replace('פרשת ', '');
         const prevEng = (engNamesMap[prevVid.t] || '').replace('Parashat ', '');
         
-        // תיקון כיוון החיצים (❯ בצד ימין - הקודם)
-        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
-        document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false);
+        // תיקון כיוון החיצים: הקודם = חץ שמאלה ❮
+        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
+        document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false, false);
         
         const nextHeb = nextVid.t.replace('פרשת ', '');
         const nextEng = (engNamesMap[nextVid.t] || '').replace('Parashat ', '');
         
-        // תיקון כיוון החיצים (❮ בצד שמאל - הבא)
-        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
-        document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false);
+        // תיקון כיוון החיצים: הבא = חץ ימינה ❯
+        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
+        document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false, false);
         
         const notice = document.getElementById('pastNotice');
         clearTimeout(noticeTimeout1); clearTimeout(noticeTimeout2);
@@ -850,10 +844,10 @@
         if (window.fetchedFeaturedVideo) {
             defaultVideo = window.fetchedFeaturedVideo;
             let titleToPass = defaultVideo.displayTitle || defaultVideo.t;
-            play(defaultVideo.id, titleToPass, window.foundFutureFeatured, !window.foundFutureFeatured);
+            play(defaultVideo.id, titleToPass, window.foundFutureFeatured, !window.foundFutureFeatured, true);
         } else {
             defaultVideo = videoData[0];
-            play(videoData[0].id, videoData[0].t, true, false);
+            play(videoData[0].id, videoData[0].t, true, false, true);
         }
     }
 
@@ -881,7 +875,7 @@
             const list = document.getElementById('list-' + v.cat);
             const card = document.createElement('div');
             card.className = 'v-card';
-            card.onclick = () => play(v.id, v.t, false, false);
+            card.onclick = () => play(v.id, v.t, false, false, false);
             
             let cleanHeb = v.t.replace('פרשת ', '');
             let cleanEng = (engNamesMap[v.t] || '').replace('Parashat ', '');
@@ -903,12 +897,12 @@
         if (q === '') { 
             if (defaultVideo) {
                 let titleToPass = defaultVideo.displayTitle || defaultVideo.t;
-                play(defaultVideo.id || defaultVideo, titleToPass, true, !window.foundFutureFeatured); 
+                play(defaultVideo.id || defaultVideo, titleToPass, true, !window.foundFutureFeatured, false); 
             }
             return; 
         }
         let match = videoData.find(v => v.t.toLowerCase().includes(q) || (engNamesMap[v.t] || '').toLowerCase().includes(q));
-        if (match) play(match.id, match.t, false, false);
+        if (match) play(match.id, match.t, false, false, false);
     }
 
     initCounter(); initApp();
