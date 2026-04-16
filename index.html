@@ -97,7 +97,7 @@
         .main-title-box .heb-title {
             font-family: 'Rubik', sans-serif;
             font-size: 21px;
-            font-weight: 700;
+            fontWeight: 700;
             color: #ffffff; 
             line-height: 1.2;
         }
@@ -476,7 +476,7 @@
     const videoData = [
         {id: 'GOcivgfk844', t: 'פרשת בראשית', cat: '0'}, {id: 'cyc6KWd6Igo', t: 'פרשת נח', cat: '0'},
         {id: 'VLI172Oy11w', t: 'פרשת לך לך', cat: '0'}, {id: 'xLq4RTmabhw', t: 'פרשת וירא', cat: '0'},
-        {id: 'Y6_Uytix0k4', t: 'פרשת חיירה', cat: '0'}, {id: 'Jy6ths776Lw', t: 'פרשת תולדות', cat: '0'},
+        {id: 'Y6_Uytix0k4', t: 'פרשת חיי שרה', cat: '0'}, {id: 'Jy6ths776Lw', t: 'פרשת תולדות', cat: '0'},
         {id: 'YBNXmUZK6zQ', t: 'פרשת ויצא', cat: '0'}, {id: 'KZ1OT5G9wLg', t: 'פרשת וישלח', cat: '0'},
         {id: 'sddLITmTysg', t: 'פרשת וישב', cat: '0'}, {id: 'uLciyM5YgfI', t: 'פרשת מקץ', cat: '0'},
         {id: 'utbhoPIGur0', t: 'פרשת ויגש', cat: '0'}, {id: 'BvXmA8KwCE4', t: 'פרשת ויחי', cat: '0'},
@@ -613,22 +613,14 @@
         }
         currentVideoId = id;
         
-        // יצירת תמונת כיסוי רק בטעינה הראשונית, אחרת מפעיל ישירות!
-        if (isInitialLoad) {
-            document.getElementById('player').innerHTML = `
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000;">
-                    <div class="yt-cover" style="background-image: url('https://img.youtube.com/vi/${id}/maxresdefault.jpg'), url('https://img.youtube.com/vi/${id}/hqdefault.jpg');" onclick="loadVideo(this, '${id}')">
-                        <div class="custom-play-btn">&#9654;</div>
-                    </div>
+        // יצירת תמונת כיסוי לכל סרטון כדי שהוא ייפתח רק בלחיצה
+        document.getElementById('player').innerHTML = `
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000;">
+                <div class="yt-cover" style="background-image: url('https://img.youtube.com/vi/${id}/maxresdefault.jpg'), url('https://img.youtube.com/vi/${id}/hqdefault.jpg');" onclick="loadVideo(this, '${id}')">
+                    <div class="custom-play-btn">&#9654;</div>
                 </div>
-            `;
-        } else {
-            document.getElementById('player').innerHTML = `
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000;">
-                    <iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            `;
-        }
+            </div>
+        `;
         
         document.getElementById('mainShareBtn').onclick = (e) => shareVideo(e, id);
 
@@ -675,14 +667,14 @@
         const prevEng = (engNamesMap[prevVid.t] || '').replace('Parashat ', '');
         
         // תיקון כיוון החיצים: הקודם (מימין) = חץ ימינה ❯
-        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
+        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
         document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false, false);
         
         const nextHeb = nextVid.t.replace('פרשת ', '');
         const nextEng = (engNamesMap[nextVid.t] || '').replace('Parashat ', '');
         
         // תיקון כיוון החיצים: הבא (משמאל) = חץ שמאלה ❮
-        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
+        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
         document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false, false);
         
         const notice = document.getElementById('pastNotice');
