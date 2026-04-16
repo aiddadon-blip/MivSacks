@@ -416,8 +416,9 @@
                 <div id="nextArrowBtn" class="nav-arrow"></div>
             </div>
             
-            <div class="player-outer-wrapper" id="player">
-                </div>
+            <div class="player-outer-wrapper">
+                <div id="player" class="video-wrapper"></div>
+            </div>
             
             <div class="title-area">
                 <span id="pastNotice">* מוצג סרטון מהשבוע האחרון</span>
@@ -451,6 +452,11 @@
 </footer>
 
 <script>
+    // פונקציית טעינת הוידאו - מטמיעה iframe עם הרשאות Autoplay ללחיצה אחת
+    window.loadVideo = function(el, id) {
+        el.outerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    };
+
     const colNames = {'0':'בראשית','1':'שמות','2':'ויקרא','3':'במדבר','4':'דברים','5':'חגים'};
     const engColNames = {'0':'Bereishit','1':'Shemot','2':'Vayikra','3':'Bamidbar','4':'Devarim','5':'Holidays'};
     const catImages = {
@@ -470,7 +476,7 @@
     const videoData = [
         {id: 'GOcivgfk844', t: 'פרשת בראשית', cat: '0'}, {id: 'cyc6KWd6Igo', t: 'פרשת נח', cat: '0'},
         {id: 'VLI172Oy11w', t: 'פרשת לך לך', cat: '0'}, {id: 'xLq4RTmabhw', t: 'פרשת וירא', cat: '0'},
-        {id: 'Y6_Uytix0k4', t: 'פרשת חיי שרה', cat: '0'}, {id: 'Jy6ths776Lw', t: 'פרשת תולדות', cat: '0'},
+        {id: 'Y6_Uytix0k4', t: 'פרשת חיירה', cat: '0'}, {id: 'Jy6ths776Lw', t: 'פרשת תולדות', cat: '0'},
         {id: 'YBNXmUZK6zQ', t: 'פרשת ויצא', cat: '0'}, {id: 'KZ1OT5G9wLg', t: 'פרשת וישלח', cat: '0'},
         {id: 'sddLITmTysg', t: 'פרשת וישב', cat: '0'}, {id: 'uLciyM5YgfI', t: 'פרשת מקץ', cat: '0'},
         {id: 'utbhoPIGur0', t: 'פרשת ויגש', cat: '0'}, {id: 'BvXmA8KwCE4', t: 'פרשת ויחי', cat: '0'},
@@ -607,13 +613,22 @@
         }
         currentVideoId = id;
         
-        // טעינה ישירה של הנגן של יוטיוב למניעת לחיצה כפולה
-        let autoPlayVal = isInitialLoad ? '0' : '1';
-        document.getElementById('player').innerHTML = `
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000;">
-                <iframe src="https://www.youtube.com/embed/${id}?autoplay=${autoPlayVal}&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-        `;
+        // יצירת תמונת כיסוי רק בטעינה הראשונית, אחרת מפעיל ישירות!
+        if (isInitialLoad) {
+            document.getElementById('player').innerHTML = `
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000;">
+                    <div class="yt-cover" style="background-image: url('https://img.youtube.com/vi/${id}/maxresdefault.jpg'), url('https://img.youtube.com/vi/${id}/hqdefault.jpg');" onclick="loadVideo(this, '${id}')">
+                        <div class="custom-play-btn">&#9654;</div>
+                    </div>
+                </div>
+            `;
+        } else {
+            document.getElementById('player').innerHTML = `
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000;">
+                    <iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            `;
+        }
         
         document.getElementById('mainShareBtn').onclick = (e) => shareVideo(e, id);
 
@@ -652,21 +667,22 @@
         let prevIndex = (currentIndex - 1 + window.chronoList.length) % window.chronoList.length;
         let prevVid = window.chronoList[prevIndex];
         
+        // מעבר תקין ללא דילוג (1 צעד קדימה בלבד)
         let nextIndex = (currentIndex + 1) % window.chronoList.length;
         let nextVid = window.chronoList[nextIndex];
         
         const prevHeb = prevVid.t.replace('פרשת ', '');
         const prevEng = (engNamesMap[prevVid.t] || '').replace('Parashat ', '');
         
-        // תיקון כיוון החיצים: הקודם = חץ שמאלה ❮
-        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
+        // תיקון כיוון החיצים: הקודם (מימין) = חץ ימינה ❯
+        document.getElementById('prevArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הקודם / Prev</div><div class="arrow-text">${prevHeb}<span class="en">${prevEng}</span></div>`;
         document.getElementById('prevArrowBtn').onclick = () => play(prevVid.id, prevVid.t, false, false, false);
         
         const nextHeb = nextVid.t.replace('פרשת ', '');
         const nextEng = (engNamesMap[nextVid.t] || '').replace('Parashat ', '');
         
-        // תיקון כיוון החיצים: הבא = חץ ימינה ❯
-        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❯</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
+        // תיקון כיוון החיצים: הבא (משמאל) = חץ שמאלה ❮
+        document.getElementById('nextArrowBtn').innerHTML = `<div class="arrow-icon">❮</div><div class="arrow-direction-title">הבא / Next</div><div class="arrow-text">${nextHeb}<span class="en">${nextEng}</span></div>`;
         document.getElementById('nextArrowBtn').onclick = () => play(nextVid.id, nextVid.t, false, false, false);
         
         const notice = document.getElementById('pastNotice');
@@ -844,6 +860,7 @@
         if (window.fetchedFeaturedVideo) {
             defaultVideo = window.fetchedFeaturedVideo;
             let titleToPass = defaultVideo.displayTitle || defaultVideo.t;
+            // מעביר flag של טעינה ראשונית כדי להציג את כיסוי הוידאו
             play(defaultVideo.id, titleToPass, window.foundFutureFeatured, !window.foundFutureFeatured, true);
         } else {
             defaultVideo = videoData[0];
