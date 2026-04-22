@@ -342,12 +342,13 @@
             .list { display: none; padding: 5px 0; max-height: 350px; overflow-y: auto; }
             .list.open { display: block; animation: fadeIn 0.3s ease; }
 
-            #col-0 { order: 1; } 
-            #col-1 { order: 2; } 
-            #col-3 { order: 3; } 
-            #col-2 { order: 4; } 
-            #col-5 { order: 5; } 
-            #col-4 { order: 6; } 
+            /* השינוי בוצע כאן לפי הבקשה */
+            #col-0 { order: 1; } /* בראשית */
+            #col-1 { order: 2; } /* שמות */
+            #col-2 { order: 3; } /* ויקרא (הוחלף עם במדבר) */
+            #col-3 { order: 4; } /* במדבר (הוחלף עם ויקרא) */
+            #col-4 { order: 5; } /* דברים (הוחלף עם חגים) */
+            #col-5 { order: 6; } /* חגים (הוחלף עם דברים) */
         }
 
         @keyframes fadeIn {
