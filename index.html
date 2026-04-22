@@ -5,22 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ארכיון מבזקס המלא | איתיאל דדון</title>
 
-    <link rel="icon" type="image/png" href="https://aiddadon-blip.github.io/MivSacks/RS.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://aiddadon-blip.github.io/MivSacks/RS.png">
-    <link rel="shortcut icon" href="https://aiddadon-blip.github.io/MivSacks/RS.png">
+    <link rel="icon" type="image/png" href="https://aiddadon-blip.github.io/MivSacks/RS.png?v=2">
+    <link rel="apple-touch-icon" href="https://aiddadon-blip.github.io/MivSacks/RS.png?v=2">
+    <link rel="shortcut icon" href="https://aiddadon-blip.github.io/MivSacks/RS.png?v=2">
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="מבזקס">
 
     <meta property="og:title" content="ארכיון מבזקס המלא | הרב אמיר דדון">
     <meta property="og:description" content="בואו לצפות בקטעי הוידאו של הרב יונתן זקס על פרשת השבוע והמועדים, בהגשת הרב אמיר דדון.">
     <meta property="og:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
     <meta property="og:url" content="https://aiddadon-blip.github.io/MivSacks/">
     <meta property="og:type" content="website">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ארכיון מבזקס המלא">
-    <meta name="twitter:image" content="https://aiddadon-blip.github.io/MivSacks/RS.png">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap');
@@ -457,16 +454,11 @@
 
     async function initCounter() { 
         try { 
-            // שימוש בשירות Abacus במקום השירות התקול
             const res = await fetch('https://abacus.jasoncameron.dev/hit/mivsacks_archive/visits'); 
-            if (!res.ok) {
-                throw new Error(`Server error: ${res.status}`);
-            }
+            if (!res.ok) throw new Error();
             const data = await res.json(); 
             visitorCount = data.value; 
-        } catch (e) {
-            console.error("שגיאה בטעינת מונה הכניסות:", e);
-        } 
+        } catch (e) {} 
     }
 
     let clicks = 0;
@@ -496,22 +488,15 @@
         try {
             const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on&year=now');
             const data = await res.json();
-            
-            // תאריכים עכשויים עם "זמן פציעות" של יום אחד אחורה כדי לתפוס חגים שנרשמו בלוח ביום הקודם
             const now = new Date();
             const todayStr = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0');
-            
             const yesterday = new Date(now);
             yesterday.setDate(yesterday.getDate() - 1);
             const yesterdayStr = yesterday.getFullYear() + "-" + String(yesterday.getMonth() + 1).padStart(2, '0') + "-" + String(yesterday.getDate()).padStart(2, '0');
-
-            // אירועים עתידיים כוללים את האתמול כדי לא לפספס חג יהודי
             const futureEvents = data.items.filter(i => i.date && i.date.substring(0, 10) >= yesterdayStr);
             const pastEvents = data.items.filter(i => i.date && i.date.substring(0, 10) < yesterdayStr).reverse();
-
             let cat5Videos = videoData.filter(v => v.cat === '5');
             let otherVideos = videoData.filter(v => v.cat !== '5');
-            
             let upcomingHolidayVideo = null;
             for (const item of futureEvents) {
                 let matchedHolidayKey = Object.keys(holidayMap).find(key => item.title && item.title.toLowerCase().includes(key));
@@ -524,32 +509,24 @@
                 let cutIndex = cat5Videos.findIndex(v => v.id === upcomingHolidayVideo.id);
                 if (cutIndex > -1) cat5Videos = cat5Videos.slice(cutIndex).concat(cat5Videos.slice(0, cutIndex));
             }
-            
             videoData.length = 0;
             for(let i=0; i<=4; i++) videoData.push(...otherVideos.filter(v => v.cat === i.toString()));
             videoData.push(...cat5Videos);
-
             let featuredVideo = null; let foundFuture = false;
             for (const item of futureEvents) {
                 let matchedHolidayKey = Object.keys(holidayMap).find(key => item.title && item.title.toLowerCase().includes(key));
-                
                 if (matchedHolidayKey) {
-                    // אם מצאנו חג, נציג אותו! (ההשוואה אינה מתחשבת אם זה "מועד" או "חג מודרני")
                     featuredVideo = videoData.find(v => v.t.includes(holidayMap[matchedHolidayKey]));
                     if (featuredVideo) { featuredVideo = {...featuredVideo}; featuredVideo.displayTitle = featuredVideo.t; }
-                } 
-                else if (item.category === 'parashat' && item.title && item.date && item.date.substring(0, 10) >= todayStr) {
-                    // עבור פרשת שבוע, מוודאים שהתאריך שלה הוא היום או בעתיד (לא רוצים להיתקע על פרשת שבוע של אתמול)
+                } else if (item.category === 'parashat' && item.title && item.date && item.date.substring(0, 10) >= todayStr) {
                     let matchedVids = findParashaVideos(item.title);
                     if (matchedVids.length > 0) {
                         featuredVideo = {...matchedVids[0]};
                         featuredVideo.displayTitle = matchedVids.length > 1 ? "פרשת " + matchedVids[0].t.replace('פרשת ','') + "-" + matchedVids[1].t.replace('פרשת ','') : featuredVideo.t;
                     }
                 }
-                
                 if (featuredVideo) { foundFuture = true; break; }
             }
-            
             if (!featuredVideo) {
                 for (const item of pastEvents) {
                     let matchedHolidayKey = Object.keys(holidayMap).find(key => item.title && item.title.toLowerCase().includes(key));
@@ -566,14 +543,12 @@
                     if (featuredVideo) break; 
                 }
             }
-            
             if (sharedVidId && videoData.find(v => v.id === sharedVidId)) {
                 window.fetchedFeaturedVideo = {...videoData.find(v => v.id === sharedVidId)};
                 window.fetchedFeaturedVideo.displayTitle = window.fetchedFeaturedVideo.t;
                 window.foundFutureFeatured = false; 
             } else { window.fetchedFeaturedVideo = featuredVideo; window.foundFutureFeatured = foundFuture; }
         } catch (e) {}
-        
         renderUI();
         if (window.fetchedFeaturedVideo) {
             defaultVideo = window.fetchedFeaturedVideo;
