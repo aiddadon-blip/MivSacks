@@ -169,23 +169,29 @@
             .scroll-hint {
                 display: none;
                 position: absolute;
-                top: 140px;
+                top: 130px;
                 width: 100%;
                 text-align: center;
                 color: var(--text-muted);
-                font-size: 12.5px;
+                font-size: 16px;
+                font-weight: 500;
                 pointer-events: none;
-                opacity: 0.75;
+                opacity: 0.85;
             }
             .scroll-hint .hint-icon {
                 display: flex;
                 justify-content: center;
-                margin-top: 6px;
                 animation: floatDown 2s infinite ease-in-out;
             }
             .humash-col:nth-child(odd) .scroll-hint { right: calc(100% + 12px); }
             .humash-col:nth-child(even) .scroll-hint { left: calc(100% + 12px); }
-            .list.open + .scroll-hint { display: block; animation: fadeIn 0.4s ease; }
+            .list.open + .scroll-hint { 
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+                gap: 15px; 
+                animation: fadeIn 0.4s ease; 
+            }
             
             @keyframes floatDown {
                 0%, 100% { transform: translateY(0); }
@@ -616,12 +622,22 @@
                 <div class="mobile-cat-img" onclick="toggleCat('${id}')"><img src="${catImages[id]}" alt="${colNames[id]}"></div>
                 <div class="list" id="list-${id}"></div>
                 <div class="scroll-hint">
-                    <span>גללו כדי לראות את הפרשות</span>
+                    <svg width="60" height="10" viewBox="0 0 60 10">
+                        <path d="M30 0 L34 5 L30 10 L26 5 Z" fill="currentColor" opacity="0.6"/>
+                        <line x1="0" y1="5" x2="22" y2="5" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                        <line x1="38" y1="5" x2="60" y2="5" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                    </svg>
+                    <span style="line-height: 1.3;">גללו כדי לראות<br>את הפרשות</span>
                     <span class="hint-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 5v14M19 12l-7 7-7-7"/>
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 4v16M19 13l-7 7-7-7"/>
                         </svg>
                     </span>
+                    <svg width="60" height="10" viewBox="0 0 60 10">
+                        <path d="M30 0 L34 5 L30 10 L26 5 Z" fill="currentColor" opacity="0.6"/>
+                        <line x1="0" y1="5" x2="22" y2="5" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                        <line x1="38" y1="5" x2="60" y2="5" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                    </svg>
                 </div>
             </div>`;
         });
