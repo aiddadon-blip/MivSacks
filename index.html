@@ -332,24 +332,16 @@
         {id: 'I54KmxD8Cxc', t: 'תשעה באב', cat: '5'}
     ];
 
-    const interleavedTitles = [
-        'פרשת בראשית', 'פרשת נח', 'פרשת לך לך', 'פרשת וירא', 'פרשת חיי שרה', 'פרשת תולדות', 'פרשת ויצא', 'פרשת וישלח', 'פרשת וישב', 'חנוכה', 'פרשת מקץ', 'פרשת ויגש', 'פרשת ויחי',
-        'פרשת שמות', 'פרשת וארא', 'פרשת בא', 'פרשת בשלח', 'פרשת יתרו', 'פרשת משפטים', 'פרשת תרומה', 'פרשת תצוה', 'פורים', 'פרשת כי תשא', 'פרשת ויקהל', 'פרשת פקודי',
-        'פרשת ויקרא', 'פרשת צו', 'חג הפסח', 'פרשת שמיני', 'פרשת תזריע', 'פרשת מצורע', 'פרשת אחרי מות', 'יום השואה', 'יום הזכרון והעצמאות', 'פרשת קדושים', 'פרשת אמור', 'ל"ג בעומר', 'פרשת בהר', 'פרשת בחוקותי', 'יום ירושלים',
-        'פרשת במדבר', 'חג השבועות', 'פרשת נשא', 'פרשת בהעלותך', 'פרשת שלח', 'פרשת קרח', 'פרשת חוקת', 'פרשת פנחס', 'פרשת מטות', 'פרשת מסעי',
-        'פרשת דברים', 'תשעה באב', 'פרשת ואתחנן', 'פרשת עקב', 'פרשת ראה', 'פרשת שופטים', 'פרשת כי תצא', 'פרשת כי תבוא', 'פרשת נצבים', 'פרשת וילך', 'ראש השנה', 'יום כיפור', 'פרשת האזינו', 'סוכות', 'חול המועד סוכות', 'שמחת תורה - וזאת הברכה', 'זיכרון לרב זקס זצ"ל'
-    ];
+    window.chronoList = []; 
 
-    window.chronoList = interleavedTitles.map(title => videoData.find(v => v.t === title)).filter(Boolean);
-    
-    // מילון מותאם לחיפוש גמיש - חסין בפני שגיאות כתיב וגרשיים של Hebcal, כל האותיות קטנות
+    // מילון מעודכן: הוסר 'pesach' כדי למנוע זיהוי שגוי של "Pesach Sheni", ותשעה באב עודכן כדי לא להתנגש עם חודש "תשרי"
     const holidayMap = { 
         'rosh hashana': 'ראש השנה', 'yom kippur': 'יום כיפור', 'sukkot': 'סוכות', 
         'shmini atzeret': 'שמחת תורה', 'simchat torah': 'שמחת תורה',
-        'hanukkah': 'חנוכה', 'chanukah': 'חנוכה', 'purim': 'פורים', 'pesach': 'חג הפסח', 'passover': 'חג הפסח',
+        'hanukkah': 'חנוכה', 'chanukah': 'חנוכה', 'purim': 'פורים', 'passover': 'חג הפסח', 
         'zikaron': 'יום הזכרון והעצמאות', 'atzma': 'יום הזכרון והעצמאות', 
         'lag baomer': 'ל"ג בעומר', 'b\'omer': 'ל"ג בעומר', 'yerushalayim': 'יום ירושלים', 
-        'shavuot': 'חג השבועות', 'tish': 'תשעה באב', 'shoah': 'יום השואה' 
+        'shavuot': 'חג השבועות', 'tish\'a': 'תשעה באב', 'shoah': 'יום השואה' 
     };
 
     let lastCopiedBtn = null;
@@ -486,18 +478,45 @@
         const urlParams = new URLSearchParams(window.location.search);
         const sharedVidId = urlParams.get('v');
         try {
-            const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on&year=now');
+            const res = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&s=on&i=on&year=now');
             const data = await res.json();
+            
+            let dynamicChrono = [];
+            data.items.forEach(item => {
+                let matchedVids = [];
+                let matchedHolidayKey = Object.keys(holidayMap).find(key => item.title && item.title.toLowerCase().includes(key));
+                
+                if (matchedHolidayKey) {
+                    let vid = videoData.find(v => v.t.includes(holidayMap[matchedHolidayKey]));
+                    if (vid) matchedVids.push(vid);
+                } else if (item.category === 'parashat' && item.title) {
+                    matchedVids = findParashaVideos(item.title);
+                }
+                
+                matchedVids.forEach(v => {
+                    if (!dynamicChrono.find(existing => existing.id === v.id)) {
+                        dynamicChrono.push(v);
+                    }
+                });
+            });
+
+            videoData.forEach(v => {
+                if (!dynamicChrono.find(existing => existing.id === v.id)) {
+                    dynamicChrono.push(v);
+                }
+            });
+            window.chronoList = dynamicChrono;
+
             const now = new Date();
             const todayStr = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0');
-            const yesterday = new Date(now);
-            yesterday.setDate(yesterday.getDate() - 1);
-            const yesterdayStr = yesterday.getFullYear() + "-" + String(yesterday.getMonth() + 1).padStart(2, '0') + "-" + String(yesterday.getDate()).padStart(2, '0');
-            const futureEvents = data.items.filter(i => i.date && i.date.substring(0, 10) >= yesterdayStr);
-            const pastEvents = data.items.filter(i => i.date && i.date.substring(0, 10) < yesterdayStr).reverse();
+            
+            const futureEvents = data.items.filter(i => i.date && i.date.substring(0, 10) >= todayStr);
+            const pastEvents = data.items.filter(i => i.date && i.date.substring(0, 10) < todayStr).reverse();
+            
             let cat5Videos = videoData.filter(v => v.cat === '5');
             let otherVideos = videoData.filter(v => v.cat !== '5');
             let upcomingHolidayVideo = null;
+            
             for (const item of futureEvents) {
                 let matchedHolidayKey = Object.keys(holidayMap).find(key => item.title && item.title.toLowerCase().includes(key));
                 if (matchedHolidayKey) {
@@ -505,13 +524,18 @@
                     if (upcomingHolidayVideo) break;
                 }
             }
+            
             if (upcomingHolidayVideo) {
                 let cutIndex = cat5Videos.findIndex(v => v.id === upcomingHolidayVideo.id);
-                if (cutIndex > -1) cat5Videos = cat5Videos.slice(cutIndex).concat(cat5Videos.slice(0, cutIndex));
+                if (cutIndex > -1) {
+                    cat5Videos = cat5Videos.slice(cutIndex).concat(cat5Videos.slice(0, cutIndex));
+                }
             }
+            
             videoData.length = 0;
             for(let i=0; i<=4; i++) videoData.push(...otherVideos.filter(v => v.cat === i.toString()));
             videoData.push(...cat5Videos);
+            
             let featuredVideo = null; let foundFuture = false;
             for (const item of futureEvents) {
                 let matchedHolidayKey = Object.keys(holidayMap).find(key => item.title && item.title.toLowerCase().includes(key));
